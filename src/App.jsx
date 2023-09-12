@@ -30,18 +30,7 @@ const Resultable = (props) => {
         axios.get(url + queryParams).then((Response) => {
           const rawData = Response.data.data;
           if (rawData.length < 1) {setAlarmLvl("데이터를 가져올 수 없음"); return;}
-          
-          switch(rawData[0].alarm_lvl) {
-            case(1):
-              setAlarmLvl(<span className="safe-lvl-1">1단계 여행유의</span>); break;
-            case(2):
-              setAlarmLvl(<span className="safe-lvl-2">2단계 여행자제</span>); break;
-            case(3):
-              setAlarmLvl(<span className="safe-lvl-2">3단계 출국권고</span>); break;
-            case(4):
-              setAlarmLvl(<span className="safe-lvl-2">4단계 여행금지</span>); break;
-          }
-          
+          setAlarmLvl(rawData[0].alarm_lvl);          
         });
       } catch {
         console.log("에러")
@@ -49,6 +38,21 @@ const Resultable = (props) => {
     }
     fetchSafeLvl();
   });
+
+  let resultComp = null;
+  console.log(alarmLvl)
+  switch(alarmLvl) {
+    case(1):
+      resultComp = <span className={"lvl-" + alarmLvl}>1단계 여행유의</span>; break;
+    case(2):
+      resultComp = <span className={"lvl-" + alarmLvl}>2단계 여행자제</span>; break;
+    case(3):
+      resultComp = <span className={"lvl-" + alarmLvl}>3단계 출국권고</span>; break;
+    case(4):
+      resultComp = <span className={"lvl-" + alarmLvl}>4단계 여행금지</span>; break;
+    default:
+      resultComp = alarmLvl;
+  }
 
   return(
     <table className="result-table">
@@ -59,7 +63,7 @@ const Resultable = (props) => {
         </tr>
         <tr>
           <td className="table-header">여행위험도</td>
-          <td>{alarmLvl}</td>
+          <td className="safe-lvl">{resultComp}</td>
         </tr>
       </tbody>
     </table>
@@ -74,7 +78,8 @@ function App() {
     { value: "none", name: "여행지 선택" },
     { value: "JP", name: "일본" },
     { value: "CN", name: "중국" },
-    { value: "VN", name: "베트남" }
+    { value: "VN", name: "베트남" },
+    { value: "RU", name: "러시아" }
   ];
 
   /*

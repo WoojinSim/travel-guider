@@ -67,10 +67,36 @@
 
 .result-table td {
   border: 1px solid black;
-  height: 30px;
+  height: 40px;
 }
 
 .table-header {
   font-family: 'NanumSquareNeoExtraBold';
   width: 200px;
+}
+
+.safe-lvl span {
+  padding: 6px 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+.safe-lvl .lvl-1 {
+  background-color: #0469bf;
+  color: whitesmoke;
+}
+
+.safe-lvl .lvl-2 {
+  background-color: #fcc33c;
+  color: black;
+}
+
+.safe-lvl .lvl-3 {
+  background-color: #c82613;
+  color: whitesmoke;
+}
+
+.safe-lvl .lvl-4 {
+  background: repeating-linear-gradient(130deg, #000, #000 5px, #760000 0, #760000 10px);
+  color: whitesmoke;
 }

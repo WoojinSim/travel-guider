@@ -71,7 +71,7 @@ const Resultable = (props) => {
 };
 
 function App() {
-  const [selectedDestinationInfo, setSelectedDestinationInfo] = useState(["none", null]); // 도착지정보 State [국가명, 국가ISO코드]
+  const [selectedDestinationInfo, setSelectedDestinationInfo] = useState(["none", null]); // 여행지정보 State [국가명, 국가ISO코드]
   const [destName, setDestName] = useState();
   //const [alarmLvl, setAlarmLvl] = useState();
   const destinationList = [

@@ -59,3 +59,18 @@
 .combo-box option {
   margin: 10px;
 }
+
+.result-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.result-table td {
+  border: 1px solid black;
+  height: 30px;
+}
+
+.table-header {
+  font-family: 'NanumSquareNeoExtraBold';
+  width: 200px;
+}

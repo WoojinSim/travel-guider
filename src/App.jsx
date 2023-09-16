@@ -1,137 +1,114 @@
-//import logo from './logo.svg';
-import React, { useState, useEffect } from 'react';
-import './App.css';
-import OpenAI from "openai";
-import axios from "axios";
-
-const openai = new OpenAI({
-  organization: `${process.env.REACT_APP_OPENAI_ORG}`,
-  apiKey: `${process.env.REACT_APP_OPENAI_API_KEY}`,
-  dangerouslyAllowBrowser: true
-});
-
-
-const Resultable = (props) => {
-  const [alarmLvl, setAlarmLvl] = useState();
-  useEffect(() => {
-    const fetchSafeLvl = async () => {
-      if (props.iso == "none") {
-        setAlarmLvl("국가선택"); return;
-      }
-      var url = "http://apis.data.go.kr/1262000/TravelAlarmService2/getTravelAlarmList2";
-      var queryParams = "?" + encodeURIComponent("serviceKey") + "=" + process.env.REACT_APP_TRAVEL_SAFE_LVL_API_KEY;
-      queryParams += "&" + encodeURIComponent("returnType") + "=" + encodeURIComponent("JSON");
-      queryParams += "&" + encodeURIComponent("numOfRows") + "=" + encodeURIComponent("10");
-      queryParams += "&" + encodeURIComponent("cond[country_nm::EQ]") + "=" + encodeURIComponent(props.regionName);
-      queryParams += "&" + encodeURIComponent("cond[country_iso_alp2::EQ]") + "=" + encodeURIComponent(props.iso);
-      queryParams += "&" + encodeURIComponent("pageNo") + "=" + encodeURIComponent("1");
-      console.log(url + queryParams)
-      try {
-        axios.get(url + queryParams).then((Response) => {
-          const rawData = Response.data.data;
-          if (rawData.length < 1) {setAlarmLvl("데이터를 가져올 수 없음"); return;}
-          setAlarmLvl(rawData[0].alarm_lvl);          
-        });
-      } catch {
-        console.log("에러")
-      }
-    }
-    fetchSafeLvl();
-  });
-
-  let resultComp = null;
-  console.log(alarmLvl)
-  switch(alarmLvl) {
-    case(1):
-      resultComp = <span className={"lvl-" + alarmLvl}>1단계 여행유의</span>; break;
-    case(2):
-      resultComp = <span className={"lvl-" + alarmLvl}>2단계 여행자제</span>; break;
-    case(3):
-      resultComp = <span className={"lvl-" + alarmLvl}>3단계 출국권고</span>; break;
-    case(4):
-      resultComp = <span className={"lvl-" + alarmLvl}>4단계 여행금지</span>; break;
-    default:
-      resultComp = alarmLvl;
-  }
-
-  return(
-    <table className="result-table">
-      <tbody>
-        <tr>
-          <td className="table-header">선택한 여행지</td>
-          <td>{props.regionName}({props.iso})</td>
-        </tr>
-        <tr>
-          <td className="table-header">여행위험도</td>
-          <td className="safe-lvl">{resultComp}</td>
-        </tr>
-      </tbody>
-    </table>
-  );
-};
+import React, { useState, useEffect, useRef } from "react";
+import "./App.css";
+// import OpenAI from "openai";
+import TravelSaveLvl from "./component/TravelSafeLvl"; // 컴포넌트 파일 경로에 맞게 수정
 
 function App() {
-  const [selectedDestinationInfo, setSelectedDestinationInfo] = useState(["none", null]); // 여행지정보 State [국가명, 국가ISO코드]
-  const [destName, setDestName] = useState();
-  //const [alarmLvl, setAlarmLvl] = useState();
+  const [selectedDestinationInfo, setSelectedDestinationInfo] = useState({
+    name: "일본",
+    regionIso: "JP",
+  });
+
   const destinationList = [
-    { value: "none", name: "여행지 선택" },
     { value: "JP", name: "일본" },
     { value: "CN", name: "중국" },
     { value: "VN", name: "베트남" },
-    { value: "RU", name: "러시아" }
+    { value: "RU", name: "러시아" },
   ];
 
-  /*
-  const [text, setText] = useState(''); // 요약할 텍스트
-  const [summary, setSummary] = useState(''); // 요약 결과
+  // ===
+  const outerDivRef = useRef();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const pageHeight = window.innerHeight; // 윈도우 화면 세로길이 = 100vh
 
-  const summarizeText = async () => {
-    try {
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [
-            {"role": "user", "content": `기사의 본문을 분석하고 2개의 해쉬태그로 요약해줘야해:\n\n${text}`}
-          ],
-      });
-      setSummary(response.choices[0].message.content)
-      alert(response.choices[0].message.content)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  */
+  useEffect(() => {
+    const wheelHandler = (e) => {
+      e.preventDefault();
+      const { deltaY } = e;
+      const scrollTop = Math.round(outerDivRef.current.scrollTop); // 현재 스크롤 위쪽 끝부분 위치 좌표
+      const amountOfChildPages = outerDivRef.current.childElementCount; // 내부 페이지 갯수
 
-  const changeDestination = async (e) => {
-    setSelectedDestinationInfo([
-      e.target.value,
-      e.target.options[e.target.selectedIndex].text
-    ]);
-  }
+      if (deltaY > 0) {
+        // 스크롤 내릴 때 (하단으로)
+        for (var i = 0; i < amountOfChildPages - 1; i++) {
+          if (scrollTop >= pageHeight * i && scrollTop < pageHeight * (i + 1)) {
+            // 현재 위치한 페이지 파악
+            outerDivRef.current.scrollTo({
+              top: pageHeight * (i + 1),
+              left: 0,
+              behavior: "smooth",
+            });
+            setCurrentIndex(i + 1);
+            setSelectedDestinationInfo({
+              name: destinationList[i + 1].name,
+              regionIso: destinationList[i + 1].value,
+            });
+            break;
+          }
+        }
+      } else {
+        // 스크롤 올릴 때 (상단으로)
+        for (var i = 0; i < amountOfChildPages - 1; i++) {
+          if (scrollTop > pageHeight * i && scrollTop <= pageHeight * (i + 1)) {
+            // 현재 위치한 페이지 파악
+            outerDivRef.current.scrollTo({
+              top: pageHeight * i,
+              left: 0,
+              behavior: "smooth",
+            });
+            setCurrentIndex(i);
+            setSelectedDestinationInfo({
+              name: destinationList[i].name,
+              regionIso: destinationList[i].value,
+            });
+            break;
+          }
+        }
+      }
+    };
+    const outerDivRefCurrent = outerDivRef.current;
+    outerDivRefCurrent.addEventListener("wheel", wheelHandler); // 휠 리스너 핸들
+    return () => {
+      outerDivRefCurrent.removeEventListener("wheel", wheelHandler); // 휠 리스너 해제
+    };
+  }, []);
+  // ===
 
   return (
     <div className="App">
-        <div className="rootBackground">
-            <div className="outer-container">
-              <div className="outer-title">여행가이드</div>
-              <select className="combo-box" id="destination-select" onChange={changeDestination} value={selectedDestinationInfo[0]}>
-                {destinationList.map((item) => (
-                  <option value={item.value} key={item.name}>{item.name}</option>
-                ))}
-              </select>
-
-              <Resultable iso={selectedDestinationInfo[0]} regionName={selectedDestinationInfo[1]}></Resultable>
-              {/*
-              <div className="inner-element">
-                <span className="element-title"></span>
-                <textarea value={text} onChange={(e) => setText(e.target.value)}>
-                  테스트
-                </textarea>
-                <button onClick={summarizeText}>요약</button>
-              </div>
-              */}
-            </div>
+      <div className="outer-base" ref={outerDivRef}>
+        <div className="inner page-1">
+          <div className="back-img"></div>
+          <span className="region-title">일본</span>
         </div>
+        <div className="inner page-2">
+          <div className="back-img"></div>
+          <span className="region-title">중국</span>
+        </div>
+        <div className="inner page-3">
+          <div className="back-img"></div>
+          <span className="region-title">베트남</span>
+        </div>
+        <div className="inner page-4">
+          <div className="back-img"></div>
+          <span className="region-title">러시아</span>
+        </div>
+      </div>
+      <div className="nav">
+        <div className="nav-section section-1">
+          Nav - {selectedDestinationInfo.name}(
+          {selectedDestinationInfo.regionIso})
+        </div>
+        <div className="nav-section section-2"></div>
+        <div className="nav-section section-3"></div>
+        <div className="nav-section section-4">
+          여행경보
+          <TravelSaveLvl
+            regionIso={selectedDestinationInfo.regionIso}
+            regionName={selectedDestinationInfo.name}
+          ></TravelSaveLvl>
+        </div>
+      </div>
     </div>
   );
 }

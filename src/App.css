@@ -1,84 +1,121 @@
-.App {
-  text-align: center;
+body {
+  margin: 0;
+  overflow-y: hidden;
+}
+
+.outer-base {
+  height: 100vh;
+  width: 100vw;
+  overflow-y: scroll;
+}
+
+/* 화면에서 스크롤바 안보이게 */
+.outer-base::-webkit-scrollbar {
+  display: none;
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: "NanumSquareNeoHeavy";
+  height: 100vh;
+  width: 80%;
+  font-size: 100px;
   overflow: hidden;
 }
 
-.rootBackground {
+.region-title {
+  z-index: 100;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.back-img {
+  position: absolute;
+  filter: blur(8px);
+  transform: scale(1.02);
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-size: cover;
+}
+
+.page-1 .back-img {
+  background-image: url("./img/japan.jpg");
+}
+.page-2 .back-img {
+  background-image: url("./img/china.jpg");
+}
+.page-3 .back-img {
+  background-image: url("./img/vietnam.jpg");
+}
+.page-4 .back-img {
+  background-image: url("./img/russia.jpg");
+}
+
+.nav {
   position: fixed;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw; height: 100vh;
-  background: linear-gradient(#8CA6DB, #b993d6);
-  background: #454545;
-}
-
-.outer-container {
-  font-family: 'NanumSquareNeo';
-  color: #454545;
-  display: inline-block;
-  background: white;
-  border-radius: 15px;
-  padding: 50px;
-  width: 500px;
-  margin: 20px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19);
-}
-
-.outer-container .outer-title {
-  font-family: 'NanumSquareNeoHeavy';
+  flex-direction: column;
+  top: 0;
+  right: 0;
+  background-color: rgb(240, 248, 255);
+  height: 100vh;
+  width: 20%;
+  font-family: "NanumSquareNeoHeavy";
   font-size: 40px;
-  margin-bottom: 40px;
 }
 
-.combo-box {
-  display: block;
-  margin: 0 auto 20px auto;
-  width: 180px; height: 40px;
-  border: 1px solid #454545;
-  border-radius: 20px;
-  color: #454545;
-  outline: none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.19);
-  font-family: 'NanumSquareNeo';
-  font-size: 18px;
-  text-align: center;
-  transition: all ease .5s;
-}
-
-.combo-box:hover {
-  transform:translateY(-5px);
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.19), 0 0 0 4px rgba(75, 137, 220, 0.5);
-}
-
-.combo-box:focus {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.combo-box option {
-  margin: 10px;
-}
-
-.result-table {
-  border-collapse: collapse;
+.nav-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 25%;
   width: 100%;
 }
 
-.result-table td {
-  border: 1px solid black;
-  height: 40px;
+.nav-section.section-2,
+.nav-section.section-4 {
+  background-color: rgb(228, 236, 243);
 }
 
-.table-header {
-  font-family: 'NanumSquareNeoExtraBold';
-  width: 200px;
+.safe-lvl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "NanumSquareNeoBold";
+  font-size: 18px;
+  margin-top: 20px;
+  width: 100%;
 }
 
 .safe-lvl span {
-  padding: 6px 15px;
+  width: 90%;
+  box-sizing: border-box;
+  margin: 0 30px;
+  padding: 6px 0;
   border-radius: 8px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.safe-remark {
+  display: block;
+  box-sizing: border-box;
+  margin-top: 10px;
+  padding: 10px;
+  width: 90%;
+  font-family: "NanumSquareNeo";
+  font-size: 16px;
+  border-radius: 8px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) inset;
+  background-color: white;
+  cursor: pointer;
 }
 
 .safe-lvl .lvl-1 {
@@ -97,6 +134,12 @@
 }
 
 .safe-lvl .lvl-4 {
-  background: repeating-linear-gradient(130deg, #000, #000 5px, #760000 0, #760000 10px);
+  background: repeating-linear-gradient(
+    130deg,
+    #000,
+    #000 5px,
+    #760000 0,
+    #760000 10px
+  );
   color: whitesmoke;
 }

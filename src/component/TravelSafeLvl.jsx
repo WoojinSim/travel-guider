@@ -4,17 +4,30 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const TravelSafeLvl = (props) => {
-  const [alarmLvl, setAlarmLvl] = useState(); // 여행경보 레벨
-  const [alarmRemark, setAlarmRemark] = useState(); // 여행경보 레벨 설정 사유 및 범위
+  const [alarmInfo, setAlarmInfo] = useState({
+    regionIso: "",
+    regionName: "",
+    alarm_lvl: 0,
+    alarm_remark: "N/A",
+    map_url: "",
+  });
   const ssDataRaw = sessionStorage.getItem(props.regionIso); // API의 호출 횟수 줄이기위한 세션 스토리지 get
+  const [isMapOpen, setIsMapOpen] = useState(false); // 모달창 노출 여부 state
+  const showMap = () => {
+    // 모달창 노출
+    setIsMapOpen(true);
+  };
 
   useEffect(() => {
+    // API호출 횟수를 줄이기위해 세션스토리지에 regionIso 국가의 데이터가 있는지 확인
     if (ssDataRaw === null) {
       // 세션 스토리지에 해당 국가에 대한 정보가 없을 경우
       // API 호출을 통한 데이터 획득
       const fetchSafeLvl = async () => {
         if (props.regionIso === "none") {
-          setAlarmLvl("국가선택");
+          console.log(
+            "TravelSafeLvl 컴포넌트에 regionIso props를 넘겨주지 않음"
+          );
           return;
         }
         var url =
@@ -46,24 +59,39 @@ const TravelSafeLvl = (props) => {
           encodeURIComponent(props.regionIso);
         queryParams +=
           "&" + encodeURIComponent("pageNo") + "=" + encodeURIComponent("1");
-        // console.log(url + queryParams);
+        console.log(url + queryParams);
         try {
           axios.get(url + queryParams).then((Response) => {
             const rawData = Response.data.data;
             if (rawData.length < 1) {
-              setAlarmLvl(0);
-              setAlarmRemark("데이터를 가져올 수 없음");
+              setAlarmInfo({
+                alarm_lvl: 0,
+                alarm_remark: "데이터를 가져올 수 없음",
+              });
               return;
             }
+
+            // 데이터가 정상적으로 넘어왔을 경우
+            // 세션 스토리지에 먼저 각 정보를 저장
             const tmpSSDataRaw = {
               regionName: props.regionName,
               alarm_lvl: rawData[0]?.alarm_lvl,
               alarm_remark: rawData[0]?.remark,
+              map_url: rawData[0]?.dang_map_download_url,
             };
-            const tmpSSDataJson = JSON.stringify(tmpSSDataRaw);
-            sessionStorage.setItem(props.regionIso, tmpSSDataJson);
-            setAlarmLvl(rawData[0]?.alarm_lvl);
-            setAlarmRemark(rawData[0]?.remark);
+            sessionStorage.setItem(
+              props.regionIso,
+              JSON.stringify(tmpSSDataRaw)
+            );
+
+            // 스테이트 업데이트
+            setAlarmInfo({
+              regionIso: props.regionIso,
+              regionName: props.regionName,
+              alarm_lvl: rawData[0]?.alarm_lvl,
+              alarm_remark: rawData[0]?.remark,
+              map_url: rawData[0]?.dang_map_download_url,
+            });
           });
         } catch (e) {
           console.error(e);
@@ -72,37 +100,45 @@ const TravelSafeLvl = (props) => {
       fetchSafeLvl();
     } else {
       // 세션 스토리지에 해당 국가에 대한 정보가 있는 경우
+      // 세션 스토리지에서 데이터를 바로 가져와 스테이트 업데이트
       const ssData = JSON.parse(ssDataRaw);
-      setAlarmLvl(ssData.alarm_lvl);
-      setAlarmRemark(ssData.alarm_remark);
+      setAlarmInfo({
+        regionIso: props.regionIso,
+        regionName: props.regionName,
+        alarm_lvl: ssData.alarm_lvl,
+        alarm_remark: ssData.alarm_remark,
+        map_url: ssData.map_url,
+      });
     }
-  });
+  }, [props.regionIso, props.regionName, ssDataRaw]);
 
-  let rusultSafeLvlText = null;
-  switch (alarmLvl) {
+  let safeLvlText = null;
+  switch (alarmInfo.alarm_lvl) {
     case 0:
-      rusultSafeLvlText = "알수없음";
+      safeLvlText = "알수없음";
       break;
     case 1:
-      rusultSafeLvlText = "1단계 여행유의";
+      safeLvlText = "1단계 여행유의";
       break;
     case 2:
-      rusultSafeLvlText = "2단계 여행자제";
+      safeLvlText = "2단계 여행자제";
       break;
     case 3:
-      rusultSafeLvlText = "3단계 출국권고";
+      safeLvlText = "3단계 출국권고";
       break;
     case 4:
-      rusultSafeLvlText = "4단계 여행금지";
+      safeLvlText = "4단계 여행금지";
       break;
     default:
-      rusultSafeLvlText = alarmLvl;
+      safeLvlText = alarmInfo.alarm_lvl;
   }
 
   return (
     <div className="safe-lvl">
-      <span className={"lvl-" + alarmLvl}>{rusultSafeLvlText}</span>
-      <a className="safe-remark">{alarmRemark}</a>
+      <span className={"lvl-" + alarmInfo.alarm_lvl}>{safeLvlText}</span>
+      <button className="safe-remark" onClick={showMap}>
+        {alarmInfo.alarm_remark}
+      </button>
     </div>
   );
 };

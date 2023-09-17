@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./App.css";
+import "./css/App.css";
+import "./css/TravelSafeLvl.css";
 // import OpenAI from "openai";
 import TravelSaveLvl from "./component/TravelSafeLvl"; // 컴포넌트 파일 경로에 맞게 수정
 
@@ -27,10 +28,10 @@ function App() {
       const { deltaY } = e;
       const scrollTop = Math.round(outerDivRef.current.scrollTop); // 현재 스크롤 위쪽 끝부분 위치 좌표
       const amountOfChildPages = outerDivRef.current.childElementCount; // 내부 페이지 갯수
-
+      let i;
       if (deltaY > 0) {
         // 스크롤 내릴 때 (하단으로)
-        for (var i = 0; i < amountOfChildPages - 1; i++) {
+        for (i = 0; i < amountOfChildPages - 1; i++) {
           if (scrollTop >= pageHeight * i && scrollTop < pageHeight * (i + 1)) {
             // 현재 위치한 페이지 파악
             outerDivRef.current.scrollTo({
@@ -48,7 +49,7 @@ function App() {
         }
       } else {
         // 스크롤 올릴 때 (상단으로)
-        for (var i = 0; i < amountOfChildPages - 1; i++) {
+        for (i = 0; i < amountOfChildPages - 1; i++) {
           if (scrollTop > pageHeight * i && scrollTop <= pageHeight * (i + 1)) {
             // 현재 위치한 페이지 파악
             outerDivRef.current.scrollTo({

@@ -43,16 +43,16 @@ body {
 }
 
 .page-1 .back-img {
-  background-image: url("./img/japan.jpg");
+  background-image: url("../img/japan.jpg");
 }
 .page-2 .back-img {
-  background-image: url("./img/china.jpg");
+  background-image: url("../img/china.jpg");
 }
 .page-3 .back-img {
-  background-image: url("./img/vietnam.jpg");
+  background-image: url("../img/vietnam.jpg");
 }
 .page-4 .back-img {
-  background-image: url("./img/russia.jpg");
+  background-image: url("../img/russia.jpg");
 }
 
 .nav {
@@ -82,69 +82,4 @@ body {
 .nav-section.section-2,
 .nav-section.section-4 {
   background-color: rgb(228, 236, 243);
-}
-
-.safe-lvl {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: "NanumSquareNeoBold";
-  font-size: 18px;
-  margin-top: 20px;
-  width: 100%;
-}
-
-.safe-lvl span {
-  width: 90%;
-  box-sizing: border-box;
-  margin: 0 30px;
-  padding: 6px 0;
-  border-radius: 8px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-  text-align: center;
-}
-
-.safe-remark {
-  display: block;
-  box-sizing: border-box;
-  margin-top: 10px;
-  padding: 10px;
-  width: 90%;
-  font-family: "NanumSquareNeo";
-  font-size: 16px;
-  border-radius: 8px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) inset;
-  background-color: white;
-  cursor: pointer;
-}
-
-.safe-lvl .lvl-0 {
-  background-color: #aaa;
-  color: black;
-}
-
-.safe-lvl .lvl-1 {
-  background-color: #0469bf;
-  color: whitesmoke;
-}
-
-.safe-lvl .lvl-2 {
-  background-color: #fcc33c;
-  color: black;
-}
-
-.safe-lvl .lvl-3 {
-  background-color: #c82613;
-  color: whitesmoke;
-}
-
-.safe-lvl .lvl-4 {
-  background: repeating-linear-gradient(
-    130deg,
-    #000,
-    #000 5px,
-    #760000 0,
-    #760000 10px
-  );
-  color: whitesmoke;
 }

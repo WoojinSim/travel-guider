@@ -1,0 +1,103 @@
+.map-modal-outer {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+}
+
+.map-modal-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.map-modal-close-btn {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.3s;
+  overflow: visible;
+}
+
+.map-modal-close-btn::before {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 1px;
+  background-color: black;
+  content: "";
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s;
+  z-index: -1;
+  overflow: visible;
+}
+
+.map-modal-close-btn::after {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 1px;
+  background-color: black;
+  content: "";
+  transform: translate(-50%, -50%) rotate(-45deg);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s;
+  overflow: visible;
+}
+
+.map-modal-close-btn:hover {
+  transform: translateY(-4px);
+}
+.map-modal-close-btn:hover::before {
+  box-shadow: 4px 5px 5px rgba(0, 0, 0, 0.5);
+}
+.map-modal-close-btn:hover::after {
+  box-shadow: -4px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.map-modal-title {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  top: 12px;
+  left: 50%;
+  font-size: 14px;
+  transform: translateX(-50%);
+  font-family: "NanumSquareNeo";
+}
+.map-modal-title b {
+  font-weight: inherit;
+  font-family: "NanumSquareNeoExtraBold";
+}
+
+.map-img {
+  display: block;
+  width: 911px;
+  height: 800px;
+  border-radius: 20px;
+}

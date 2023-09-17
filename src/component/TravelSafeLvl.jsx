@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import MapModal from "./MapModal";
 
 const TravelSafeLvl = (props) => {
   const [alarmInfo, setAlarmInfo] = useState({
@@ -12,10 +13,10 @@ const TravelSafeLvl = (props) => {
     map_url: "",
   });
   const ssDataRaw = sessionStorage.getItem(props.regionIso); // API의 호출 횟수 줄이기위한 세션 스토리지 get
-  const [isMapOpen, setIsMapOpen] = useState(false); // 모달창 노출 여부 state
+  const [isMapModalOpen, setIsMapModalOpen] = useState(false); // 지도 모달창 노출 여부 state
   const showMap = () => {
-    // 모달창 노출
-    setIsMapOpen(true);
+    // 지도 모달창 노출
+    setIsMapModalOpen(true);
   };
 
   useEffect(() => {
@@ -134,11 +135,20 @@ const TravelSafeLvl = (props) => {
   }
 
   return (
-    <div className="safe-lvl">
-      <span className={"lvl-" + alarmInfo.alarm_lvl}>{safeLvlText}</span>
+    <div className="safe-lvl-container">
+      <span className={"safe-lvl lvl-" + alarmInfo.alarm_lvl}>
+        {safeLvlText}
+      </span>
       <button className="safe-remark" onClick={showMap}>
         {alarmInfo.alarm_remark}
       </button>
+      {isMapModalOpen && (
+        <MapModal
+          setIsMapModalOpen={setIsMapModalOpen}
+          mapUrl={alarmInfo.map_url}
+          regionName={props.regionName}
+        />
+      )}
     </div>
   );
 };

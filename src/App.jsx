@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./css/App.css";
 import "./css/TravelSafeLvl.css";
+import "./css/MapModal.css";
+// TODO: CSS들 CSS Module로 만들기
 // import OpenAI from "openai";
 import TravelSaveLvl from "./component/TravelSafeLvl"; // 컴포넌트 파일 경로에 맞게 수정
 
@@ -10,7 +12,7 @@ function App() {
     regionIso: "JP",
   });
 
-  // FIXME: 따로 변수를 사용하지 않고 페이지 상으로 iso 코드랑 국가이름을 가져와야함
+  // FIXME: 따로 변수를 사용하지 않고 페이지 상으로 iso 코드랑 국가이름을 가져와야함 (가능하다면)
   const destinationList = [
     { iso: "JP", name: "일본" },
     { iso: "CN", name: "중국" },
@@ -21,6 +23,7 @@ function App() {
   const outerDivRef = useRef();
   const [currentIndex, setCurrentIndex] = useState(0);
   const pageHeight = window.innerHeight; // 윈도우 화면 세로길이 = 100vh
+  // TODO: 화면 resize에 따라 pageHeight 갱신해주는 기능 만들어야함
 
   useEffect(() => {
     const wheelHandler = (e) => {
@@ -99,8 +102,7 @@ function App() {
           // TODO: 네비게이션 기능 상의 후 컴포넌트 작성
         }
         <div className="nav-section section-1">
-          Nav - {selectedDestinationInfo.name}(
-          {selectedDestinationInfo.regionIso})
+          {selectedDestinationInfo.name}({selectedDestinationInfo.regionIso})
         </div>
 
         <div className="nav-section section-2"></div>

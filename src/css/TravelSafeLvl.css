@@ -1,4 +1,4 @@
-.safe-lvl {
+.safe-lvl-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,7 +8,7 @@
   width: 100%;
 }
 
-.safe-lvl span {
+.safe-lvl {
   width: 90%;
   box-sizing: border-box;
   margin: 0 30px;
@@ -19,6 +19,7 @@
 }
 
 .safe-remark {
+  position: relative;
   display: block;
   box-sizing: border-box;
   margin-top: 10px;
@@ -34,27 +35,51 @@
   outline: none;
 }
 
-.safe-lvl .lvl-0 {
+.safe-remark::before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+  color: white;
+  font-family: "NanumSquareNeoExtraBold";
+  content: "클릭시 상세정보 확인";
+  transition: all 0.3s;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.safe-remark:hover::before {
+  visibility: visible;
+  opacity: 1;
+}
+
+.safe-lvl.lvl-0 {
   background-color: #aaa;
   color: black;
 }
 
-.safe-lvl .lvl-1 {
+.safe-lvl.lvl-1 {
   background-color: #0469bf;
   color: whitesmoke;
 }
 
-.safe-lvl .lvl-2 {
+.safe-lvl.lvl-2 {
   background-color: #fcc33c;
   color: black;
 }
 
-.safe-lvl .lvl-3 {
+.safe-lvl.lvl-3 {
   background-color: #c82613;
   color: whitesmoke;
 }
 
-.safe-lvl .lvl-4 {
+.safe-lvl.lvl-4 {
   background: repeating-linear-gradient(
     130deg,
     #000,

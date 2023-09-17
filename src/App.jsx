@@ -10,13 +10,12 @@ function App() {
   });
 
   const destinationList = [
-    { value: "JP", name: "일본" },
-    { value: "CN", name: "중국" },
-    { value: "VN", name: "베트남" },
-    { value: "RU", name: "러시아" },
+    { iso: "JP", name: "일본" },
+    { iso: "CN", name: "중국" },
+    { iso: "VN", name: "베트남" },
+    { iso: "RU", name: "러시아" },
   ];
 
-  // ===
   const outerDivRef = useRef();
   const [currentIndex, setCurrentIndex] = useState(0);
   const pageHeight = window.innerHeight; // 윈도우 화면 세로길이 = 100vh
@@ -41,7 +40,7 @@ function App() {
             setCurrentIndex(i + 1);
             setSelectedDestinationInfo({
               name: destinationList[i + 1].name,
-              regionIso: destinationList[i + 1].value,
+              regionIso: destinationList[i + 1].iso,
             });
             break;
           }
@@ -59,7 +58,7 @@ function App() {
             setCurrentIndex(i);
             setSelectedDestinationInfo({
               name: destinationList[i].name,
-              regionIso: destinationList[i].value,
+              regionIso: destinationList[i].iso,
             });
             break;
           }
@@ -72,7 +71,6 @@ function App() {
       outerDivRefCurrent.removeEventListener("wheel", wheelHandler); // 휠 리스너 해제
     };
   }, []);
-  // ===
 
   return (
     <div className="App">
@@ -99,8 +97,11 @@ function App() {
           Nav - {selectedDestinationInfo.name}(
           {selectedDestinationInfo.regionIso})
         </div>
+
         <div className="nav-section section-2"></div>
+
         <div className="nav-section section-3"></div>
+
         <div className="nav-section section-4">
           여행경보
           <TravelSaveLvl

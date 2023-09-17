@@ -118,6 +118,11 @@ body {
   cursor: pointer;
 }
 
+.safe-lvl .lvl-0 {
+  background-color: #aaa;
+  color: black;
+}
+
 .safe-lvl .lvl-1 {
   background-color: #0469bf;
   color: whitesmoke;

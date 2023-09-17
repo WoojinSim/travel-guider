@@ -1,14 +1,49 @@
-.map-modal-outer {
+@keyframes smoothOpacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes smoothAppear {
+  from {
+    opacity: 0;
+    transform: translateY(5%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.map-modal-wrap {
   position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
+  width: 100vw;
+  height: 100vh;
   justify-content: center;
   align-items: center;
+  cursor: default;
+  z-index: 999;
+}
+
+.map-modal-outer {
+  position: absolute;
+  backdrop-filter: blur(10px);
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 999;
+}
+.map-modal-outer.openAnimation {
+  animation: smoothOpacity 0.5s ease-in-out 0s 1 normal forwards;
+}
+.map-modal-outer.closeAnimation {
+  animation: smoothOpacity 0.5s ease-in-out 0s 1 reverse forwards;
 }
 
 .map-modal-container {
@@ -18,9 +53,15 @@
   align-items: center;
   flex-direction: column;
   background-color: white;
-  padding: 40px;
+  padding: 40px 40px 15px 40px;
   border-radius: 20px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+.map-modal-container.openAnimation {
+  animation: smoothAppear 0.5s ease-in-out 0s 1 normal forwards;
+}
+.map-modal-container.closeAnimation {
+  animation: smoothAppear 0.5s ease-in-out 0s 1 reverse forwards;
 }
 
 .map-modal-close-btn {
@@ -84,9 +125,9 @@
   position: absolute;
   padding: 0;
   margin: 0;
-  top: 12px;
+  top: 10px;
   left: 50%;
-  font-size: 14px;
+  font-size: 18px;
   transform: translateX(-50%);
   font-family: "NanumSquareNeo";
 }
@@ -100,4 +141,18 @@
   width: 911px;
   height: 800px;
   border-radius: 20px;
+}
+
+.map-alarm-remark {
+  display: block;
+  box-sizing: border-box;
+  margin-top: 15px;
+  padding: 8px;
+  width: 911px;
+  border-radius: 20px;
+  font-family: "NanumSquareNeo";
+  font-size: 14px;
+  background-color: aliceblue;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2) inset;
+  cursor: text;
 }

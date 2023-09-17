@@ -9,6 +9,7 @@ function App() {
     regionIso: "JP",
   });
 
+  // FIXME: 따로 변수를 사용하지 않고 페이지 상으로 iso 코드랑 국가이름을 가져와야함
   const destinationList = [
     { iso: "JP", name: "일본" },
     { iso: "CN", name: "중국" },
@@ -93,6 +94,9 @@ function App() {
         </div>
       </div>
       <div className="nav">
+        {
+          // TODO: 네비게이션 기능 상의 후 컴포넌트 작성
+        }
         <div className="nav-section section-1">
           Nav - {selectedDestinationInfo.name}(
           {selectedDestinationInfo.regionIso})

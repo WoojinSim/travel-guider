@@ -4,8 +4,20 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MapModal from "./MapModal";
 
-const TravelSafeLvl = (props) => {
-  const [alarmInfo, setAlarmInfo] = useState({
+interface TravelSafeLvlProps {
+  regionIso: string;
+  regionName: string;
+}
+
+const TravelSafeLvl: React.FC<TravelSafeLvlProps> = (props) => {
+  type alarmInfoType = {
+    regionIso: string;
+    regionName: string;
+    alarm_lvl: number;
+    alarm_remark: string;
+    map_url: string;
+  };
+  const [alarmInfo, setAlarmInfo] = useState<alarmInfoType>({
     regionIso: "",
     regionName: "",
     alarm_lvl: 0,
@@ -68,6 +80,7 @@ const TravelSafeLvl = (props) => {
             const rawData = Response.data.data;
             if (rawData.length < 1) {
               setAlarmInfo({
+                ...alarmInfo,
                 alarm_lvl: 0,
                 alarm_remark: "데이터를 가져올 수 없음",
               });
@@ -115,7 +128,7 @@ const TravelSafeLvl = (props) => {
     }
   }, [props.regionIso, props.regionName, ssDataRaw]);
 
-  let safeLvlText = null;
+  let safeLvlText: string = "";
   switch (alarmInfo.alarm_lvl) {
     case 0:
       safeLvlText = "알수없음";
@@ -133,7 +146,7 @@ const TravelSafeLvl = (props) => {
       safeLvlText = "4단계 여행금지";
       break;
     default:
-      safeLvlText = alarmInfo.alarm_lvl;
+      safeLvlText = `${alarmInfo.alarm_lvl}`;
   }
 
   return (

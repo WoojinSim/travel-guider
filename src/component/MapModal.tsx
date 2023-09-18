@@ -2,7 +2,17 @@
 
 import React, { useEffect } from "react";
 
-const MapModal = (props) => {
+interface MapModalProps {
+  setIsMapModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setMapModalAnimation: React.Dispatch<React.SetStateAction<string>>;
+  mapModalAnimation: string;
+  alarmText: string;
+  alarmRemark: string;
+  mapUrl: string;
+  regionName: string;
+}
+
+const MapModal: React.FC<MapModalProps> = (props) => {
   // 모달 끄기
   const closeMap = () => {
     props.setMapModalAnimation("closeAnimation");

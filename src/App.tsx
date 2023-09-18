@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import "./css/App.css";
 import "./css/TravelSafeLvl.css";
 import "./css/MapModal.css";
@@ -6,7 +6,7 @@ import "./css/MapModal.css";
 // import OpenAI from "openai";
 import TravelSaveLvl from "./component/TravelSafeLvl"; // 컴포넌트 파일 경로에 맞게 수정
 
-function App() {
+const App: React.FC = () => {
   const [selectedDestinationInfo, setSelectedDestinationInfo] = useState({
     name: "일본",
     regionIso: "JP",
@@ -20,66 +20,59 @@ function App() {
     { iso: "RU", name: "러시아" },
   ];
 
-  const outerDivRef = useRef();
+  const outerDivRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const pageHeight = window.innerHeight; // 윈도우 화면 세로길이 = 100vh
   // TODO: 화면 resize에 따라 pageHeight 갱신해주는 기능 만들어야함
 
-  useEffect(() => {
-    const wheelHandler = (e) => {
-      e.preventDefault();
-      const { deltaY } = e;
-      const scrollTop = Math.round(outerDivRef.current.scrollTop); // 현재 스크롤 위쪽 끝부분 위치 좌표
-      const amountOfChildPages = outerDivRef.current.childElementCount; // 내부 페이지 갯수
-      let i;
-      if (deltaY > 0) {
-        // 스크롤 내릴 때 (하단으로)
-        for (i = 0; i < amountOfChildPages - 1; i++) {
-          if (scrollTop >= pageHeight * i && scrollTop < pageHeight * (i + 1)) {
-            // 현재 위치한 페이지 파악
-            outerDivRef.current.scrollTo({
-              top: pageHeight * (i + 1),
-              left: 0,
-              behavior: "smooth",
-            });
-            setCurrentIndex(i + 1);
-            setSelectedDestinationInfo({
-              name: destinationList[i + 1].name,
-              regionIso: destinationList[i + 1].iso,
-            });
-            break;
-          }
-        }
-      } else {
-        // 스크롤 올릴 때 (상단으로)
-        for (i = 0; i < amountOfChildPages - 1; i++) {
-          if (scrollTop > pageHeight * i && scrollTop <= pageHeight * (i + 1)) {
-            // 현재 위치한 페이지 파악
-            outerDivRef.current.scrollTo({
-              top: pageHeight * i,
-              left: 0,
-              behavior: "smooth",
-            });
-            setCurrentIndex(i);
-            setSelectedDestinationInfo({
-              name: destinationList[i].name,
-              regionIso: destinationList[i].iso,
-            });
-            break;
-          }
+  const wheelHandler = (e: React.WheelEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const { deltaY } = e;
+    const scrollTop: number = Math.round(outerDivRef.current?.scrollTop!); // 현재 스크롤 위쪽 끝부분 위치 좌표
+    const amountOfChildPages: number = outerDivRef.current?.childElementCount!; // 내부 페이지 갯수
+    let i: number = 0;
+    if (deltaY > 0) {
+      // 스크롤 내릴 때 (하단으로)
+      for (i = 0; i < amountOfChildPages - 1; i++) {
+        if (scrollTop >= pageHeight * i && scrollTop < pageHeight * (i + 1)) {
+          // 현재 위치한 페이지 파악
+          outerDivRef.current?.scrollTo({
+            top: pageHeight * (i + 1),
+            left: 0,
+            behavior: "smooth",
+          });
+          setCurrentIndex(i + 1);
+          setSelectedDestinationInfo({
+            name: destinationList[i + 1].name,
+            regionIso: destinationList[i + 1].iso,
+          });
+          break;
         }
       }
-    };
-    const outerDivRefCurrent = outerDivRef.current;
-    outerDivRefCurrent.addEventListener("wheel", wheelHandler); // 휠 리스너 핸들
-    return () => {
-      outerDivRefCurrent.removeEventListener("wheel", wheelHandler); // 휠 리스너 해제
-    };
-  }, []);
+    } else {
+      // 스크롤 올릴 때 (상단으로)
+      for (i = 0; i < amountOfChildPages - 1; i++) {
+        if (scrollTop > pageHeight * i && scrollTop <= pageHeight * (i + 1)) {
+          // 현재 위치한 페이지 파악
+          outerDivRef.current?.scrollTo({
+            top: pageHeight * i,
+            left: 0,
+            behavior: "smooth",
+          });
+          setCurrentIndex(i);
+          setSelectedDestinationInfo({
+            name: destinationList[i].name,
+            regionIso: destinationList[i].iso,
+          });
+          break;
+        }
+      }
+    }
+  };
 
   return (
     <div className="App">
-      <div className="outer-base" ref={outerDivRef}>
+      <div className="outer-base" ref={outerDivRef} onWheel={wheelHandler}>
         <div className="inner page-1">
           <div className="back-img"></div>
           <span className="region-title">일본</span>
@@ -119,6 +112,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;

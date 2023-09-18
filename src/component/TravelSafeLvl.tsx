@@ -27,10 +27,17 @@ const TravelSafeLvl: React.FC<TravelSafeLvlProps> = (props) => {
   const ssDataRaw = sessionStorage.getItem(props.regionIso); // API의 호출 횟수 줄이기위한 세션 스토리지 get
   const [isMapModalOpen, setIsMapModalOpen] = useState(false); // 지도 모달창 노출 여부 state
   const [mapModalAnimation, setMapModalAnimation] = useState(""); // 모달 mount 애니메이션
-  const showMap = () => {
+  const toggleMap = () => {
     // 지도 모달창 노출
-    setIsMapModalOpen(true);
-    setMapModalAnimation("openAnimation");
+    if (isMapModalOpen) {
+      setMapModalAnimation("closeAnimation");
+      setTimeout(() => {
+        setIsMapModalOpen(false);
+      }, 500);
+    } else {
+      setIsMapModalOpen(true);
+      setMapModalAnimation("openAnimation");
+    }
   };
 
   useEffect(() => {
@@ -150,13 +157,16 @@ const TravelSafeLvl: React.FC<TravelSafeLvlProps> = (props) => {
   }
 
   return (
-    <div className="safe-lvl-container">
-      <span className={"safe-lvl lvl-" + alarmInfo.alarm_lvl}>
-        {safeLvlText}
-      </span>
-      <button className="safe-remark" onClick={showMap}>
-        {alarmInfo.alarm_remark}
-      </button>
+    <div className="nav-section">
+      <div className={"click-section " + isMapModalOpen} onClick={toggleMap}>
+        여행경보
+        <div className="safe-lvl-container">
+          <span className={"safe-lvl lvl-" + alarmInfo.alarm_lvl}>
+            {safeLvlText}
+          </span>
+          <div className="safe-remark">{alarmInfo.alarm_remark}</div>
+        </div>
+      </div>
       {isMapModalOpen && (
         <MapModal
           setIsMapModalOpen={setIsMapModalOpen}

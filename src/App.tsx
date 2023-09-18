@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./css/App.css";
 import "./css/TravelSafeLvl.css";
 import "./css/MapModal.css";
@@ -20,59 +20,95 @@ const App: React.FC = () => {
     { iso: "RU", name: "러시아" },
   ];
 
-  const outerDivRef = useRef<HTMLDivElement>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const pageHeight = window.innerHeight; // 윈도우 화면 세로길이 = 100vh
-  // TODO: 화면 resize에 따라 pageHeight 갱신해주는 기능 만들어야함
+  const outerDivRef = useRef<HTMLDivElement>(null); // 최상단 컴포넌트 ref
+  const [currentIndex, setCurrentIndex] = useState<number>(0); // 현재 페이지
+  const [pageHeight, setPageHeight] = useState<number>(window.innerHeight); // 윈도우 높이
 
-  const wheelHandler = (e: React.WheelEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const { deltaY } = e;
+  const pageUp = () => {
     const scrollTop: number = Math.round(outerDivRef.current?.scrollTop!); // 현재 스크롤 위쪽 끝부분 위치 좌표
-    const amountOfChildPages: number = outerDivRef.current?.childElementCount!; // 내부 페이지 갯수
-    let i: number = 0;
-    if (deltaY > 0) {
-      // 스크롤 내릴 때 (하단으로)
-      for (i = 0; i < amountOfChildPages - 1; i++) {
-        if (scrollTop >= pageHeight * i && scrollTop < pageHeight * (i + 1)) {
-          // 현재 위치한 페이지 파악
-          outerDivRef.current?.scrollTo({
-            top: pageHeight * (i + 1),
-            left: 0,
-            behavior: "smooth",
-          });
-          setCurrentIndex(i + 1);
-          setSelectedDestinationInfo({
-            name: destinationList[i + 1].name,
-            regionIso: destinationList[i + 1].iso,
-          });
-          break;
-        }
-      }
-    } else {
-      // 스크롤 올릴 때 (상단으로)
-      for (i = 0; i < amountOfChildPages - 1; i++) {
-        if (scrollTop > pageHeight * i && scrollTop <= pageHeight * (i + 1)) {
-          // 현재 위치한 페이지 파악
-          outerDivRef.current?.scrollTo({
-            top: pageHeight * i,
-            left: 0,
-            behavior: "smooth",
-          });
-          setCurrentIndex(i);
-          setSelectedDestinationInfo({
-            name: destinationList[i].name,
-            regionIso: destinationList[i].iso,
-          });
-          break;
-        }
+    const amountOfChildPages: number = outerDivRef.current?.childElementCount!;
+    for (var i: number = 0; i < amountOfChildPages - 1; i++) {
+      if (scrollTop > pageHeight * i && scrollTop <= pageHeight * (i + 1)) {
+        // 현재 위치한 페이지 파악
+        outerDivRef.current?.scrollTo({
+          top: pageHeight * i,
+          left: 0,
+          behavior: "smooth",
+        });
+        setCurrentIndex(i);
+        setSelectedDestinationInfo({
+          name: destinationList[i].name,
+          regionIso: destinationList[i].iso,
+        });
+        break;
       }
     }
   };
 
+  const pageDown = () => {
+    const scrollTop: number = Math.round(outerDivRef.current?.scrollTop!); // 현재 스크롤 위쪽 끝부분 위치 좌표
+    const amountOfChildPages: number = outerDivRef.current?.childElementCount!;
+    for (let i: number = 0; i < amountOfChildPages - 1; i++) {
+      if (scrollTop >= pageHeight * i && scrollTop < pageHeight * (i + 1)) {
+        // 현재 위치한 페이지 파악
+        outerDivRef.current?.scrollTo({
+          top: pageHeight * (i + 1),
+          left: 0,
+          behavior: "smooth",
+        });
+        setCurrentIndex(i + 1);
+        setSelectedDestinationInfo({
+          name: destinationList[i + 1].name,
+          regionIso: destinationList[i + 1].iso,
+        });
+        break;
+      }
+    }
+  };
+
+  // 이벤트 핸들러
+  useEffect(() => {
+    // 휠 이벤트
+    const wheelHandler = (e: WheelEvent) => {
+      e.preventDefault();
+      const { deltaY } = e;
+      if (deltaY > 0) {
+        // 스크롤 내릴 때 (하단으로)
+        pageDown();
+      } else {
+        // 스크롤 올릴 때 (상단으로)
+        pageUp();
+      }
+    };
+
+    // 키보드 이벤트
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        pageUp();
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        pageDown();
+      }
+    };
+
+    // 윈도우 resize
+    const resizeWindow = () => {
+      setPageHeight(window.innerHeight);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize", resizeWindow);
+    outerDivRef.current?.addEventListener("wheel", wheelHandler);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", resizeWindow);
+      outerDivRef.current?.removeEventListener("wheel", wheelHandler);
+    };
+  }, []);
+
   return (
     <div className="App">
-      <div className="outer-base" ref={outerDivRef} onWheel={wheelHandler}>
+      <div className="outer-base" ref={outerDivRef}>
         <div className="inner page-1">
           <div className="back-img"></div>
           <span className="region-title">일본</span>
@@ -94,21 +130,18 @@ const App: React.FC = () => {
         {
           // TODO: 네비게이션 기능 상의 후 컴포넌트 작성
         }
-        <div className="nav-section section-1">
+        <div className="nav-section section-1">{currentIndex} 페이지</div>
+
+        <div className="nav-section section-2">
           {selectedDestinationInfo.name}({selectedDestinationInfo.regionIso})
         </div>
 
-        <div className="nav-section section-2"></div>
-
         <div className="nav-section section-3"></div>
 
-        <div className="nav-section section-4">
-          여행경보
-          <TravelSaveLvl
-            regionIso={selectedDestinationInfo.regionIso}
-            regionName={selectedDestinationInfo.name}
-          ></TravelSaveLvl>
-        </div>
+        <TravelSaveLvl
+          regionIso={selectedDestinationInfo.regionIso}
+          regionName={selectedDestinationInfo.name}
+        ></TravelSaveLvl>
       </div>
     </div>
   );

@@ -9,12 +9,10 @@
 
 @keyframes smoothAppear {
   from {
-    opacity: 0;
-    transform: translateY(5%);
+    transform: translateX(100%);
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 
@@ -23,12 +21,12 @@
   top: 0;
   left: 0;
   display: flex;
-  width: 100vw;
+  width: 80vw;
   height: 100vh;
   justify-content: center;
   align-items: center;
   cursor: default;
-  z-index: 999;
+  z-index: -99;
 }
 
 .map-modal-outer {
@@ -36,7 +34,7 @@
   backdrop-filter: blur(10px);
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 80vw;
   height: 100vh;
 }
 .map-modal-outer.openAnimation {
@@ -47,14 +45,16 @@
 }
 
 .map-modal-container {
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   background-color: white;
-  padding: 40px 40px 15px 40px;
-  border-radius: 20px;
+  height: 100vh;
+  padding: 0 50px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 .map-modal-container.openAnimation {
@@ -122,13 +122,10 @@
 }
 
 .map-modal-title {
-  position: absolute;
+  display: block;
   padding: 0;
   margin: 0;
-  top: 10px;
-  left: 50%;
-  font-size: 18px;
-  transform: translateX(-50%);
+  font-size: 24px;
   font-family: "NanumSquareNeo";
 }
 .map-modal-title b {
@@ -141,6 +138,7 @@
   width: 911px;
   height: 800px;
   border-radius: 20px;
+  margin-top: 20px;
 }
 
 .map-alarm-remark {

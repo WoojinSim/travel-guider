@@ -13,7 +13,7 @@ body {
 .outer-base {
   display: inline-block;
   height: 100vh;
-  width: 80vw;
+  width: 85vw;
   overflow-y: scroll;
 }
 
@@ -71,7 +71,7 @@ body {
   flex-direction: column;
   background-color: #eee;
   height: 100vh;
-  width: 20%;
+  width: 15%;
   font-family: "NanumSquareNeoHeavy";
   font-size: 30px;
   z-index: 9999;

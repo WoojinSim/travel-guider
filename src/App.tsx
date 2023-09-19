@@ -2,23 +2,23 @@ import React, { useState, useRef, useEffect } from "react";
 import "./css/App.css";
 import "./css/TravelSafeLvl.css";
 import "./css/MapModal.css";
-// TODO: CSS들 CSS Module로 만들기
 // import OpenAI from "openai";
 import TravelSaveLvl from "./component/TravelSafeLvl"; // 컴포넌트 파일 경로에 맞게 수정
+import TravelInfo from "./component/TravelInfo"; // 컴포넌트 파일 경로에 맞게 수정
 
 const App: React.FC = () => {
-  const [selectedDestinationInfo, setSelectedDestinationInfo] = useState({
-    name: "일본",
-    regionIso: "JP",
-  });
-
-  // FIXME: 따로 변수를 사용하지 않고 페이지 상으로 iso 코드랑 국가이름을 가져와야함 (가능하다면)
   const destinationList = [
-    { iso: "JP", name: "일본" },
-    { iso: "CN", name: "중국" },
-    { iso: "VN", name: "베트남" },
-    { iso: "RU", name: "러시아" },
+    { iso: "JP", name: "일본", nCode: "JP294232" },
+    { iso: "CN", name: "중국", nCode: "CN294211" },
+    { iso: "VN", name: "베트남", nCode: "VN293921" },
+    { iso: "RU", name: "러시아", nCode: "RU294459" },
   ];
+  // FIXME: 따로 변수를 사용하지 않고 페이지 상으로 iso 코드랑 국가이름을 가져와야함 (가능하다면)
+  const [selectedDestinationInfo, setSelectedDestinationInfo] = useState({
+    name: destinationList[0].name,
+    regionIso: destinationList[0].iso,
+    regionNCode: destinationList[0].nCode,
+  });
 
   const outerDivRef = useRef<HTMLDivElement>(null); // 최상단 컴포넌트 ref
   const [currentIndex, setCurrentIndex] = useState<number>(0); // 현재 페이지
@@ -39,6 +39,7 @@ const App: React.FC = () => {
         setSelectedDestinationInfo({
           name: destinationList[i].name,
           regionIso: destinationList[i].iso,
+          regionNCode: destinationList[i].nCode,
         });
         break;
       }
@@ -60,6 +61,7 @@ const App: React.FC = () => {
         setSelectedDestinationInfo({
           name: destinationList[i + 1].name,
           regionIso: destinationList[i + 1].iso,
+          regionNCode: destinationList[i + 1].nCode,
         });
         break;
       }
@@ -132,12 +134,13 @@ const App: React.FC = () => {
         }
         <div className="nav-section section-1">{currentIndex} 페이지</div>
 
-        <div className="nav-section section-2">
-          {selectedDestinationInfo.name}({selectedDestinationInfo.regionIso})
-        </div>
+        <TravelInfo
+          regionNCode={selectedDestinationInfo.regionNCode}
+        ></TravelInfo>
 
         <div className="nav-section section-3"></div>
 
+        <div className="nav-section section-3"></div>
         <TravelSaveLvl
           regionIso={selectedDestinationInfo.regionIso}
           regionName={selectedDestinationInfo.name}

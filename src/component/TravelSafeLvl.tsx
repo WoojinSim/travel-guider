@@ -160,18 +160,13 @@ const TravelSafeLvl: React.FC<TravelSafeLvlProps> = (props) => {
     <div className="nav-section">
       <div className={"click-section " + isMapModalOpen} onClick={toggleMap}>
         여행경보
-        <div className="safe-lvl-container">
-          <span className={"safe-lvl lvl-" + alarmInfo.alarm_lvl}>
-            {safeLvlText}
-          </span>
-          <div className="safe-remark">{alarmInfo.alarm_remark}</div>
-        </div>
       </div>
       {isMapModalOpen && (
         <MapModal
           setIsMapModalOpen={setIsMapModalOpen}
           setMapModalAnimation={setMapModalAnimation}
           mapModalAnimation={mapModalAnimation}
+          alarmLvl={alarmInfo.alarm_lvl}
           alarmText={safeLvlText}
           alarmRemark={alarmInfo.alarm_remark}
           mapUrl={alarmInfo.map_url}

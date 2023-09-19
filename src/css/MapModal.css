@@ -21,7 +21,7 @@
   top: 0;
   left: 0;
   display: flex;
-  width: 80vw;
+  width: 85vw;
   height: 100vh;
   justify-content: center;
   align-items: center;
@@ -58,57 +58,10 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 .map-modal-container.openAnimation {
-  animation: smoothAppear 0.5s ease-in-out 0s 1 normal forwards;
+  animation: smoothAppear 0.5s ease 0s 1 normal forwards;
 }
 .map-modal-container.closeAnimation {
-  animation: smoothAppear 0.5s ease-in-out 0s 1 reverse forwards;
-}
-
-.map-modal-close-btn {
-  position: absolute;
-  padding: 0;
-  margin: 0;
-  top: 12px;
-  right: 12px;
-  width: 32px;
-  height: 32px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  opacity: 0.5;
-  transition: all 0.3s;
-  overflow: visible;
-}
-
-.map-modal-close-btn::before {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 30px;
-  height: 1px;
-  background-color: black;
-  content: "";
-  transform: translate(-50%, -50%) rotate(45deg);
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s;
-  z-index: -1;
-  overflow: visible;
-}
-
-.map-modal-close-btn::after {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 30px;
-  height: 1px;
-  background-color: black;
-  content: "";
-  transform: translate(-50%, -50%) rotate(-45deg);
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s;
-  overflow: visible;
+  animation: smoothAppear 0.5s ease 0s 1 reverse forwards;
 }
 
 .map-modal-close-btn:hover {
@@ -122,11 +75,18 @@
 }
 
 .map-modal-title {
-  display: block;
-  padding: 0;
-  margin: 0;
-  font-size: 24px;
+  box-sizing: border-box;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 10px 0 11px;
+  width: 911px;
   font-family: "NanumSquareNeo";
+  font-size: 24px;
+  border: 1px solid #eaeef1;
+  background-color: #fafbfc;
+  border-radius: 6px;
 }
 .map-modal-title b {
   font-weight: inherit;
@@ -137,20 +97,69 @@
   display: block;
   width: 911px;
   height: 800px;
-  border-radius: 20px;
+  border-radius: 6px;
   margin-top: 20px;
+  border: 1px solid #eaeef1;
+}
+
+.map-alarm-wrap {
+  box-sizing: border-box;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 10px 0 11px;
+  width: 911px;
+  text-align: start;
+  font-family: "NanumSquareNeo";
+  font-size: 14px;
+  border: 1px solid #eaeef1;
+  background-color: #fafbfc;
+  border-radius: 6px;
 }
 
 .map-alarm-remark {
-  display: block;
+  margin: 0 14px;
+}
+
+.safe-lvl {
+  width: 180px;
   box-sizing: border-box;
-  margin-top: 15px;
-  padding: 8px;
-  width: 911px;
-  border-radius: 20px;
-  font-family: "NanumSquareNeo";
-  font-size: 14px;
-  background-color: aliceblue;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2) inset;
-  cursor: text;
+  margin: 0px 14px 8px;
+  padding: 6px 0;
+  border-radius: 8px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  font-family: "NanumSquareNeoExtrabold";
+  text-align: center;
+}
+
+.safe-lvl.lvl-0 {
+  background-color: #aaa;
+  color: black;
+}
+
+.safe-lvl.lvl-1 {
+  background-color: #0469bf;
+  color: whitesmoke;
+}
+
+.safe-lvl.lvl-2 {
+  background-color: #fcc33c;
+  color: black;
+}
+
+.safe-lvl.lvl-3 {
+  background-color: #c82613;
+  color: whitesmoke;
+}
+
+.safe-lvl.lvl-4 {
+  background: repeating-linear-gradient(
+    130deg,
+    #000,
+    #000 5px,
+    #760000 0,
+    #760000 10px
+  );
+  color: whitesmoke;
 }

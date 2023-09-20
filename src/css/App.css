@@ -1,3 +1,12 @@
+@keyframes cursorBlink {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 body {
   margin: 0;
   overflow-y: hidden;
@@ -13,10 +22,9 @@ body {
 .outer-base {
   display: inline-block;
   height: 100vh;
-  width: 85vw;
+  width: 100vw;
   overflow-y: scroll;
 }
-
 /* 화면에서 스크롤바 안보이게 */
 .outer-base::-webkit-scrollbar {
   display: none;
@@ -25,87 +33,118 @@ body {
 .inner {
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  flex-wrap: wrap;
   color: white;
-  font-family: "NanumSquareNeoHeavy";
+  font-family: "NanumSquareNeoLight";
   height: 100vh;
   width: 100%;
-  font-size: 100px;
+  font-size: 80px;
   overflow: hidden;
 }
 
-.region-title {
+.back-video-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.back-video-filter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.back-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.main-title-wrap {
+  margin: 0 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  text-align: center;
+}
+
+.main-title {
+  margin: 5px 0;
+  display: inline-block;
+  height: 89px;
   z-index: 10;
   text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-.back-img {
-  position: absolute;
-  filter: blur(8px);
-  transform: scale(1.02);
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  background-size: cover;
-}
-
-.page-1 .back-img {
-  background-image: url("../img/japan.jpg");
-}
-.page-2 .back-img {
-  background-image: url("../img/china.jpg");
-}
-.page-3 .back-img {
-  background-image: url("../img/vietnam.jpg");
-}
-.page-4 .back-img {
-  background-image: url("../img/russia.jpg");
-}
-
-.nav {
+.main-title.context {
   position: relative;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background-color: #eee;
-  height: 100vh;
-  width: 15%;
   font-family: "NanumSquareNeoHeavy";
-  font-size: 30px;
-  z-index: 9999;
+  white-space: pre-wrap;
 }
 
-.nav-section {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-  height: 25%;
-  width: 100%;
-  background-color: #eee;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.nav-section:hover {
-  background-color: #fff;
-}
-
-.click-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-  width: 100%;
+.main-title.context::before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 8px;
   height: 100%;
-  transition: all 0.3s;
+  content: "";
+  background-color: white;
+  animation: cursorBlink 0.5s infinite alternate;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-.click-section.true {
-  background-color: #fff;
+.inner.page-2 {
+  background-color: #fafbff;
+}
+
+.map-caption {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  color: #454545;
+  font-family: "NanumSquareNeo";
+  font-size: 42px;
+  transform: translateX(-50%);
+}
+
+.world-map-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.world-map-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.world-map-svg {
+  fill: #edf0f9;
+  stroke: none;
+}
+
+.world-map-svg .available {
+  fill: rgb(163, 183, 255);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1px;
+  transition: all ease 0.3s;
+}
+
+.world-map-svg .available:hover {
+  transform: scale(1.002);
+  transform-origin: center;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.2));
 }

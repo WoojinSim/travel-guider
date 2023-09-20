@@ -1,10 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./css/App.css";
-import "./css/TravelSafeLvl.css";
-import "./css/MapModal.css";
 // import OpenAI from "openai";
-import TravelSaveLvl from "./component/TravelSafeLvl"; // 컴포넌트 파일 경로에 맞게 수정
-import TravelInfo from "./component/TravelInfo"; // 컴포넌트 파일 경로에 맞게 수정
+import TypingSpan from "./component/TypingSpan";
+import WorldMap from "./component/WorldMap";
 
 const App: React.FC = () => {
   const destinationList = [
@@ -20,6 +18,7 @@ const App: React.FC = () => {
     regionNCode: destinationList[0].nCode,
   });
 
+  const typeSpanRef = useRef<HTMLSpanElement>(null);
   const outerDivRef = useRef<HTMLDivElement>(null); // 최상단 컴포넌트 ref
   const [currentIndex, setCurrentIndex] = useState<number>(0); // 현재 페이지
   const [pageHeight, setPageHeight] = useState<number>(window.innerHeight); // 윈도우 높이
@@ -112,39 +111,23 @@ const App: React.FC = () => {
     <div className="App">
       <div className="outer-base" ref={outerDivRef}>
         <div className="inner page-1">
-          <div className="back-img"></div>
-          <span className="region-title">일본</span>
+          <div className="back-video-wrap">
+            <div className="back-video-filter"></div>
+            <video muted autoPlay loop className="back-video">
+              <source src={require("./img/travel.mp4")} type="video/mp4" />
+            </video>
+          </div>
+          <div className="main-title-wrap">
+            <span className="main-title top">당신이 여행하는 모든곳의</span>
+            <TypingSpan></TypingSpan>
+            <span className="main-title bottom">입니다.</span>
+          </div>
         </div>
         <div className="inner page-2">
-          <div className="back-img"></div>
-          <span className="region-title">중국</span>
+          <WorldMap></WorldMap>
+          <span className="map-caption">여행지를 선택해주세요</span>
         </div>
-        <div className="inner page-3">
-          <div className="back-img"></div>
-          <span className="region-title">베트남</span>
-        </div>
-        <div className="inner page-4">
-          <div className="back-img"></div>
-          <span className="region-title">러시아</span>
-        </div>
-      </div>
-      <div className="nav">
-        {
-          // TODO: 네비게이션 기능 상의 후 컴포넌트 작성
-        }
-        <div className="nav-section section-1">{currentIndex} 페이지</div>
-
-        <TravelInfo
-          regionNCode={selectedDestinationInfo.regionNCode}
-        ></TravelInfo>
-
-        <div className="nav-section section-3"></div>
-
-        <div className="nav-section section-3"></div>
-        <TravelSaveLvl
-          regionIso={selectedDestinationInfo.regionIso}
-          regionName={selectedDestinationInfo.name}
-        ></TravelSaveLvl>
+        <div className="inner page-3"></div>
       </div>
     </div>
   );

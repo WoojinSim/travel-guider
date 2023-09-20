@@ -42,6 +42,7 @@ body {
   width: 100%;
   font-size: 80px;
   overflow: hidden;
+  background-color: #fafbff;
 }
 
 .back-video-wrap {
@@ -101,50 +102,4 @@ body {
   background-color: white;
   animation: cursorBlink 0.5s infinite alternate;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-}
-
-.inner.page-2 {
-  background-color: #fafbff;
-}
-
-.map-caption {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  color: #454545;
-  font-family: "NanumSquareNeo";
-  font-size: 42px;
-  transform: translateX(-50%);
-}
-
-.world-map-wrap {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.world-map-wrap {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-}
-
-.world-map-svg {
-  fill: #edf0f9;
-  stroke: none;
-}
-
-.world-map-svg .available {
-  fill: rgb(163, 183, 255);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1px;
-  transition: all ease 0.3s;
-}
-
-.world-map-svg .available:hover {
-  transform: scale(1.002);
-  transform-origin: center;
-  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.2));
 }

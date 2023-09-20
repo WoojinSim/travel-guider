@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import "./css/App.css";
 // import OpenAI from "openai";
+import "./css/App.css";
+import "./css/WorldMap.css";
+import "./css/RegionCard.css";
+
 import TypingSpan from "./component/TypingSpan";
 import WorldMap from "./component/WorldMap";
+import RegionCard from "./component/RegionCard";
 
 const App: React.FC = () => {
   const destinationList = [
@@ -127,7 +131,18 @@ const App: React.FC = () => {
           <WorldMap></WorldMap>
           <span className="map-caption">여행지를 선택해주세요</span>
         </div>
-        <div className="inner page-3"></div>
+        <div className="inner page-3">
+          <RegionCard regionIso="JP"></RegionCard>
+          <RegionCard regionIso="CN"></RegionCard>
+          <RegionCard regionIso="VT"></RegionCard>
+          <RegionCard regionIso="RU"></RegionCard>
+          <RegionCard regionIso="JP"></RegionCard>
+          <RegionCard regionIso="CN"></RegionCard>
+          <RegionCard regionIso="VT"></RegionCard>
+          <RegionCard regionIso="RU"></RegionCard>
+          <RegionCard regionIso="JP"></RegionCard>
+          <RegionCard regionIso="CN"></RegionCard>
+        </div>
       </div>
     </div>
   );

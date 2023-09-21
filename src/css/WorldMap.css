@@ -31,7 +31,7 @@
 }
 
 .world-map-svg .available {
-  fill: rgb(163, 183, 255);
+  fill: rgb(97, 171, 255);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1px;

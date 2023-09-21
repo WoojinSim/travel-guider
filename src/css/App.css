@@ -45,6 +45,14 @@ body {
   background-color: #fafbff;
 }
 
+.school-title {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+  opacity: 0.3;
+}
+
 .back-video-wrap {
   position: absolute;
   top: 0;
@@ -91,15 +99,114 @@ body {
   white-space: pre-wrap;
 }
 
+.main-title.bottom b {
+  font-weight: inherit;
+  font-family: "NanumSquareNeoBold";
+  color: rgb(97, 171, 255);
+}
+
 .main-title.context::before {
   display: block;
   position: absolute;
   top: 0;
-  left: 100%;
+  left: 101%;
   width: 8px;
   height: 100%;
   content: "";
   background-color: white;
   animation: cursorBlink 0.5s infinite alternate;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.author-list {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-end;
+  bottom: 20px;
+  right: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: "NanumSquareNeoLight";
+  font-size: 28px;
+  cursor: default;
+  text-align: start;
+  transition: all ease 0.4s;
+}
+
+.author-list .author-list-wrap {
+  box-sizing: border-box;
+  margin: 4px 0;
+  overflow: hidden;
+}
+
+.author-list .author-list-wrap:hover {
+  padding-left: 16px;
+}
+
+.author-card {
+  position: relative;
+  width: 81px;
+  height: 33px;
+  opacity: 0.3;
+  transition: all ease 0.4s;
+}
+
+.author-card:hover {
+  padding: 20px 20px 20px 0;
+  width: 400px;
+  height: 250px;
+  background-color: white;
+  border-radius: 14px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  opacity: 1;
+}
+
+.author-card:hover .card-title {
+  margin-bottom: 20px;
+  background-color: rgb(97, 171, 255);
+  border-top-right-radius: 14px;
+  border-bottom-right-radius: 14px;
+  font-size: 46px;
+  font-family: "NanumSquareNeoHeavy";
+  color: whitesmoke;
+}
+
+.author-card:hover .card-title::after {
+  width: 15px;
+  height: 100%;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  transform: translateX(-15px);
+  border-top-left-radius: 14px;
+  border-bottom-left-radius: 14px;
+  background-color: rgb(97, 171, 255);
+  transition: all ease 0.4s;
+}
+
+.card-title {
+  position: relative;
+  padding: 5px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.card-id {
+  font-family: "NanumSquareNeoLight";
+  font-size: 28px;
+  margin-left: 10px;
+}
+
+.card-dolist {
+  font-size: 20px;
+  color: #454545;
+  list-style: none;
+}
+
+.card-dolist li {
+  margin: 10px 0;
 }

@@ -122,9 +122,53 @@ const App: React.FC = () => {
             </video>
           </div>
           <div className="main-title-wrap">
+            <div className="school-title">데이터베이스프로그래밍 2팀</div>
             <span className="main-title top">당신이 여행하는 모든곳의</span>
             <TypingSpan></TypingSpan>
-            <span className="main-title bottom">입니다.</span>
+            <span className="main-title bottom">
+              입니다<b>.</b>
+            </span>
+            <ul className="author-list">
+              <li className="author-list-wrap">
+                <div className="author-card">
+                  <section className="card-title">
+                    <span className="card-name">정민경</span>
+                    <span className="card-id">202101800</span>
+                  </section>
+                  <ul className="card-dolist">
+                    <li>데이터수집(크롤링) 백엔드 개발</li>
+                    <li>DB 및 자료 전처리 알고리즘 개발</li>
+                    <li>DB 통신 엔드포인트 API개발</li>
+                  </ul>
+                </div>
+              </li>
+              <li className="author-list-wrap">
+                <div className="author-card">
+                  <section className="card-title">
+                    <span className="card-name">정미리</span>
+                    <span className="card-id">202202219</span>
+                  </section>
+                  <ul className="card-dolist">
+                    <li>웹 UX/UI 디자인</li>
+                    <li>웹 레이아웃 및 인터페이스 디자인</li>
+                    <li>데이터 전처리 알고리즘 디자인</li>
+                  </ul>
+                </div>
+              </li>
+              <li className="author-list-wrap">
+                <div className="author-card">
+                  <section className="card-title">
+                    <span className="card-name">심우진</span>
+                    <span className="card-id">201905161</span>
+                  </section>
+                  <ul className="card-dolist">
+                    <li>React 프론트엔드 개발</li>
+                    <li>데이터수집(크롤링) 백엔드 개발</li>
+                    <li>백엔드 통신 엔드포인트 API개발</li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
         <div className="inner page-2">

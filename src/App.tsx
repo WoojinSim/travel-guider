@@ -9,22 +9,7 @@ import WorldMap from "./component/WorldMap";
 import RegionCard from "./component/RegionCard";
 
 const App: React.FC = () => {
-  const destinationList = [
-    { iso: "JP", name: "일본", nCode: "JP294232" },
-    { iso: "CN", name: "중국", nCode: "CN294211" },
-    { iso: "VN", name: "베트남", nCode: "VN293921" },
-    { iso: "RU", name: "러시아", nCode: "RU294459" },
-  ];
-  // FIXME: 따로 변수를 사용하지 않고 페이지 상으로 iso 코드랑 국가이름을 가져와야함 (가능하다면)
-  const [selectedDestinationInfo, setSelectedDestinationInfo] = useState({
-    name: destinationList[0].name,
-    regionIso: destinationList[0].iso,
-    regionNCode: destinationList[0].nCode,
-  });
-
-  const typeSpanRef = useRef<HTMLSpanElement>(null);
   const outerDivRef = useRef<HTMLDivElement>(null); // 최상단 컴포넌트 ref
-  const [currentIndex, setCurrentIndex] = useState<number>(0); // 현재 페이지
   const [pageHeight, setPageHeight] = useState<number>(window.innerHeight); // 윈도우 높이
 
   const pageUp = () => {
@@ -37,12 +22,6 @@ const App: React.FC = () => {
           top: pageHeight * i,
           left: 0,
           behavior: "smooth",
-        });
-        setCurrentIndex(i);
-        setSelectedDestinationInfo({
-          name: destinationList[i].name,
-          regionIso: destinationList[i].iso,
-          regionNCode: destinationList[i].nCode,
         });
         break;
       }
@@ -59,12 +38,6 @@ const App: React.FC = () => {
           top: pageHeight * (i + 1),
           left: 0,
           behavior: "smooth",
-        });
-        setCurrentIndex(i + 1);
-        setSelectedDestinationInfo({
-          name: destinationList[i + 1].name,
-          regionIso: destinationList[i + 1].iso,
-          regionNCode: destinationList[i + 1].nCode,
         });
         break;
       }
@@ -178,14 +151,8 @@ const App: React.FC = () => {
         <div className="inner page-3">
           <RegionCard regionIso="JP"></RegionCard>
           <RegionCard regionIso="CN"></RegionCard>
-          <RegionCard regionIso="VT"></RegionCard>
+          <RegionCard regionIso="VN"></RegionCard>
           <RegionCard regionIso="RU"></RegionCard>
-          <RegionCard regionIso="JP"></RegionCard>
-          <RegionCard regionIso="CN"></RegionCard>
-          <RegionCard regionIso="VT"></RegionCard>
-          <RegionCard regionIso="RU"></RegionCard>
-          <RegionCard regionIso="JP"></RegionCard>
-          <RegionCard regionIso="CN"></RegionCard>
         </div>
       </div>
     </div>

@@ -35,13 +35,11 @@ const RegionCard: React.FC<RegionCardProps> = (props) => {
   const [post, setPost] = useState<PostInterface>();
 
   useEffect(() => {
-    // API에서 데이터를 가져오는 함수를 정의합니다.
     const fetchData = async () => {
       try {
         const response: AxiosResponse = await axios.get(
           `http://localhost:4000/API/${destinationInfo.nCode}`
         );
-        console.log(response.data);
         setPost(response.data);
         setLoading(false);
       } catch (error) {
@@ -49,10 +47,8 @@ const RegionCard: React.FC<RegionCardProps> = (props) => {
         setLoading(false);
       }
     };
-
-    // 데이터를 가져오는 함수를 호출합니다.
     fetchData();
-  }, []);
+  }, [loading]);
 
   return (
     <div className="region-card-wrap">
@@ -60,12 +56,7 @@ const RegionCard: React.FC<RegionCardProps> = (props) => {
         <p>데이터를 불러오는 중...</p>
       ) : (
         <div>
-          <img
-            className="region-card-img"
-            src={`${post?.image.photoURL}`}
-            alt="로딩중"
-          />
-          <span className="regin-name">{destinationInfo.name}</span>
+          <span className="region-name">{destinationInfo.name}</span>
           <ul className="region-info">
             <li>{post?.descriptionInfo.publisher}</li>
           </ul>

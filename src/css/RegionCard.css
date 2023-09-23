@@ -10,6 +10,7 @@
 }
 
 .region-card-wrap {
+  padding: 20px;
   box-sizing: border-box;
   margin: 20px 10px;
   display: inline-block;
@@ -31,10 +32,17 @@
   box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
 }
 
-.region-card-img {
+.region-name {
+  display: block;
+  font-family: "NanumSquareNeoHeavy";
+  font-size: 30px;
+  text-align: center;
   width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .region-info {
   list-style: none;
+  padding: 0;
 }

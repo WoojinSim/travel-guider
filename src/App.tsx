@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 // import OpenAI from "openai";
 import "./css/App.css";
+import "./css/TypingSpan.css";
 import "./css/WorldMap.css";
 import "./css/RegionCard.css";
 
@@ -84,6 +85,7 @@ const App: React.FC = () => {
     };
   }, []);
 
+  // FIXME: 되도록 컴포넌드 압축할 것
   return (
     <div className="App">
       <div className="outer-base" ref={outerDivRef}>

@@ -1,6 +1,6 @@
 // RegionCard.jsx
 
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
 
 interface RegionCardProps {
@@ -31,7 +31,8 @@ interface PostInterface {
 
 const RegionCard: React.FC<RegionCardProps> = (props) => {
   const destinationInfo = destinationList.get(props.regionIso);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [errorReason, setErrorReason] = useState<string | null>(null);
   const [post, setPost] = useState<PostInterface>();
 
   useEffect(() => {
@@ -40,10 +41,11 @@ const RegionCard: React.FC<RegionCardProps> = (props) => {
         const response: AxiosResponse = await axios.get(
           `http://localhost:4000/API/${destinationInfo.nCode}`
         );
+        setErrorReason(null);
         setPost(response.data);
         setLoading(false);
-      } catch (error) {
-        console.error("에러:", error);
+      } catch (error: any) {
+        setErrorReason(error.code);
         setLoading(false);
       }
     };
@@ -57,6 +59,7 @@ const RegionCard: React.FC<RegionCardProps> = (props) => {
       ) : (
         <div>
           <span className="region-name">{destinationInfo.name}</span>
+          {errorReason && <p>데이터를 불러오지 못했습니다.({errorReason})</p>}
           <ul className="region-info">
             <li>{post?.descriptionInfo.publisher}</li>
           </ul>

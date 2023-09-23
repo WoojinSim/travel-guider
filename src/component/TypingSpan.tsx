@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const TypingSpan: React.FC = () => {
   const [resultText, setResultText] = useState<string>();
+  const [isActive, setIsActive] = useState<string>("active");
 
   const textList = [
     [
@@ -65,6 +66,29 @@ const TypingSpan: React.FC = () => {
       "꼼꼼한 큐레이터",
     ],
     [
+      "ㅇ",
+      "여",
+      "열",
+      "열ㅈ",
+      "열저",
+      "열정",
+      "열정ㅈ",
+      "열정저",
+      "열정적",
+      "열정적ㅇ",
+      "열정적이",
+      "열정적인",
+      "열정적인 ",
+      "열정적인 ㅈ",
+      "열정적인 저",
+      "열정적인 전",
+      "열정적인 전ㅁ",
+      "열정적인 전무",
+      "열정적인 전문",
+      "열정적인 전문ㄱ",
+      "열정적인 전문가",
+    ],
+    [
       "ㄷ",
       "드",
       "든",
@@ -81,14 +105,52 @@ const TypingSpan: React.FC = () => {
       "든든한 친ㄱ",
       "든든한 친구",
     ],
+    [
+      "ㄱ",
+      "가",
+      "감",
+      "감ㄱ",
+      "감가",
+      "감각",
+      "감각ㅈ",
+      "감각저",
+      "감각적",
+      "감각적ㅇ",
+      "감각적이",
+      "감각적인",
+      "감각적인 ",
+      "감각적인 ㄷ",
+      "감각적인 도",
+      "감각적인 동",
+      "감각적인 동ㅂ",
+      "감각적인 동바",
+      "감각적인 동반",
+      "감각적인 동반ㅈ",
+      "감각적인 동반자",
+    ],
+    [
+      '"',
+      '"ㄹ',
+      '"로',
+      '"로ㅋ',
+      '"로커',
+      '"로컬',
+      '"로컬ㅁ',
+      '"로컬마',
+      '"로컬마ㅅ',
+      '"로컬마스',
+      '"로컬마스ㅌ',
+      '"로컬마스터',
+      '"로컬마스터"',
+    ],
   ];
 
   useEffect(() => {
-    let currentIndex: number = 0;
-    let currentToken: number = 0;
-    let isPause = { current: false, count: 0 };
-    let isDeletion = { current: false, count: 0 };
-    let currentString: string;
+    let currentIndex: number = 0; // 글귀 인덱스 (다음 글귀 전환)
+    let currentToken: number = 0; // 글자 인덱스 (타이핑 효과 구현)
+    let isPause = { current: false, count: 0 }; // 타이핑 멈출 때
+    let isDeletion = { current: false, count: 0 }; // 타이핑 지울 때
+    let currentString: string; // 현재 글귀의 완성본
 
     const intervalTimer = setInterval(() => {
       if (isDeletion.current) {
@@ -123,10 +185,13 @@ const TypingSpan: React.FC = () => {
         currentString = textList[currentIndex][currentToken - 1];
         currentToken = 0;
         currentIndex += 1;
-        isPause = { current: true, count: 40 };
+        isPause = { current: true, count: 30 };
         if (currentIndex >= textList.length) {
           // 한 사이클 다 돌면 초기화
           currentIndex = 0;
+          setIsActive("");
+          clearInterval(intervalTimer);
+          return;
         }
       }
     }, 80);
@@ -136,7 +201,7 @@ const TypingSpan: React.FC = () => {
     };
   }, []);
   // TODO: 옵져버로 이 컴포넌트 안보일 때 동작 멈추게 해야함
-  return <span className="main-title context">{resultText}</span>;
+  return <span className={`main-title context ${isActive}`}>{resultText}</span>;
 };
 
 export default TypingSpan;

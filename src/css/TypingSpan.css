@@ -1,0 +1,27 @@
+@keyframes cursorBlink {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.main-title.context {
+  position: relative;
+  font-family: "NanumSquareNeoHeavy";
+  white-space: pre-wrap;
+}
+
+.main-title.context.active::before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 101%;
+  width: 8px;
+  height: 100%;
+  content: "";
+  background-color: white;
+  animation: cursorBlink 0.5s infinite alternate;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}

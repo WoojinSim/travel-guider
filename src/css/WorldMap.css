@@ -13,6 +13,7 @@
 }
 
 .world-map-wrap {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -40,7 +41,44 @@
 }
 
 .world-map-svg .available:hover {
-  transform: scale(1.002);
+  transform: scale(1.004);
   transform-origin: center;
   filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.2));
+}
+
+.map-region-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 20px;
+  background-color: rgb(97, 171, 255);
+  color: white;
+  border-radius: 14px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  transform: translate(-50%, -140%);
+  transition: all 0.5s ease;
+  cursor: default;
+}
+
+.map-region-card.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.map-region-card.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.map-region-card-title {
+  margin-bottom: 10px;
+  display: block;
+  font-family: "NanumSquareNeoHeavy";
+  font-size: 26px;
+}
+
+.map-region-card-lore {
+  display: block;
+  font-family: "NanumSquareNeoLight";
+  font-size: 18px;
 }

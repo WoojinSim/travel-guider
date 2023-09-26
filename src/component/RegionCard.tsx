@@ -2,9 +2,13 @@
 
 import axios, { AxiosError, AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 interface RegionCardProps {
   regionIso: string;
+  setRegionInfo: React.Dispatch<
+    React.SetStateAction<Object | String | undefined>
+  >;
 }
 // TODO: 2자리 국가 ISO 코드 프롭으로 넘어오면 맞는 국가 정보 뿌리는 코드만들것!!!
 const destinationList = new Map();
@@ -24,9 +28,17 @@ destinationList.set("RU", {
   name: "러시아",
   nCode: "RU294459",
 });
+destinationList.set("US", {
+  name: "미국",
+  nCode: "US191",
+});
+destinationList.set("UK", {
+  name: "영국",
+  nCode: "GB186216",
+});
 
 interface PostInterface {
-  [key: string]: any;
+  [key: string]: any; // API에서 받아오는값이 너무많아 정의가 힘듦
 }
 
 const RegionCard: React.FC<RegionCardProps> = (props) => {
@@ -53,7 +65,13 @@ const RegionCard: React.FC<RegionCardProps> = (props) => {
   }, [loading]);
 
   return (
-    <div className="region-card-wrap">
+    <Link
+      className="region-card-wrap"
+      to={`/info/${props.regionIso}`}
+      onClick={() => {
+        props.setRegionInfo(post);
+      }}
+    >
       {loading ? (
         <p>데이터를 불러오는 중...</p>
       ) : (
@@ -65,7 +83,7 @@ const RegionCard: React.FC<RegionCardProps> = (props) => {
           </ul>
         </div>
       )}
-    </div>
+    </Link>
   );
 };
 

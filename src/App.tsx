@@ -48,38 +48,48 @@ const App: React.FC = () => {
     }
   };
 
+  // 휠 이벤트
+  const wheelHandler = (e: WheelEvent) => {
+    e.preventDefault();
+    const { deltaY } = e;
+    if (deltaY > 0) {
+      // 스크롤 내릴 때 (하단으로)
+      pageDown();
+    } else {
+      // 스크롤 올릴 때 (상단으로)
+      pageUp();
+    }
+  };
+
+  // 키보드 이벤트
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      pageUp();
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      pageDown();
+    }
+  };
+
+  const enableEvent = (state: boolean) => {
+    if (state) {
+      window.addEventListener("keydown", handleKeyDown);
+      outerDivRef.current?.addEventListener("wheel", wheelHandler);
+    } else {
+      window.removeEventListener("keydown", handleKeyDown);
+      outerDivRef.current?.removeEventListener("wheel", wheelHandler);
+    }
+    console.log("테스트");
+  };
+
   // 이벤트 핸들러
   useEffect(() => {
-    // 휠 이벤트
-    const wheelHandler = (e: WheelEvent) => {
-      e.preventDefault();
-      const { deltaY } = e;
-      if (deltaY > 0) {
-        // 스크롤 내릴 때 (하단으로)
-        pageDown();
-      } else {
-        // 스크롤 올릴 때 (상단으로)
-        pageUp();
-      }
-    };
-
-    // 키보드 이벤트
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowUp") {
-        e.preventDefault();
-        pageUp();
-      } else if (e.key === "ArrowDown") {
-        e.preventDefault();
-        pageDown();
-      }
-    };
-
     // 윈도우 resize
     const resizeWindow = () => {
       setPageHeight(window.innerHeight);
     };
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("resize", resizeWindow);
+    enableEvent(true);
     outerDivRef.current?.addEventListener("wheel", wheelHandler);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
@@ -162,7 +172,12 @@ const App: React.FC = () => {
               <Route path="/" element={<></>}></Route>
               <Route
                 path="/info/:regionISO"
-                element={<RegionInfoModal regionInfo={regionInfo} />}
+                element={
+                  <RegionInfoModal
+                    regionInfo={regionInfo}
+                    enableEvent={enableEvent}
+                  />
+                }
               ></Route>
               <Route path="*" element={<RegionInfoModal />}></Route>
             </Routes>
@@ -170,26 +185,32 @@ const App: React.FC = () => {
             <RegionCard
               regionIso="JP"
               setRegionInfo={setRegionInfo}
+              enableEvent={enableEvent}
             ></RegionCard>
             <RegionCard
               regionIso="CN"
               setRegionInfo={setRegionInfo}
+              enableEvent={enableEvent}
             ></RegionCard>
             <RegionCard
               regionIso="VN"
               setRegionInfo={setRegionInfo}
+              enableEvent={enableEvent}
             ></RegionCard>
             <RegionCard
               regionIso="US"
               setRegionInfo={setRegionInfo}
+              enableEvent={enableEvent}
             ></RegionCard>
             <RegionCard
               regionIso="UK"
               setRegionInfo={setRegionInfo}
+              enableEvent={enableEvent}
             ></RegionCard>
             <RegionCard
               regionIso="RU"
               setRegionInfo={setRegionInfo}
+              enableEvent={enableEvent}
             ></RegionCard>
           </div>
         </div>

@@ -7,6 +7,7 @@ interface InfoInterface {
 }
 interface RegionInfoModalProps {
   regionInfo?: InfoInterface | undefined;
+  enableEvent?: (state: boolean) => void;
 }
 
 const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
@@ -18,7 +19,13 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
   return (
     <div className="info-modal-wrap">
       <div className="back-board"></div>
-      <Link className="exit-btn" to={"/"}></Link>
+      <Link
+        className="exit-btn"
+        to={"/"}
+        onClick={() => {
+          props.enableEvent?.(true);
+        }}
+      ></Link>
       <div className="inner-container">
         <div className="inner-title">
           {regionInfo?.nameKo} <b>|</b> {regionInfo?.nameEn} <b>|</b>{" "}

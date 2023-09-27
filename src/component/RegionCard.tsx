@@ -9,6 +9,7 @@ interface RegionCardProps {
   setRegionInfo: React.Dispatch<
     React.SetStateAction<Object | String | undefined>
   >;
+  enableEvent: (state: boolean) => void;
 }
 // TODO: 2자리 국가 ISO 코드 프롭으로 넘어오면 맞는 국가 정보 뿌리는 코드만들것!!!
 const destinationList = new Map();
@@ -70,6 +71,7 @@ const RegionCard: React.FC<RegionCardProps> = (props) => {
       to={`/info/${props.regionIso}`}
       onClick={() => {
         props.setRegionInfo(post);
+        props.enableEvent(false);
       }}
     >
       {loading ? (

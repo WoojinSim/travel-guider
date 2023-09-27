@@ -170,8 +170,7 @@ const TypingSpan: React.FC = () => {
           isPause = { current: false, count: 0 };
           isDeletion = {
             current: true,
-            count:
-              textList[currentIndex][textList[currentIndex].length - 1].length,
+            count: textList[currentIndex][textList[currentIndex].length - 1].length,
           };
         }
         return;

@@ -22,11 +22,7 @@ const App: React.FC = () => {
     for (var i: number = 0; i < amountOfChildPages - 1; i++) {
       if (scrollTop > pageHeight * i && scrollTop <= pageHeight * (i + 1)) {
         // 현재 위치한 페이지 파악
-        outerDivRef.current?.scrollTo({
-          top: pageHeight * i,
-          left: 0,
-          behavior: "smooth",
-        });
+        outerDivRef.current?.scrollTo({ top: pageHeight * i, left: 0, behavior: "smooth" });
         break;
       }
     }
@@ -38,11 +34,7 @@ const App: React.FC = () => {
     for (let i: number = 0; i < amountOfChildPages - 1; i++) {
       if (scrollTop >= pageHeight * i && scrollTop < pageHeight * (i + 1)) {
         // 현재 위치한 페이지 파악
-        outerDivRef.current?.scrollTo({
-          top: pageHeight * (i + 1),
-          left: 0,
-          behavior: "smooth",
-        });
+        outerDivRef.current?.scrollTo({ top: pageHeight * (i + 1), left: 0, behavior: "smooth" });
         break;
       }
     }
@@ -80,7 +72,6 @@ const App: React.FC = () => {
       window.removeEventListener("keydown", handleKeyDown);
       outerDivRef.current?.removeEventListener("wheel", wheelHandler);
     }
-    console.log("테스트");
   };
 
   // 이벤트 핸들러
@@ -161,10 +152,7 @@ const App: React.FC = () => {
             </div>
           </div>
           <div className="inner page-2">
-            <WorldMap
-              scrollRef={outerDivRef}
-              pageHeight={pageHeight}
-            ></WorldMap>
+            <WorldMap scrollRef={outerDivRef} pageHeight={pageHeight}></WorldMap>
             <span className="map-caption">여행지를 선택해주세요</span>
           </div>
           <div className="inner page-3">
@@ -172,46 +160,17 @@ const App: React.FC = () => {
               <Route path="/" element={<></>}></Route>
               <Route
                 path="/info/:regionISO"
-                element={
-                  <RegionInfoModal
-                    regionInfo={regionInfo}
-                    enableEvent={enableEvent}
-                  />
-                }
+                element={<RegionInfoModal regionInfo={regionInfo} enableEvent={enableEvent} />}
               ></Route>
               <Route path="*" element={<RegionInfoModal />}></Route>
             </Routes>
 
-            <RegionCard
-              regionIso="JP"
-              setRegionInfo={setRegionInfo}
-              enableEvent={enableEvent}
-            ></RegionCard>
-            <RegionCard
-              regionIso="CN"
-              setRegionInfo={setRegionInfo}
-              enableEvent={enableEvent}
-            ></RegionCard>
-            <RegionCard
-              regionIso="VN"
-              setRegionInfo={setRegionInfo}
-              enableEvent={enableEvent}
-            ></RegionCard>
-            <RegionCard
-              regionIso="US"
-              setRegionInfo={setRegionInfo}
-              enableEvent={enableEvent}
-            ></RegionCard>
-            <RegionCard
-              regionIso="UK"
-              setRegionInfo={setRegionInfo}
-              enableEvent={enableEvent}
-            ></RegionCard>
-            <RegionCard
-              regionIso="RU"
-              setRegionInfo={setRegionInfo}
-              enableEvent={enableEvent}
-            ></RegionCard>
+            <RegionCard regionIso="JP" setRegionInfo={setRegionInfo} enableEvent={enableEvent}></RegionCard>
+            <RegionCard regionIso="CN" setRegionInfo={setRegionInfo} enableEvent={enableEvent}></RegionCard>
+            <RegionCard regionIso="VN" setRegionInfo={setRegionInfo} enableEvent={enableEvent}></RegionCard>
+            <RegionCard regionIso="US" setRegionInfo={setRegionInfo} enableEvent={enableEvent}></RegionCard>
+            <RegionCard regionIso="UK" setRegionInfo={setRegionInfo} enableEvent={enableEvent}></RegionCard>
+            <RegionCard regionIso="RU" setRegionInfo={setRegionInfo} enableEvent={enableEvent}></RegionCard>
           </div>
         </div>
       </div>

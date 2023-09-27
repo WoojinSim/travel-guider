@@ -6,37 +6,17 @@ import { Link } from "react-router-dom";
 
 interface RegionCardProps {
   regionIso: string;
-  setRegionInfo: React.Dispatch<
-    React.SetStateAction<Object | String | undefined>
-  >;
+  setRegionInfo: React.Dispatch<React.SetStateAction<Object | String | undefined>>;
   enableEvent: (state: boolean) => void;
 }
 // TODO: 2자리 국가 ISO 코드 프롭으로 넘어오면 맞는 국가 정보 뿌리는 코드만들것!!!
 const destinationList = new Map();
-destinationList.set("JP", {
-  name: "일본",
-  nCode: "JP294232",
-});
-destinationList.set("CN", {
-  name: "중국",
-  nCode: "CN294211",
-});
-destinationList.set("VN", {
-  name: "베트남",
-  nCode: "VN293921",
-});
-destinationList.set("RU", {
-  name: "러시아",
-  nCode: "RU294459",
-});
-destinationList.set("US", {
-  name: "미국",
-  nCode: "US191",
-});
-destinationList.set("UK", {
-  name: "영국",
-  nCode: "GB186216",
-});
+destinationList.set("JP", { name: "일본", nCode: "JP294232" });
+destinationList.set("CN", { name: "중국", nCode: "CN294211" });
+destinationList.set("VN", { name: "베트남", nCode: "VN293921" });
+destinationList.set("RU", { name: "러시아", nCode: "RU294459" });
+destinationList.set("US", { name: "미국", nCode: "US191" });
+destinationList.set("UK", { name: "영국", nCode: "GB186216" });
 
 interface PostInterface {
   [key: string]: any; // API에서 받아오는값이 너무많아 정의가 힘듦
@@ -51,9 +31,7 @@ const RegionCard: React.FC<RegionCardProps> = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response: AxiosResponse = await axios.get(
-          `http://localhost:4000/API/${destinationInfo.nCode}`
-        );
+        const response: AxiosResponse = await axios.get(`http://localhost:4000/API/${destinationInfo.nCode}`);
         setErrorReason(null);
         setPost(response.data);
         setLoading(false);

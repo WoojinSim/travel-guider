@@ -1,6 +1,7 @@
 // WorldMap.tsx
 
 import React, { useEffect, useState, useRef, RefObject } from "react";
+import { Link } from "react-router-dom";
 
 interface WroldMapProps {
   scrollRef: RefObject<HTMLDivElement | null>;
@@ -17,13 +18,9 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
 
   const pageDown = () => {
     const scrollTop: number = Math.round(props.scrollRef.current?.scrollTop!); // 현재 스크롤 위쪽 끝부분 위치 좌표
-    const amountOfChildPages: number =
-      props.scrollRef.current?.childElementCount!;
+    const amountOfChildPages: number = props.scrollRef.current?.childElementCount!;
     for (let i: number = 0; i < amountOfChildPages - 1; i++) {
-      if (
-        scrollTop >= props.pageHeight * i &&
-        scrollTop < props.pageHeight * (i + 1)
-      ) {
+      if (scrollTop >= props.pageHeight * i && scrollTop < props.pageHeight * (i + 1)) {
         // 현재 위치한 페이지 파악
         props.scrollRef.current?.scrollTo({
           top: props.pageHeight * (i + 1),
@@ -44,16 +41,12 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
   };
 
   // 지정한 요소에 마우스가 올라갔을 때
-  const handleMouseEnter = (
-    e: React.MouseEvent<SVGPathElement, MouseEvent>
-  ) => {
+  const handleMouseEnter = (e: React.MouseEvent<SVGPathElement, MouseEvent>) => {
     const regionName = e.currentTarget.getAttribute("region-data") || "";
     setIsMouseOver({ isOver: true, region: regionName });
   };
   // 지정한 요소에 마우스가 내려갔을 때
-  const handleMouseLeave = (
-    e: React.MouseEvent<SVGPathElement, MouseEvent>
-  ) => {
+  const handleMouseLeave = (e: React.MouseEvent<SVGPathElement, MouseEvent>) => {
     setIsMouseOver({ ...isMouseOver, isOver: false });
   };
 
@@ -65,12 +58,11 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
     };
   }, []);
 
+  // TODO: 지도 클릭시 이동하는 인터렉션 추가
   return (
     <div className="world-map-wrap" ref={mapDivRef}>
       <div
-        className={`map-region-card ${
-          isMouseOver.isOver ? "visible" : "hidden"
-        }`}
+        className={`map-region-card ${isMouseOver.isOver ? "visible" : "hidden"}`}
         style={{
           top: `${mouseLocation.y}px`,
           left: `${mouseLocation.x}px`,
@@ -79,17 +71,12 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
         <span className="map-region-card-title">{isMouseOver.region}</span>
         <span className="map-region-card-lore">클릭해 자세한 정보 확인</span>
       </div>
-      <svg
-        className="world-map-svg"
-        viewBox="50 0 2000 857"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg className="world-map-svg" viewBox="50 0 2000 857" xmlns="http://www.w3.org/2000/svg">
         <g
           onMouseOver={handleMouseEnter}
           onMouseOut={handleMouseLeave}
           region-data="미국"
           className="UnitedStates available"
-          onClick={pageDown}
         >
           <path
             region-data="미국"
@@ -385,10 +372,7 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Canada"
           d="M 539 48.7 534.3 51.1 544.8 49.6 547.4 52.2 554.7 49.5 556.5 51.2 554.3 56.3 558.6 54.2 561.4 48.9 565.7 48.1 568.7 48.9 570.9 51 568.2 56.1 565.8 59.8 570 62.4 575 65 572.4 67.3 565.3 67.8 566.1 69.8 562.9 71.8 556.2 71 550.5 69.5 545.4 69.8 535.9 71.7 524.6 72.5 516.7 73 517 70.4 512.9 69 508.6 69.6 508 65.3 511.3 64.7 518.6 63.8 524.1 64.1 530.3 63.1 523.8 61.9 514.7 62.3 509 62.2 509 60.3 520.7 58.1 514.4 58.2 509 56.8 516.8 52.9 522 50.8 536.2 47.7 539 48.7 Z"
         ></path>
-        <path
-          className="Canada"
-          d="M 578.5 47.2 571.5 50.6 569.2 47 571.3 46.2 576.8 46 578.5 47.2 Z"
-        ></path>
+        <path className="Canada" d="M 578.5 47.2 571.5 50.6 569.2 47 571.3 46.2 576.8 46 578.5 47.2 Z"></path>
         <path
           className="Canada"
           d="M 687.1 48.8 686.4 50.2 682.3 50.1 678.2 50 673.3 50.7 672.4 50.3 670.3 47.6 672 45.8 674.2 45.4 682.6 46 687.1 48.8 Z"
@@ -590,11 +574,7 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           id="GW"
           name="Guinea-Bissau"
         ></path>
-        <path
-          d="M1050.3 487.3l0 7.7-8.2 0-1.9 0.3-1.1-0.9 1.9-7.2 9.3 0.1z"
-          id="GQ"
-          name="Equatorial Guinea"
-        ></path>
+        <path d="M1050.3 487.3l0 7.7-8.2 0-1.9 0.3-1.1-0.9 1.9-7.2 9.3 0.1z" id="GQ" name="Equatorial Guinea"></path>
         <path
           className="Greece"
           d="M 1112.7 272.6 1115.8 274.8 1119.9 274.4 1123.9 274.8 1123.9 276 1126.7 275.2 1126.2 277.1 1118.6 277.6 1118.5 276.6 1111.9 275.3 1112.7 272.6 Z"
@@ -807,11 +787,7 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           id="LT"
           name="Lithuania"
         ></path>
-        <path
-          d="M1016.9 185.4l-1.4 0.1-1.1-0.5 0.4-3.5 1.3-0.2 1 1.4-0.2 2.7z"
-          id="LU"
-          name="Luxembourg"
-        ></path>
+        <path d="M1016.9 185.4l-1.4 0.1-1.1-0.5 0.4-3.5 1.3-0.2 1 1.4-0.2 2.7z" id="LU" name="Luxembourg"></path>
         <path
           d="M1112.8 136.5l2.5 1.3 1 2.9 2.1 3.6-4.6 2.3-2.7 1-5-2.9-2.5-0.4-0.9-1.2-4.5 0.6-7.9-0.4-5.1 1.8-0.5-4.5 1.7-3.8 4.1-2 4.4 4.5 3.7-0.2 0.1-4.6 3.8-1 2.1 0.7 4.4 2.2 3.8 0.1z"
           id="LV"
@@ -1266,16 +1242,8 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           id="GF"
           name="French Guiana"
         ></path>
-        <path
-          d="M592.9 422l-0.5-0.2-0.5-0.5 0.1-0.6 0.2 0.3 0.4 0.4 0.3 0.5 0 0.1z"
-          id="AW"
-          name="Aruba"
-        ></path>
-        <path
-          d="M634.2 384.9l-0.2 0 0.3-0.4 0.3 0-0.2 0.3-0.2 0.1z"
-          id="AI"
-          name="Anguilla"
-        ></path>
+        <path d="M592.9 422l-0.5-0.2-0.5-0.5 0.1-0.6 0.2 0.3 0.4 0.4 0.3 0.5 0 0.1z" id="AW" name="Aruba"></path>
+        <path d="M634.2 384.9l-0.2 0 0.3-0.4 0.3 0-0.2 0.3-0.2 0.1z" id="AI" name="Anguilla"></path>
         <path
           className="Antigua and Barbuda"
           d="M 640.7 391.9 641.3 392.2 641.1 392.5 640.9 392.5 640.2 392.6 640 392.5 640 392 640.3 391.9 640.4 391.6 640.6 391.6 640.7 391.9 Z"
@@ -1317,14 +1285,8 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Bahamas"
           d="M 569.7 349.8 570 350.4 570.2 350.9 570.2 351.3 570.4 351.5 570.6 352.2 570.6 353.1 570.8 353.4 571.3 353.6 571.7 354.2 571.7 355 571.3 354.3 571.3 354.1 571 353.7 570.4 353.5 570.6 353.3 570.3 353 570.3 352.7 570.5 352.4 570.4 351.9 570.1 351.5 570.2 351.4 569.9 351 569.8 350.4 569.6 350.5 569.7 349.8 Z"
         ></path>
-        <path
-          className="Bahamas"
-          d="M 572.6 349.8 572.3 350 572 349.9 571.9 349.7 572.5 349.5 572.6 349.8 Z"
-        ></path>
-        <path
-          className="Bahamas"
-          d="M 564.4 347.9 564.3 347.8 564 347.1 564.2 347.1 564.4 347.9 Z"
-        ></path>
+        <path className="Bahamas" d="M 572.6 349.8 572.3 350 572 349.9 571.9 349.7 572.5 349.5 572.6 349.8 Z"></path>
+        <path className="Bahamas" d="M 564.4 347.9 564.3 347.8 564 347.1 564.2 347.1 564.4 347.9 Z"></path>
         <path
           className="Bahamas"
           d="M 574.9 347.4 574.5 348 574.1 348 574.3 347.7 574.4 347.1 574.8 346.8 574.9 347.2 574.9 347.4 Z"
@@ -1361,11 +1323,7 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Bahamas"
           d="M 559.2 328.9 560 329.1 560.2 329 560.6 329.3 561.5 330.3 561.7 330.9 562.1 331 562.8 331.5 562.8 331.7 562.6 332.2 562.8 332.9 562.4 332.9 561.9 333.3 561.8 333.5 561.5 334.5 561.4 335.4 561.2 335.6 560.9 335.4 560.8 335 560.4 334.9 560.7 334.4 560.9 334.4 561.4 334 561.3 333.6 561.5 333.2 561.5 332.9 561.7 332.6 561.7 332 561.9 331.9 562.1 331.6 562.2 331.3 561.9 331.2 561.4 331.1 561.3 330.8 561.3 330.6 560.9 330.4 560.9 330.1 560.6 329.4 560.4 329.3 560.1 329.4 559.6 329.3 559.3 329.3 558.7 328.9 559.2 328.9 Z"
         ></path>
-        <path
-          d="M635.2 387l-0.1-0.3 0.3 0.1-0.2 0.2z"
-          id="BL"
-          name="Saint-Barthélemy"
-        ></path>
+        <path d="M635.2 387l-0.1-0.3 0.3 0.1-0.2 0.2z" id="BL" name="Saint-Barthélemy"></path>
         <path
           d="M637.3 294l-0.3 0-0.1 0.1 0.1 0.2-0.4 0.2-0.1-0.1 0.2-0.1 0.1 0 0.1-0.3 0.3-0.1 0.1 0.1z"
           id="BM"
@@ -1433,14 +1391,8 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Cayman Islands"
           d="M 532.7 377.8 533 377.9 533.2 377.5 533.6 377.6 534.1 377.6 534.2 377.8 534 378 533.8 377.9 533.4 378 533.2 378.1 532.5 378.1 532.7 377.8 Z"
         ></path>
-        <path
-          className="Cayman Islands"
-          d="M 540.8 375.3 540.1 375.6 540.3 375.3 540.8 375.3 Z"
-        ></path>
-        <path
-          className="Cayman Islands"
-          d="M 541.4 375.4 541.3 375.3 542.1 375 541.9 375.3 541.4 375.4 Z"
-        ></path>
+        <path className="Cayman Islands" d="M 540.8 375.3 540.1 375.6 540.3 375.3 540.8 375.3 Z"></path>
+        <path className="Cayman Islands" d="M 541.4 375.4 541.3 375.3 542.1 375 541.9 375.3 541.4 375.4 Z"></path>
         <path
           className="Cyprus"
           d="M 1168.2 276.7 1168.3 276.9 1168.6 277.3 1168.2 277.2 1167.9 277.2 1167.5 277.4 1167.2 277.1 1167.2 276.8 1167.5 276.7 1167.7 276.8 1168.2 276.7 Z"
@@ -1478,10 +1430,7 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Falkland Islands"
           d="M 695.3 829.9 695.6 829.9 695.9 830.2 695.6 830.3 695.3 830.3 695.3 829.9 Z"
         ></path>
-        <path
-          className="Falkland Islands"
-          d="M 694.3 829.9 694 829.9 693.9 829.6 694.3 829.7 694.3 829.9 Z"
-        ></path>
+        <path className="Falkland Islands" d="M 694.3 829.9 694 829.9 693.9 829.6 694.3 829.7 694.3 829.9 Z"></path>
         <path
           className="Falkland Islands"
           d="M 692.9 829.7 693.5 829.6 693.7 829.9 693.4 830.3 693.2 830.2 692.9 830.3 692.6 830.1 692.9 829.9 693.2 830.1 693.3 829.9 692.8 829.8 692.9 829.7 Z"
@@ -1494,10 +1443,7 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Falkland Islands"
           d="M 695.1 829.4 695.8 829.4 696 829.6 696.2 829.4 696.4 829.5 696.6 829.8 696.4 829.9 696 829.8 695.6 829.6 694.8 829.5 694.9 829.3 695.1 829.4 Z"
         ></path>
-        <path
-          className="Falkland Islands"
-          d="M 688.3 828.3 687.8 828.2 687.9 828 688.3 828.3 Z"
-        ></path>
+        <path className="Falkland Islands" d="M 688.3 828.3 687.8 828.2 687.9 828 688.3 828.3 Z"></path>
         <path
           className="Faeroe Islands"
           d="M 955.6 112 956 112.2 956.3 112.2 956.4 112.4 956.4 112.8 956.6 113.1 956.5 113.3 955.9 112.9 955.7 112.5 955.5 112.3 955.3 112 955.6 112 Z"
@@ -1510,10 +1456,7 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Faeroe Islands"
           d="M 954.62 109.03999999999999 954.7 109.2 955 109.2 955 109.5 954.6 109.5 954.4 109.7 953.8 109.5 953.6 109.4 953.4 109.1 953.9 109 954 108.9 954.5571428571428 108.99285714285715 954.3 108.8 954.5 108 955 108.1 955.3 108.6 955.3 108.7 955.9 108.9 956.2 109.4 956.5 109.6 956.4 110.2 955.9 109.8 955.7 109.6 955.5 109.5 955.4 109.3 955.2 109.1 954.7 109.1 954.62 109.03999999999999 Z"
         ></path>
-        <path
-          className="Faeroe Islands"
-          d="M 958.3 108.4 958.1 108.2 958.4 108 958.3 108.4 Z"
-        ></path>
+        <path className="Faeroe Islands" d="M 958.3 108.4 958.1 108.2 958.4 108 958.3 108.4 Z"></path>
         <path
           className="Faeroe Islands"
           d="M 955.9 108.9 955.5 108.7 955.2 108.4 955.1 108.1 955.2 108 955.6 107.9 955.9 107.9 956.5 108.3 956.4 108.5 956.5 108.7 957.1 108.9 957.1 109.1 956.7 109.4 955.9 108.9 Z"
@@ -1561,21 +1504,9 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           id="LC"
           name="Saint Lucia"
         ></path>
-        <path
-          d="M634.2 386l-0.4-0.1 0.2-0.3 0.3-0.1-0.1 0.5z"
-          id="MF"
-          name="Saint-Martin"
-        ></path>
-        <path
-          d="M1402.9 474.8l0 0.2-0.2-0.1 0.2-0.2 0 0.1z"
-          id="MV"
-          name="Maldives"
-        ></path>
-        <path
-          d="M1953.8 456l1 0.4-0.2 0-0.8-0.4z"
-          id="MH"
-          name="Marshall Islands"
-        ></path>
+        <path d="M634.2 386l-0.4-0.1 0.2-0.3 0.3-0.1-0.1 0.5z" id="MF" name="Saint-Martin"></path>
+        <path d="M1402.9 474.8l0 0.2-0.2-0.1 0.2-0.2 0 0.1z" id="MV" name="Maldives"></path>
+        <path d="M1953.8 456l1 0.4-0.2 0-0.8-0.4z" id="MH" name="Marshall Islands"></path>
         <path
           className="Malta"
           d="M 1063.9 271.7 1063.7 272 1063.2 271.8 1062.7 271.5 1062.7 271 1062.6 270.9 1063.2 270.9 1063.6 271.2 1063.8 271.4 1063.9 271.7 Z"
@@ -1608,11 +1539,7 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Northern Mariana Islands"
           d="M 1799.5 381.6 1799.1 381.5 1799.1 381.2 1799.3 381.1 1799.5 381.3 1799.5 381.6 Z"
         ></path>
-        <path
-          d="M638.2 393.9l0.2 0.4 0 0.3-0.2 0.2-0.2-0.1-0.1-0.3 0.3-0.5z"
-          id="MS"
-          name="Montserrat"
-        ></path>
+        <path d="M638.2 393.9l0.2 0.4 0 0.3-0.2 0.2-0.2-0.1-0.1-0.3 0.3-0.5z" id="MS" name="Montserrat"></path>
         <path
           className="Mauritius"
           d="M 1307.7 630.8 1308.1 631.7 1307.9 632.3 1307.5 632.7 1307.6 633 1307.3 633.3 1306.8 633.5 1306.3 633.5 1305.7 633.4 1305.6 633.5 1305.3 633.2 1305.5 633 1305.6 632.6 1305.7 631.9 1305.9 631.5 1306.4 631.1 1306.5 630.9 1306.7 630.4 1307.1 630.1 1307.5 630.2 1307.7 630.8 Z"
@@ -1637,27 +1564,14 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="New Caledonia"
           d="M 1913.5 633.2 1913.2 633.8 1913.1 634.1 1913.4 634.1 1912.9 634.6 1912.7 634.8 1912.6 634.6 1912.9 634.2 1913.1 633.7 1913.5 633.2 Z"
         ></path>
-        <path
-          className="New Caledonia"
-          d="M 1913.5 633.2 1913.3 632.8 1913.7 632.8 1913.8 633.2 1913.5 633.2 Z"
-        ></path>
+        <path className="New Caledonia" d="M 1913.5 633.2 1913.3 632.8 1913.7 632.8 1913.8 633.2 1913.5 633.2 Z"></path>
         <path
           className="New Caledonia"
           d="M 1899.6 630.8 1899.8 630.9 1900.3 631.8 1900.6 632.1 1900.9 632 1901.1 631.7 1902 632.2 1902.3 632.7 1903 633.3 1903.3 633.7 1903.4 634 1903.8 634.4 1903.9 634.6 1904.1 634.6 1904.4 634.9 1905.3 635.1 1905.4 635.4 1905.4 635.8 1905.7 636.2 1906.1 636.3 1905.8 636.8 1905.9 637 1906.3 637.5 1906.4 637.5 1906.8 638 1906.7 638.4 1907.4 638.6 1907.8 639.1 1908.1 639.1 1908.4 639.3 1908.9 639.7 1908.8 640 1909.1 640 1909.5 640.5 1910.1 640.9 1910.1 641.1 1910.4 641.2 1910.7 641.5 1910.7 641.7 1911 642.3 1911.4 642.7 1911.5 642.6 1911.9 643.2 1912.4 643.3 1912.7 643.6 1912.7 644 1912.8 644.4 1912.9 644.5 1912.7 645.1 1912 645.5 1911.9 645.2 1911.6 645.3 1911.3 645.6 1910.7 644.8 1910.3 644.8 1910.2 644.6 1910 644.6 1909.8 644.9 1908.9 644 1908.7 644 1908.3 643.5 1908.4 642.7 1908.1 642.7 1907.7 642.7 1907.4 642.5 1907.3 642.3 1907.1 642.2 1906.8 642.2 1906.8 641.9 1906.6 641.4 1906.2 641.5 1905.4 641 1905.3 640.8 1905.3 640.5 1905 640.7 1904.4 640.4 1904.3 640 1903.9 639.7 1903.7 639.2 1903.2 639.1 1903.4 638.9 1903.1 638.6 1902.8 638.5 1902.5 637.8 1902.5 637.4 1902.3 637.1 1902 637.1 1901.8 636.5 1901.9 636.3 1901.2 635.9 1900.9 635.7 1900.5 635.1 1900.8 634.9 1900.6 634.7 1900.4 634.4 1900.4 633.9 1899.9 633.6 1899.9 633 1899.7 632.7 1900 632.7 1900.1 632.4 1900 632.2 1899.4 632.2 1899.2 631.9 1899.7 631.2 1899.4 630.9 1899.6 630.8 Z"
         ></path>
-        <path
-          className="New Caledonia"
-          d="M 1900.7 631.1 1900.4 631 1900.5 630.6 1900.7 631.1 Z"
-        ></path>
-        <path
-          className="New Caledonia"
-          d="M 1898.4 628.7 1898.2 628.9 1898.1 628.5 1898.3 628.3 1898.4 628.7 Z"
-        ></path>
-        <path
-          d="M1933 505.3l-0.2 0-0.1-0.3 0.3 0 0 0.3z"
-          id="NR"
-          name="Nauru"
-        ></path>
+        <path className="New Caledonia" d="M 1900.7 631.1 1900.4 631 1900.5 630.6 1900.7 631.1 Z"></path>
+        <path className="New Caledonia" d="M 1898.4 628.7 1898.2 628.9 1898.1 628.5 1898.3 628.3 1898.4 628.7 Z"></path>
+        <path d="M1933 505.3l-0.2 0-0.1-0.3 0.3 0 0 0.3z" id="NR" name="Nauru"></path>
         <path
           d="M1747.7 453.1l-0.2 0.4 0.1 0.1-0.2 0.6 0.1 0.2-0.5 0.2-0.2-0.7 0.3-0.2-0.2-0.2 0.3-0.6 0.3-0.1 0.2 0.3z"
           id="PW"
@@ -1779,14 +1693,8 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Solomon Islands"
           d="M 1881.5 549.9 1881.7 550.1 1881.9 550 1882.2 550.2 1882.1 550.4 1881.8 550.3 1881.5 549.9 Z"
         ></path>
-        <path
-          className="Solomon Islands"
-          d="M 1877 549.3 1877.5 549.3 1877.3 549.5 1877 549.4 1877 549.3 Z"
-        ></path>
-        <path
-          className="Solomon Islands"
-          d="M 1881.3 549.3 1881.1 549.8 1881 549.6 1881.3 549.3 Z"
-        ></path>
+        <path className="Solomon Islands" d="M 1877 549.3 1877.5 549.3 1877.3 549.5 1877 549.4 1877 549.3 Z"></path>
+        <path className="Solomon Islands" d="M 1881.3 549.3 1881.1 549.8 1881 549.6 1881.3 549.3 Z"></path>
         <path
           className="Solomon Islands"
           d="M 1878.6 549.7 1878.1 549.8 1877.9 549.6 1878.2 549.2 1878.5 549.3 1878.6 549.7 Z"
@@ -1799,10 +1707,7 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Solomon Islands"
           d="M 1867.6 546.9 1867.9 547.1 1867.8 547.4 1867.1 547.6 1866.8 547.3 1867.1 546.7 1867.3 546.6 1867.6 546.9 Z"
         ></path>
-        <path
-          className="Solomon Islands"
-          d="M 1869.3 546 1869.3 546.5 1869.1 546.3 1869.1 546.1 1869.3 546 Z"
-        ></path>
+        <path className="Solomon Islands" d="M 1869.3 546 1869.3 546.5 1869.1 546.3 1869.1 546.1 1869.3 546 Z"></path>
         <path
           className="Solomon Islands"
           d="M 1872.2 544.5 1872.5 544.6 1872.9 545.1 1873.2 545.3 1873.5 545.4 1873.8 545.7 1874.6 546.1 1875 546.6 1875 547 1875.1 547.6 1875.3 547.8 1875.6 548.1 1875.8 548.1 1875.9 548.5 1876.6 548.8 1877 548.7 1877.1 548.8 1877.1 549.1 1876.8 549.2 1876.6 549.5 1876.1 549.3 1875.3 548.9 1874.8 548.9 1874.5 548.5 1873.8 548.1 1873.2 547.1 1872.6 546.1 1872.1 545.8 1871.4 545.1 1871.4 544.6 1871.4 544.4 1871.7 544.2 1872 544.3 1872.2 544.5 Z"
@@ -1815,19 +1720,12 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="São Tomé and Principe"
           d="M 1028.5 491.5 1028.4 491.8 1028.2 491.9 1027.9 491.8 1027.9 491.5 1028.1 491.4 1028.1 491.1 1028.3 490.9 1028.6 491 1028.5 491.5 Z"
         ></path>
-        <path
-          d="M634.2 386l0 0.1-0.4-0.1 0-0.1 0.4 0.1z"
-          id="SX"
-          name="Sint Maarten"
-        ></path>
+        <path d="M634.2 386l0 0.1-0.4-0.1 0-0.1 0.4 0.1z" id="SX" name="Sint Maarten"></path>
         <path
           className="Seychelles"
           d="M 1249 562.1 1248.7 562.3 1248.2 562.3 1247.8 562.5 1247.4 562.5 1247.4 562.3 1247.9 562.3 1248.3 562.2 1248.7 561.9 1248.9 561.9 1249 562.1 Z"
         ></path>
-        <path
-          className="Seychelles"
-          d="M 1248.5 561.8 1248.3 561.9 1247.9 561.9 1247.9 561.7 1248.5 561.8 Z"
-        ></path>
+        <path className="Seychelles" d="M 1248.5 561.8 1248.3 561.9 1247.9 561.9 1247.9 561.7 1248.5 561.8 Z"></path>
         <path
           className="Seychelles"
           d="M 1300.4 531.5 1300.8 531.9 1300.6 532.2 1300.4 531.9 1300.1 531.7 1300.3 531.2 1300.4 531.5 Z"
@@ -1852,11 +1750,7 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Trinidad and Tobago"
           d="M 645.2 429 645.1 429.5 644.8 429.6 644.4 429.9 644.2 429.9 643.5 430.3 643.3 430.1 643.6 429.8 644.3 429.3 645.2 429 Z"
         ></path>
-        <path
-          d="M1998.9 556.6l0-0.2 0.1 0 0 0.1-0.1 0.1z"
-          id="TV"
-          name="Tuvalu"
-        ></path>
+        <path d="M1998.9 556.6l0-0.2 0.1 0 0 0.1-0.1 0.1z" id="TV" name="Tuvalu"></path>
         <path
           d="M642.2 417.4l-0.1 0.1-0.5-0.3 0-0.4 0.2-0.3 0.2-0.5 0.4 0 0.1 0.4-0.1 0.8-0.2 0.2z"
           id="VC"
@@ -1895,18 +1789,12 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Vanuatu"
           d="M 1927.6 614.5 1928.2 614.4 1928.3 614.5 1928.5 615.1 1928.7 615.4 1928.8 615.5 1928.4 616.1 1927.6 616.3 1927.3 616 1927.2 615.5 1926.9 615.4 1926.5 615.7 1926.4 615.6 1926.6 615.2 1927 614.9 1927.4 614.4 1927.6 614.5 Z"
         ></path>
-        <path
-          className="Vanuatu"
-          d="M 1929.9 610.6 1929.8 610.3 1930.1 610.3 1929.9 610.6 Z"
-        ></path>
+        <path className="Vanuatu" d="M 1929.9 610.6 1929.8 610.3 1930.1 610.3 1929.9 610.6 Z"></path>
         <path
           className="Vanuatu"
           d="M 1928.3 608.2 1928.4 608.7 1928.4 608.9 1928.8 609 1929 609.5 1929.5 609.5 1929.5 609.9 1929.4 610 1929.1 609.7 1928.8 609.6 1928.2 609.8 1927.9 609.7 1927.8 609.5 1927.7 609.1 1927.9 608.6 1928.1 608.3 1928.3 608.2 Z"
         ></path>
-        <path
-          className="Vanuatu"
-          d="M 1929.2 608 1929.1 608 1929 607.7 1929.2 607.7 1929.2 608 Z"
-        ></path>
+        <path className="Vanuatu" d="M 1929.2 608 1929.1 608 1929 607.7 1929.2 607.7 1929.2 608 Z"></path>
         <path
           className="Vanuatu"
           d="M 1929.4 606.6 1929.2 606.8 1928.6 606.8 1928.3 606.9 1928.1 606.7 1927.7 606.6 1927.2 606.2 1927.3 606 1927.8 605.8 1928.2 605.7 1928.6 605.4 1928.7 605.1 1928.9 605.1 1929 605.4 1929 606 1929.5 606.4 1929.4 606.6 Z"
@@ -1947,25 +1835,14 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Vanuatu"
           d="M 1928.4 590.7 1928.1 590.9 1927.9 591 1927.9 591.2 1927.7 591.3 1927.7 591 1927.5 590.8 1927.4 590.5 1927.5 590.1 1927.7 590 1928.1 589.8 1928.2 590 1928.3 590.4 1928.3 590.5 1928.4 590.7 Z"
         ></path>
-        <path
-          className="Vanuatu"
-          d="M 1923.4 586.5 1923.3 586.4 1923.4 585.9 1923.6 586.1 1923.4 586.5 Z"
-        ></path>
+        <path className="Vanuatu" d="M 1923.4 586.5 1923.3 586.4 1923.4 585.9 1923.6 586.1 1923.4 586.5 Z"></path>
         <path
           d="M602 424.6l-0.2 0-0.1-0.5 0.1-0.3-0.1-0.3-0.4-0.1-0.3-0.3 0.1-0.3 1.2 0.6-0.1 0.2 0 0.4-0.2 0.2 0 0.4z"
           id="BQBO"
           name="Netherlands"
         ></path>
-        <path
-          d="M634.3 389.6l-0.2 0.1 0-0.2 0.1-0.1 0.1 0.2z"
-          id="BQSE"
-          name="St. Eustatius (Netherlands)"
-        ></path>
-        <path
-          d="M632.8 388.7l-0.1 0 0.1-0.2 0.1 0.1-0.1 0.1z"
-          id="BQSA"
-          name="Saba (Netherlands)"
-        ></path>
+        <path d="M634.3 389.6l-0.2 0.1 0-0.2 0.1-0.1 0.1 0.2z" id="BQSE" name="St. Eustatius (Netherlands)"></path>
+        <path d="M632.8 388.7l-0.1 0 0.1-0.2 0.1 0.1-0.1 0.1z" id="BQSA" name="Saba (Netherlands)"></path>
         <path
           d="M644 406.9l0 0.2 0.4-0.1-0.2 0.5 0.2 0.2 0 0.2 0.2 0.2 0.2 0.9-0.3 0.3-0.1-0.4-0.1 0.1-0.6-0.1-0.4 0-0.2-0.3 0.6-0.5-0.4 0-0.4-0.4-0.1-0.5-0.2-0.5 0.3-0.4 0.4 0.1 0.5 0.3 0.2 0.2z"
           id="MQ"
@@ -2021,18 +1898,12 @@ const WorldMap: React.FC<WroldMapProps> = (props) => {
           className="Guadeloupe"
           d="M 642.6 396.9 643 397 643.5 397.4 642.2 397.7 641.9 397.8 641.5 397.5 641.6 396.9 641.8 396.8 641.7 396.2 641.8 396 642.1 395.8 642.4 396.2 642.4 396.6 642.6 396.9 Z"
         ></path>
-        <path
-          className="Fiji"
-          d="M 1989.1 624.9 1988.8 625 1988.9 624.6 1989.1 624.9 Z"
-        ></path>
+        <path className="Fiji" d="M 1989.1 624.9 1988.8 625 1988.9 624.6 1989.1 624.9 Z"></path>
         <path
           className="Fiji"
           d="M 1981.6 623.3 1981.8 623.5 1982.1 623.6 1982.1 623.9 1981.6 624.1 1981.1 623.8 1980.6 624.1 1980.3 624.1 1980.1 624.4 1980.2 624.7 1979.8 624.6 1979.7 624.8 1979.3 624.7 1979.2 624.8 1978.8 624.6 1979.1 624.5 1979.3 624.4 1979.5 624.2 1979.9 624.3 1980.2 624 1980.4 623.7 1980.9 623.6 1981.4 623.3 1981.6 623.3 Z"
         ></path>
-        <path
-          className="Fiji"
-          d="M 1982.5 623.2 1982.3 623.3 1982.1 623.2 1982.3 623 1982.5 623.2 Z"
-        ></path>
+        <path className="Fiji" d="M 1982.5 623.2 1982.3 623.3 1982.1 623.2 1982.3 623 1982.5 623.2 Z"></path>
         <path
           className="Fiji"
           d="M 1988.4 617.1 1988.5 617.6 1988.3 618.2 1988.2 618 1988.1 617.6 1987.9 617.6 1988 617.1 1988.2 617 1988.4 617.1 Z"

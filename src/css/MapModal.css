@@ -27,6 +27,7 @@
   align-items: center;
   cursor: default;
   z-index: -99;
+  color: #454545;
 }
 
 .map-modal-outer {
@@ -60,6 +61,7 @@
 .map-modal-container.openAnimation {
   animation: smoothAppear 0.5s ease 0s 1 normal forwards;
 }
+
 .map-modal-container.closeAnimation {
   animation: smoothAppear 0.5s ease 0s 1 reverse forwards;
 }
@@ -154,12 +156,6 @@
 }
 
 .safe-lvl.lvl-4 {
-  background: repeating-linear-gradient(
-    130deg,
-    #000,
-    #000 5px,
-    #760000 0,
-    #760000 10px
-  );
+  background: repeating-linear-gradient(130deg, #000, #000 5px, #760000 0, #760000 10px);
   color: whitesmoke;
 }

@@ -1,3 +1,30 @@
+@keyframes smoothOpacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes smoothAppear {
+  from {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .info-modal-wrap {
   box-sizing: border-box;
   padding: 80px 100px;
@@ -8,7 +35,7 @@
   top: 0;
   left: 0;
   z-index: 999;
-  color: black;
+  color: #454545;
   width: 100vw;
   height: 100vh;
 }
@@ -19,6 +46,9 @@
   height: 100vh;
   backdrop-filter: blur(5px);
   background-color: rgba(0, 0, 0, 0.5);
+}
+.info-modal-wrap.opening .back-board {
+  animation: smoothOpacity 0.5s ease 0s 1 normal forwards;
 }
 
 .info-modal-wrap .exit-btn {
@@ -32,7 +62,36 @@
   background-color: red;
 }
 
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 4px solid #fff;
+  border-right: 4px solid transparent;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%);
+  animation: rotation 1s linear infinite;
+}
+
+.loader::after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border-bottom: 4px solid rgb(97, 171, 255);
+  border-left: 4px solid transparent;
+}
+
 .inner-container {
+  position: relative;
   box-sizing: border-box;
   background-color: white;
   z-index: 1;
@@ -45,9 +104,23 @@
   overflow: overlay;
   scrollbar-gutter: unset;
 }
-
+.info-modal-wrap.opening .inner-container {
+  animation: smoothAppear 0.5s ease 0s 1 normal forwards;
+}
 .inner-container::-webkit-scrollbar {
   display: none;
+}
+
+.inner-container.loading .inner-block {
+  box-sizing: border-box;
+  padding: 100px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  flex-direction: column;
 }
 
 .inner-block {

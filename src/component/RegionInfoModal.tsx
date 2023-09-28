@@ -1,6 +1,6 @@
 // RegionInfoModal.jsx
 
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError } from "axios";
 import { useParams, Link } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import { useQuery } from "react-query";
@@ -69,8 +69,8 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
       onSuccess: (response) => {
         console.log(response);
       },
-      onError: (error) => {
-        console.log(error);
+      onError: (error: AxiosError) => {
+        console.log(error.code);
       },
       staleTime: 60000, // 10분
     }
@@ -111,6 +111,7 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("resize", resizeWindow);
     outerDivRef.current?.addEventListener("wheel", wheelHandler);
+    props.enableEvent?.(false);
 
     setTimeout(() => {
       setAnimationState("");
@@ -134,11 +135,21 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
         }}
         ref={exitBtnRef}
       ></Link>
-      {isLoading ? (
+      {isLoading && (
         <div className="inner-container" ref={outerDivRef}>
           <span className="loader"></span>
+          <span className="loader-text">정보를 로딩하는 중입니다.</span>
         </div>
-      ) : (
+      )}
+      {!isLoading && isError && (
+        <div className="inner-container" ref={outerDivRef}>
+          <div className="inner-block page-1">
+            <span className="error-msg">데이터를 불러오는데 문제가 발생했습니다.</span>
+            <span className="error-code">({error.code})</span>
+          </div>
+        </div>
+      )}
+      {!isLoading && !isError && (
         <div className="inner-container" ref={outerDivRef}>
           <div className="inner-block page-1">
             <div className="title-wrap">

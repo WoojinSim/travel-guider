@@ -18,10 +18,10 @@
 }
 @keyframes rotation {
   0% {
-    transform: rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg);
   }
   100% {
-    transform: rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
@@ -85,9 +85,35 @@
   content: "";
 }
 
-.loader {
+.error-msg {
+  display: block;
   position: absolute;
   top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  text-align: center;
+}
+.error-code {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: block;
+  font-size: 16px;
+  color: rgba(165, 42, 42, 0.5);
+}
+
+.loader-text {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+}
+
+.loader {
+  position: absolute;
+  top: 47%;
   left: 50%;
   width: 48px;
   height: 48px;

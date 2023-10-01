@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDataQuery } from "../module/apiLib";
 
 interface RegionCardProps {
   regionIso: string;
@@ -19,6 +20,9 @@ destinationList.set("UK", { name: "영국", nCode: "GB186216" });
 const RegionCard: React.FC<RegionCardProps> = (props) => {
   const destinationInfo = destinationList.get(props.regionIso);
 
+  const { data, isLoading, isError, error } = useDataQuery(destinationInfo.nCode);
+  const dataJson = data?.data;
+
   return (
     <Link
       className="region-card-wrap"
@@ -27,8 +31,12 @@ const RegionCard: React.FC<RegionCardProps> = (props) => {
         props.enableEvent(false);
       }}
     >
-      <div>
+      <div className={`region-card-img ${props.regionIso}`}>
+        <div className="card-img-blur"></div>
+      </div>
+      <div className="region-card-back">
         <span className="region-name">{destinationInfo.name}</span>
+        <span className="region-lore">{dataJson?.descriptionInfo?.publisher}</span>
       </div>
     </Link>
   );

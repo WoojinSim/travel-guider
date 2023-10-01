@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import { useParams, Link } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import { useQuery } from "react-query";
+import { useDataQuery } from "../module/apiLib";
 
 interface RegionInfoModalProps {
   enableEvent?: (state: boolean) => void;
@@ -59,22 +60,8 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
     }
   };
 
-  const { data, isLoading, isError, error } = useQuery(
-    destinationInfo.nCode,
-    async () => {
-      const { data } = await axios.get(`http://localhost:4000/API/${destinationInfo.nCode}`);
-      return data;
-    },
-    {
-      onSuccess: (response) => {
-        console.log(response);
-      },
-      onError: (error: AxiosError) => {
-        console.log(error.code);
-      },
-      staleTime: 60000, // 10분
-    }
-  );
+  const { data, isLoading, isError, error } = useDataQuery(destinationInfo.nCode);
+  const dataJson = data?.data;
 
   // 이벤트 핸들러
   useEffect(() => {
@@ -145,7 +132,6 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
         <div className="inner-container" ref={outerDivRef}>
           <div className="inner-block page-1">
             <span className="error-msg">데이터를 불러오는데 문제가 발생했습니다.</span>
-            <span className="error-code">({error.code})</span>
           </div>
         </div>
       )}
@@ -154,9 +140,9 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
           <div className="inner-block page-1">
             <div className="title-wrap">
               <span className="title-region-name">
-                {data?.nameKo} <b>|</b> {data?.nameEn}
+                {dataJson.nameKo} <b>|</b> {dataJson.nameEn}
               </span>
-              <span className="title-region-lore">{data?.descriptionInfo.publisher}</span>
+              <span className="title-region-lore">{dataJson.descriptionInfo.publisher}</span>
             </div>
           </div>
           <div className="inner-block page-2">2페이지</div>

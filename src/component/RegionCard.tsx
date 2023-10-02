@@ -36,7 +36,9 @@ const RegionCard: React.FC<RegionCardProps> = (props) => {
       </div>
       <div className="region-card-back">
         <span className="region-name">{destinationInfo.name}</span>
-        <span className="region-lore">{dataJson?.descriptionInfo?.publisher}</span>
+        {isLoading && <span className="region-lore">로딩중...</span>}
+        {!isLoading && isError && <span className="region-lore">데이터를 불러올 수 없습니다.</span>}
+        {!isLoading && !isError && <span className="region-lore">{dataJson?.descriptionInfo?.publisher}</span>}
       </div>
     </Link>
   );

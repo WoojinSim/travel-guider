@@ -24,25 +24,12 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
 
   const outerDivRef = useRef<HTMLDivElement>(null); // 최상단 컴포넌트 ref
   const exitBtnRef = useRef(null); // 최상단 컴포넌트 ref
-  const [compHeight, setCompHeight] = useState<number>(outerDivRef.current?.offsetHeight ?? 0); // 컴포넌트 높이
+  const [compHeight, setCompHeight] = useState<number>(
+    outerDivRef.current?.offsetHeight ?? 0
+  ); // 컴포넌트 높이
   const destinationInfo = destinationList.get(regionISO);
   const [animationState, setAnimationState] = useState<string>("opening");
-
-  const pageUp = () => {
-    const scrollTop: number = Math.round(outerDivRef.current?.scrollTop!); // 현재 스크롤 위쪽 끝부분 위치 좌표
-    const amountOfChildPages: number = outerDivRef.current?.childElementCount!;
-    for (var i: number = 0; i < amountOfChildPages - 1; i++) {
-      if (scrollTop > compHeight * i && scrollTop <= compHeight * (i + 1)) {
-        // 현재 위치한 페이지 파악
-        outerDivRef.current?.scrollTo({
-          top: compHeight * i,
-          left: 0,
-          behavior: "smooth",
-        });
-        break;
-      }
-    }
-  };
+  const [currentPage, setCurrentPage] = useState<number>(0);
 
   const pageDown = () => {
     const scrollTop: number = Math.round(outerDivRef.current?.scrollTop!); // 현재 스크롤 위쪽 끝부분 위치 좌표
@@ -50,6 +37,7 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
     for (let i: number = 0; i < amountOfChildPages - 1; i++) {
       if (scrollTop >= compHeight * i && scrollTop < compHeight * (i + 1)) {
         // 현재 위치한 페이지 파악
+        setCurrentPage(i + 1);
         outerDivRef.current?.scrollTo({
           top: compHeight * (i + 1),
           left: 0,
@@ -60,14 +48,33 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
     }
   };
 
-  const { data, isLoading, isError, error } = useDataQuery(destinationInfo.nCode);
+  const pageUp = () => {
+    const scrollTop: number = Math.round(outerDivRef.current?.scrollTop!); // 현재 스크롤 위쪽 끝부분 위치 좌표
+    const amountOfChildPages: number = outerDivRef.current?.childElementCount!;
+    for (var i: number = 0; i < amountOfChildPages - 1; i++) {
+      if (scrollTop > compHeight * i && scrollTop <= compHeight * (i + 1)) {
+        // 현재 위치한 페이지 파악
+        setCurrentPage(i);
+        outerDivRef.current?.scrollTo({
+          top: compHeight * i,
+          left: 0,
+          behavior: "smooth",
+        });
+        break;
+      }
+    }
+  };
+
+  const { data, isLoading, isError, error } = useDataQuery(
+    destinationInfo.nCode
+  );
   const dataJson = data?.data;
 
   // 이벤트 핸들러
   useEffect(() => {
     // 휠 이벤트
     const wheelHandler = (e: WheelEvent) => {
-      e.preventDefault();
+      // e.preventDefault();
       const { deltaY } = e;
       if (deltaY > 0) {
         // 스크롤 내릴 때 (하단으로)
@@ -131,7 +138,9 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
       {!isLoading && isError && (
         <div className="inner-container" ref={outerDivRef}>
           <div className="inner-block page-1">
-            <span className="error-msg">데이터를 불러오는데 문제가 발생했습니다.</span>
+            <span className="error-msg">
+              데이터를 불러오는데 문제가 발생했습니다.
+            </span>
           </div>
         </div>
       )}
@@ -142,10 +151,25 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
               <span className="title-region-name">
                 {dataJson.nameKo} <b>|</b> {dataJson.nameEn}
               </span>
-              <span className="title-region-lore">{dataJson.descriptionInfo.publisher}</span>
+              <span className="title-region-lore">
+                {dataJson.descriptionInfo.publisher}
+              </span>
             </div>
           </div>
-          <div className="inner-block page-2">2페이지</div>
+          <div className="inner-block page-2">
+            <div className="items">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel
+              molestias mollitia nemo asperiores quis ut, aliquid totam
+              obcaecati.
+            </div>
+            <div className="items">B</div>
+            <div className="items">C</div>
+            <div className="items">D</div>
+            <div className="items">E</div>
+            <div className="items">F</div>
+            <div className="items">G</div>
+            <div className="items">H</div>
+          </div>
           <div className="inner-block page-3">3페이지</div>
         </div>
       )}

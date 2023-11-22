@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { useDataQuery } from "../module/apiLib";
 
 interface RegionCardProps {
   regionIso: string;
@@ -44,11 +43,6 @@ destinationList.set("UK", {
 const RegionCard: React.FC<RegionCardProps> = (props) => {
   const destinationInfo = destinationList.get(props.regionIso);
 
-  const { data, isLoading, isError, error } = useDataQuery(
-    destinationInfo.nCode
-  );
-  const dataJson = data?.data;
-
   return (
     <Link
       className="region-card-wrap"
@@ -62,13 +56,7 @@ const RegionCard: React.FC<RegionCardProps> = (props) => {
       </div>
       <div className="region-card-back">
         <span className="region-name">{destinationInfo.name}</span>
-        {isLoading && <span className="region-lore">로딩중...</span>}
-        {!isLoading && isError && (
-          <span className="region-lore">데이터를 불러올 수 없습니다.</span>
-        )}
-        {!isLoading && !isError && (
-          <span className="region-lore">{destinationInfo.lore}</span>
-        )}
+        <span className="region-lore">{destinationInfo.lore}</span>
       </div>
     </Link>
   );

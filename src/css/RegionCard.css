@@ -79,13 +79,14 @@
 }
 
 .region-lore {
-  font-size: 20px;
+  font-size: 16px;
+  text-align: center;
   overflow: hidden;
   transition: all 0.3s;
   height: 0;
 }
 .region-card-wrap:hover .region-card-back .region-lore {
-  height: 100px;
+  height: 60px;
 }
 
 .region-card-img.JP {

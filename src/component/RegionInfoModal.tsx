@@ -4,7 +4,7 @@ import axios, { AxiosError } from "axios";
 import { useParams, Link } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import { useQuery } from "react-query";
-import { useDataQuery } from "../module/apiLib";
+import { useNaverDataQuery, useExchangeDataQuery } from "../module/infoApi";
 
 interface RegionInfoModalProps {
   enableEvent?: (state: boolean) => void;
@@ -24,9 +24,8 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
 
   const outerDivRef = useRef<HTMLDivElement>(null); // 최상단 컴포넌트 ref
   const exitBtnRef = useRef(null); // 최상단 컴포넌트 ref
-  const [compHeight, setCompHeight] = useState<number>(
-    outerDivRef.current?.offsetHeight ?? 0
-  ); // 컴포넌트 높이
+  const [compHeight, setCompHeight] = useState<number>(outerDivRef.current?.offsetHeight ?? 0); // 컴포넌트 높이
+
   const destinationInfo = destinationList.get(regionISO);
   const [animationState, setAnimationState] = useState<string>("opening");
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -65,9 +64,7 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
     }
   };
 
-  const { data, isLoading, isError, error } = useDataQuery(
-    destinationInfo.nCode
-  );
+  const { data, isLoading, isError, error } = useNaverDataQuery(destinationInfo.nCode);
   const dataJson = data?.data;
 
   // 이벤트 핸들러
@@ -138,9 +135,7 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
       {!isLoading && isError && (
         <div className="inner-container" ref={outerDivRef}>
           <div className="inner-block page-1">
-            <span className="error-msg">
-              데이터를 불러오는데 문제가 발생했습니다.
-            </span>
+            <span className="error-msg">데이터를 불러오는데 문제가 발생했습니다.</span>
           </div>
         </div>
       )}
@@ -151,16 +146,13 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
               <span className="title-region-name">
                 {dataJson.nameKo} <b>|</b> {dataJson.nameEn}
               </span>
-              <span className="title-region-lore">
-                {dataJson.descriptionInfo.publisher}
-              </span>
+              <span className="title-region-lore">{dataJson.descriptionInfo.publisher}</span>
             </div>
           </div>
           <div className="inner-block page-2">
             <div className="items">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel
-              molestias mollitia nemo asperiores quis ut, aliquid totam
-              obcaecati.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel molestias mollitia nemo asperiores quis ut, aliquid
+              totam obcaecati.
             </div>
             <div className="items">B</div>
             <div className="items">C</div>

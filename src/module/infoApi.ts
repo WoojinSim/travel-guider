@@ -11,7 +11,7 @@ function fetchNaverData(apiEndpoint: string): Promise<AxiosResponse<ApiResponse>
 }
 
 function fetchExchangeData(): Promise<AxiosResponse<ApiResponse>> {
-  const apiUrl = `http://localhost:4000/EXCHANGE`;
+  const apiUrl = `http://localhost:4000/EXCHANGE/1`;
   return axios.get(apiUrl);
 }
 
@@ -19,7 +19,7 @@ function useNaverDataQuery(apiEndpoint: string): UseQueryResult<ApiResponse> {
   return useQuery(["naverData", apiEndpoint], () => fetchNaverData(apiEndpoint));
 }
 
-function useExchangeDataQuery(apiEndpoint: string): UseQueryResult<ApiResponse> {
+function useExchangeDataQuery(): UseQueryResult<ApiResponse> {
   return useQuery("exchangeData", fetchExchangeData);
 }
 

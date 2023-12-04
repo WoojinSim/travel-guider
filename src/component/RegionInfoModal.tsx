@@ -1,9 +1,6 @@
 // RegionInfoModal.jsx
-
-import axios, { AxiosError } from "axios";
 import { useParams, Link } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
-import { useQuery } from "react-query";
 import { useNaverDataQuery, useExchangeDataQuery } from "../module/infoApi";
 
 interface RegionInfoModalProps {
@@ -27,7 +24,6 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
   const [compHeight, setCompHeight] = useState<number>(outerDivRef.current?.offsetHeight ?? 0); // 컴포넌트 높이
 
   const destinationInfo = destinationList.get(regionISO);
-  const [animationState, setAnimationState] = useState<string>("opening");
   const [currentPage, setCurrentPage] = useState<number>(0);
 
   const pageDown = () => {
@@ -104,10 +100,6 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
     outerDivRef.current?.addEventListener("wheel", wheelHandler);
     props.enableEvent?.(false);
 
-    setTimeout(() => {
-      setAnimationState("");
-    }, 500);
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("resize", resizeWindow);
@@ -116,8 +108,7 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
   }, [compHeight]);
 
   return (
-    <div className={`info-modal-wrap ${animationState}`}>
-      <div className="back-board"></div>
+    <div className="info-modal-wrap">
       <Link
         className="exit-btn"
         to={"/"}
@@ -126,45 +117,57 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
         }}
         ref={exitBtnRef}
       ></Link>
-      {isLoading && (
-        <div className="inner-container" ref={outerDivRef}>
-          <span className="loader"></span>
-          <span className="loader-text">정보를 로딩하는 중입니다.</span>
-        </div>
-      )}
-      {!isLoading && isError && (
-        <div className="inner-container" ref={outerDivRef}>
-          <div className="inner-block page-1">
-            <span className="error-msg">데이터를 불러오는데 문제가 발생했습니다.</span>
-          </div>
-        </div>
-      )}
-      {!isLoading && !isError && (
-        <div className="inner-container" ref={outerDivRef}>
-          <div className="inner-block page-1">
-            <div className="title-wrap">
-              <span className="title-region-name">
-                {dataJson.nameKo} <b>|</b> {dataJson.nameEn}
-              </span>
-              <span className="title-region-lore">{dataJson.descriptionInfo.publisher}</span>
+
+      <section className="inner-container" ref={outerDivRef}>
+        {isLoading && (
+          <>
+            <span className="loader"></span>
+            <span className="loader-text">정보를 로딩하는 중입니다.</span>
+          </>
+        )}
+        {!isLoading && isError && (
+          <>
+            <div className="inner-block page-1">
+              <span className="error-msg">데이터를 불러오는데 문제가 발생했습니다.</span>
             </div>
-          </div>
-          <div className="inner-block page-2">
-            <div className="items">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel molestias mollitia nemo asperiores quis ut, aliquid
-              totam obcaecati.
+          </>
+        )}
+        {!isLoading && !isError && (
+          <>
+            <div className="inner-block page-1">
+              <div className="title-wrap">
+                <span className="title-region-name">
+                  {dataJson.nameKo} <b>|</b> {dataJson.nameEn}
+                </span>
+                <span className="title-region-lore">{dataJson.descriptionInfo.publisher}</span>
+              </div>
             </div>
-            <div className="items">B</div>
-            <div className="items">C</div>
-            <div className="items">D</div>
-            <div className="items">E</div>
-            <div className="items">F</div>
-            <div className="items">G</div>
-            <div className="items">H</div>
-          </div>
-          <div className="inner-block page-3">3페이지</div>
-        </div>
-      )}
+            <div className="inner-block page-2">2페이지</div>
+            <div className="inner-block page-3">3페이지</div>
+            <div className="inner-block page-3">4페이지</div>
+          </>
+        )}
+      </section>
+
+      <section className="sidebar">
+        {!isLoading && !isError && (
+          <>
+            <div className="side-title">
+              <span className="region-stared-btn stared">★</span>
+              <div className="region-name-wrap">
+                <span className="region-name-KR">{dataJson.nameKo}</span>
+                <span className="region-name-EN">{dataJson.nameEn}</span>
+              </div>
+            </div>
+            <div className="side-items-wrap">
+              <div className="side-item">{dataJson?.entryInfo.entryAvailable}</div>
+              <div className="side-item"></div>
+              <div className="side-item"></div>
+              <div className="side-item"></div>
+            </div>
+          </>
+        )}
+      </section>
     </div>
   );
 };

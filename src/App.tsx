@@ -66,6 +66,7 @@ const App: React.FC = () => {
   };
 
   const enableEvent = (state: boolean) => {
+    console.log(state);
     if (state) {
       window.addEventListener("keydown", handleKeyDown);
       outerDivRef.current?.addEventListener("wheel", wheelHandler);

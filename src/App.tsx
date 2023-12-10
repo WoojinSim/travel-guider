@@ -8,10 +8,10 @@ import "./css/WorldMap.css";
 import "./css/RegionCard.css";
 import "./css/RegionInfoMadal.css";
 
-import TypingSpan from "./component/TypingSpan";
-import WorldMap from "./component/WorldMap";
-import RegionCard from "./component/RegionCard";
-import RegionInfoModal from "./component/RegionInfoModal";
+import TypingSpan from "./components/TypingSpan";
+import WorldMap from "./components/WorldMap";
+import RegionCard from "./components/RegionCard";
+import RegionInfoModal from "./components/RegionInfoModal";
 
 const App: React.FC = () => {
   const outerDivRef = useRef<HTMLDivElement>(null); // 최상단 컴포넌트 ref
@@ -96,6 +96,11 @@ const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<></>}></Route>
+          <Route path="/info/:regionISO" element={<RegionInfoModal enableEvent={enableEvent} />}></Route>
+          <Route path="*" element={<RegionInfoModal />}></Route>
+        </Routes>
         <div className="App">
           <div className="outer-base" ref={outerDivRef}>
             <div className="inner page-1">
@@ -160,11 +165,6 @@ const App: React.FC = () => {
               <span className="map-caption">여행지를 선택해주세요</span>
             </div>
             <div className="inner page-3">
-              <Routes>
-                <Route path="/" element={<></>}></Route>
-                <Route path="/info/:regionISO" element={<RegionInfoModal enableEvent={enableEvent} />}></Route>
-                <Route path="*" element={<RegionInfoModal />}></Route>
-              </Routes>
               <RegionCard regionIso="JP" enableEvent={enableEvent}></RegionCard>
               <RegionCard regionIso="CN" enableEvent={enableEvent}></RegionCard>
               <RegionCard regionIso="VN" enableEvent={enableEvent}></RegionCard>

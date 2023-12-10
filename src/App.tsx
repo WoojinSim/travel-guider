@@ -1,18 +1,25 @@
 import React, { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { useAuth } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 
 import "./css/App.css";
 import "./css/TypingSpan.css";
 import "./css/WorldMap.css";
 import "./css/RegionCard.css";
 import "./css/RegionInfoMadal.css";
+import "./css/MyPage.css";
+import "./css/LoginPage.css";
+import "./css/RegisterPage.css";
 
 import TypingSpan from "./components/TypingSpan";
 import WorldMap from "./components/WorldMap";
 import RegionCard from "./components/RegionCard";
 import RegionInfoModal from "./components/RegionInfoModal";
+import MyPageBtn from "./components/MyPageBtn";
+import MyPage from "./components/MyPage";
+import LoginPage from "./components/LoginPage";
+import RegisterPage from "./components/RegisterPage";
 
 const App: React.FC = () => {
   const outerDivRef = useRef<HTMLDivElement>(null); // 최상단 컴포넌트 ref
@@ -67,7 +74,6 @@ const App: React.FC = () => {
   };
 
   const enableEvent = (state: boolean) => {
-    console.log(state);
     if (state) {
       window.addEventListener("keydown", handleKeyDown);
       outerDivRef.current?.addEventListener("wheel", wheelHandler);
@@ -93,91 +99,98 @@ const App: React.FC = () => {
   }, []);
 
   const queryClient = new QueryClient();
+
   // FIXME: 되도록 컴포넌드 압축할 것. 제발...
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<></>}></Route>
-          <Route path="/info/:regionISO" element={<RegionInfoModal enableEvent={enableEvent} />}></Route>
-          <Route path="*" element={<RegionInfoModal />}></Route>
-        </Routes>
-        <div className="App">
-          <div className="auth-btn"></div>
-          <div className="outer-base" ref={outerDivRef}>
-            <div className="inner page-1">
-              <div className="back-video-wrap">
-                <div className="back-video-filter"></div>
-                <video muted autoPlay loop className="back-video">
-                  <source src={require("./img/travel.mp4")} type="video/mp4" />
-                </video>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<></>}></Route>
+            <Route path="/MyPage" element={<MyPage />}></Route>
+            <Route path="/LoginPage" element={<LoginPage />}></Route>
+            <Route path="/RegisterPage" element={<RegisterPage />}></Route>
+            <Route path="/info/:regionISO" element={<RegionInfoModal enableEvent={enableEvent} />}></Route>
+            <Route path="*" element={<RegionInfoModal />}></Route>
+          </Routes>
+
+          <div className="App">
+            <MyPageBtn></MyPageBtn>
+            <div className="outer-base" ref={outerDivRef}>
+              <div className="inner page-1">
+                <div className="back-video-wrap">
+                  <div className="back-video-filter"></div>
+                  <video muted autoPlay loop className="back-video">
+                    <source src={require("./img/travel.mp4")} type="video/mp4" />
+                  </video>
+                </div>
+                <div className="main-title-wrap">
+                  <div className="school-title">데이터베이스프로그래밍 2팀</div>
+                  <span className="main-title top">당신이 여행하는 모든곳의</span>
+                  <TypingSpan></TypingSpan>
+                  <span className="main-title bottom">
+                    입니다<b>.</b>
+                  </span>
+                  <ul className="author-list">
+                    <li className="author-list-wrap">
+                      <div className="author-card">
+                        <section className="card-title">
+                          <span className="card-name">정민경</span>
+                          <span className="card-id">202101800</span>
+                        </section>
+                        <ul className="card-dolist">
+                          <li>데이터수집(크롤링) 백엔드 개발</li>
+                          <li>DB 및 자료 전처리 알고리즘 개발</li>
+                          <li>DB 통신 엔드포인트 API개발</li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li className="author-list-wrap">
+                      <div className="author-card">
+                        <section className="card-title">
+                          <span className="card-name">정미리</span>
+                          <span className="card-id">202202219</span>
+                        </section>
+                        <ul className="card-dolist">
+                          <li>웹 UX/UI 디자인</li>
+                          <li>웹 레이아웃 및 인터페이스 디자인</li>
+                          <li>데이터 전처리 알고리즘 디자인</li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li className="author-list-wrap">
+                      <div className="author-card">
+                        <section className="card-title">
+                          <span className="card-name">심우진</span>
+                          <span className="card-id">201905161</span>
+                        </section>
+                        <ul className="card-dolist">
+                          <li>React 프론트엔드 개발</li>
+                          <li>데이터수집(크롤링) 백엔드 개발</li>
+                          <li>백엔드 통신 엔드포인트 API개발</li>
+                        </ul>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
-              <div className="main-title-wrap">
-                <div className="school-title">데이터베이스프로그래밍 2팀</div>
-                <span className="main-title top">당신이 여행하는 모든곳의</span>
-                <TypingSpan></TypingSpan>
-                <span className="main-title bottom">
-                  입니다<b>.</b>
-                </span>
-                <ul className="author-list">
-                  <li className="author-list-wrap">
-                    <div className="author-card">
-                      <section className="card-title">
-                        <span className="card-name">정민경</span>
-                        <span className="card-id">202101800</span>
-                      </section>
-                      <ul className="card-dolist">
-                        <li>데이터수집(크롤링) 백엔드 개발</li>
-                        <li>DB 및 자료 전처리 알고리즘 개발</li>
-                        <li>DB 통신 엔드포인트 API개발</li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li className="author-list-wrap">
-                    <div className="author-card">
-                      <section className="card-title">
-                        <span className="card-name">정미리</span>
-                        <span className="card-id">202202219</span>
-                      </section>
-                      <ul className="card-dolist">
-                        <li>웹 UX/UI 디자인</li>
-                        <li>웹 레이아웃 및 인터페이스 디자인</li>
-                        <li>데이터 전처리 알고리즘 디자인</li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li className="author-list-wrap">
-                    <div className="author-card">
-                      <section className="card-title">
-                        <span className="card-name">심우진</span>
-                        <span className="card-id">201905161</span>
-                      </section>
-                      <ul className="card-dolist">
-                        <li>React 프론트엔드 개발</li>
-                        <li>데이터수집(크롤링) 백엔드 개발</li>
-                        <li>백엔드 통신 엔드포인트 API개발</li>
-                      </ul>
-                    </div>
-                  </li>
-                </ul>
+              <div className="inner page-2">
+                <WorldMap scrollRef={outerDivRef} pageHeight={pageHeight} enableEvent={enableEvent}></WorldMap>
+                <span className="map-caption">여행지를 선택해주세요</span>
               </div>
-            </div>
-            <div className="inner page-2">
-              <WorldMap scrollRef={outerDivRef} pageHeight={pageHeight} enableEvent={enableEvent}></WorldMap>
-              <span className="map-caption">여행지를 선택해주세요</span>
-            </div>
-            <div className="inner page-3">
-              <RegionCard regionIso="JP" enableEvent={enableEvent}></RegionCard>
-              <RegionCard regionIso="CN" enableEvent={enableEvent}></RegionCard>
-              <RegionCard regionIso="VN" enableEvent={enableEvent}></RegionCard>
-              <RegionCard regionIso="US" enableEvent={enableEvent}></RegionCard>
-              <RegionCard regionIso="UK" enableEvent={enableEvent}></RegionCard>
-              <RegionCard regionIso="RU" enableEvent={enableEvent}></RegionCard>
+              <div className="inner page-3">
+                <RegionCard regionIso="JP" enableEvent={enableEvent}></RegionCard>
+                <RegionCard regionIso="CN" enableEvent={enableEvent}></RegionCard>
+                <RegionCard regionIso="VN" enableEvent={enableEvent}></RegionCard>
+                <RegionCard regionIso="US" enableEvent={enableEvent}></RegionCard>
+                <RegionCard regionIso="UK" enableEvent={enableEvent}></RegionCard>
+                <RegionCard regionIso="RU" enableEvent={enableEvent}></RegionCard>
+              </div>
             </div>
           </div>
-        </div>
-      </BrowserRouter>
-    </QueryClientProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </AuthProvider>
   );
 };
 

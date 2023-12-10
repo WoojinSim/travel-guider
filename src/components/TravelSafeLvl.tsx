@@ -47,40 +47,17 @@ const TravelSafeLvl: React.FC<TravelSafeLvlProps> = (props) => {
       // API 호출을 통한 데이터 획득
       const fetchSafeLvl = async () => {
         if (props.regionIso === "none") {
-          console.log(
-            "TravelSafeLvl 컴포넌트에 regionIso props를 넘겨주지 않음"
-          );
+          console.log("TravelSafeLvl 컴포넌트에 regionIso props를 넘겨주지 않음");
           return;
         }
-        var url =
-          "http://apis.data.go.kr/1262000/TravelAlarmService2/getTravelAlarmList2";
-        var queryParams =
-          "?" +
-          encodeURIComponent("serviceKey") +
-          "=" +
-          process.env.REACT_APP_TRAVEL_SAFE_LVL_API_KEY;
+        var url = "http://apis.data.go.kr/1262000/TravelAlarmService2/getTravelAlarmList2";
+        var queryParams = "?" + encodeURIComponent("serviceKey") + "=" + process.env.REACT_APP_TRAVEL_SAFE_LVL_API_KEY;
+        queryParams += "&" + encodeURIComponent("returnType") + "=" + encodeURIComponent("JSON");
+        queryParams += "&" + encodeURIComponent("numOfRows") + "=" + encodeURIComponent("10");
+        queryParams += "&" + encodeURIComponent("cond[country_nm::EQ]") + "=" + encodeURIComponent(props.regionName);
         queryParams +=
-          "&" +
-          encodeURIComponent("returnType") +
-          "=" +
-          encodeURIComponent("JSON");
-        queryParams +=
-          "&" +
-          encodeURIComponent("numOfRows") +
-          "=" +
-          encodeURIComponent("10");
-        queryParams +=
-          "&" +
-          encodeURIComponent("cond[country_nm::EQ]") +
-          "=" +
-          encodeURIComponent(props.regionName);
-        queryParams +=
-          "&" +
-          encodeURIComponent("cond[country_iso_alp2::EQ]") +
-          "=" +
-          encodeURIComponent(props.regionIso);
-        queryParams +=
-          "&" + encodeURIComponent("pageNo") + "=" + encodeURIComponent("1");
+          "&" + encodeURIComponent("cond[country_iso_alp2::EQ]") + "=" + encodeURIComponent(props.regionIso);
+        queryParams += "&" + encodeURIComponent("pageNo") + "=" + encodeURIComponent("1");
         console.log(url + queryParams);
         try {
           axios.get(url + queryParams).then((Response) => {
@@ -102,10 +79,7 @@ const TravelSafeLvl: React.FC<TravelSafeLvlProps> = (props) => {
               alarm_remark: rawData[0]?.remark,
               map_url: rawData[0]?.dang_map_download_url,
             };
-            sessionStorage.setItem(
-              props.regionIso,
-              JSON.stringify(tmpSSDataRaw)
-            );
+            sessionStorage.setItem(props.regionIso, JSON.stringify(tmpSSDataRaw));
 
             // 스테이트 업데이트
             setAlarmInfo({

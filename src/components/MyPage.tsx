@@ -5,7 +5,7 @@ import React from "react";
 
 const MyPage: React.FC = (props) => {
   return (
-    <div>
+    <div className="mypage-wrap">
       <></>
     </div>
   );

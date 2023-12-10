@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { useAuth } from "./context/AuthContext";
 
 import "./css/App.css";
 import "./css/TypingSpan.css";
@@ -102,6 +103,7 @@ const App: React.FC = () => {
           <Route path="*" element={<RegionInfoModal />}></Route>
         </Routes>
         <div className="App">
+          <div className="auth-btn"></div>
           <div className="outer-base" ref={outerDivRef}>
             <div className="inner page-1">
               <div className="back-video-wrap">

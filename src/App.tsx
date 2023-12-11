@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./context/AuthContext";
 
+// TODO: CSS 모듈을 사용할 것 *너무 늦음*
 import "./css/App.css";
 import "./css/TypingSpan.css";
 import "./css/WorldMap.css";

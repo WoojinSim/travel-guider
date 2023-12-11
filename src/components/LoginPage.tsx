@@ -14,7 +14,7 @@ const LoginPage: React.FC = (props) => {
   const updateWarnMessage = (msg: string) => {
     setWarnMessage(msg);
     setWarnAnimation("active");
-    setTimeout(() => setWarnAnimation(""), 500);
+    setTimeout(() => setWarnAnimation(""), 600);
   };
 
   const handleIdInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +29,7 @@ const LoginPage: React.FC = (props) => {
     e.preventDefault();
     // 예외처리
     if (!inputID) {
-      updateWarnMessage("아이디를 입력해주세요");
+      updateWarnMessage("ID를 입력해주세요");
       return;
     }
     if (!inputPassword) {
@@ -50,13 +50,7 @@ const LoginPage: React.FC = (props) => {
           <span className={`warn-msg-label ${warnAnimation}`}>{warnMessage}</span>
         </div>
         <form onSubmit={handleSubmit}>
-          <input
-            className="login-input"
-            type="text"
-            placeholder="ID"
-            value={inputID}
-            onChange={handleIdInputChange}
-          ></input>
+          <input className="login-input" type="text" placeholder="ID" value={inputID} onChange={handleIdInputChange}></input>
           <input
             className="login-input"
             type="password"

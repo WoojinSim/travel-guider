@@ -15,16 +15,15 @@ const RegisterPage: React.FC = (props) => {
   const idRegex = /^[a-z]+[a-z0-9]{3,19}$/;
   const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{7,19}$/;
 
+  // 예외처리 에러 메세지 애니메이션 + 업데이트
   const updateWarnMessage = (msg: string) => {
     setWarnMessage(msg);
     setWarnAnimation("active");
-    setTimeout(() => setWarnAnimation(""), 500);
+    setTimeout(() => setWarnAnimation(""), 600);
   };
-
   const handleIdInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputID(e.target.value);
   };
-
   const handlePasswordInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputPassword(e.target.value);
   };
@@ -32,19 +31,19 @@ const RegisterPage: React.FC = (props) => {
     setInputPasswordRepeat(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // 아이디 예외처리
     if (!inputID) {
-      updateWarnMessage("아이디를 입력해주세요");
+      updateWarnMessage("ID를 입력해주세요");
       return;
     }
     if (!idRegex.test(inputID)) {
-      updateWarnMessage("아이디는 영문 4~20글자 사이여야만 합니다");
+      updateWarnMessage("ID는 영문 4~20글자 사이여야만 합니다");
       return;
     }
 
-    // 비밀번호
+    // 비밀번호 예외처리
     if (!inputPassword) {
       updateWarnMessage("비밀번호를 입력해주세요");
       return;
@@ -58,7 +57,7 @@ const RegisterPage: React.FC = (props) => {
       return;
     }
 
-    // 비밀번호 재입력
+    // 비밀번호 재입력 예외처리
     if (!inputPasswordRepeat) {
       updateWarnMessage("비밀번호를 확인해주세요");
       return;
@@ -70,7 +69,9 @@ const RegisterPage: React.FC = (props) => {
 
     // 회원가입 시도
     setWarnMessage("");
-    handleRegister(inputID, inputPassword);
+    const handleResule = await handleRegister(inputID, inputPassword);
+    console.log(handleResule.success);
+    console.log(handleResule.cause);
   };
 
   return (
@@ -81,13 +82,7 @@ const RegisterPage: React.FC = (props) => {
           <span className={`warn-msg-label ${warnAnimation}`}>{warnMessage}</span>
         </div>
         <form onSubmit={handleSubmit}>
-          <input
-            className="register-input"
-            type="text"
-            placeholder="ID"
-            value={inputID}
-            onChange={handleIdInputChange}
-          ></input>
+          <input className="register-input" type="text" placeholder="ID" value={inputID} onChange={handleIdInputChange}></input>
           <input
             className="register-input"
             type="password"

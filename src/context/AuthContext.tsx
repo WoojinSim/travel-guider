@@ -8,13 +8,11 @@ interface registerResult {
   success: boolean;
   cause?: string;
 }
-
 interface loginResult {
   success: boolean;
   userID?: string;
   cause?: string;
 }
-
 interface AuthContextProps {
   id: string | null;
   isLoggedIn: boolean;
@@ -26,6 +24,7 @@ interface AuthContextProps {
 // Context 선언
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
+// Provider 커스텀 훅
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [id, setId] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -39,7 +38,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const handleLogin = async (id: string, password: string): Promise<loginResult> => {
     console.log(`AuthContext_login_응답: '${id}' / '${password}'`);
     try {
-      const response = await axios.post("TEST_HOST", {
+      // TODO: 리퀘스트 보내는 호스트 주소 바꿔두기
+      const response = await axios.post("http://52.78.43.199:8000/data/", {
         id: id,
         password: password,
       });
@@ -76,7 +76,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const handleRegister = async (id: string, password: string): Promise<registerResult> => {
     console.log(`AuthContext_register_응답: '${id}' / '${password}'`); // TODO: 개발 완료시 삭제할 것
     try {
-      const response = await axios.post("TEST_HOST", {
+      // TODO: 리퀘스트 보내는 호스트 주소 바꿔두기
+      const response = await axios.post("http://52.78.43.199:8000/data/", {
         id: id,
         password: password,
       });
@@ -105,6 +106,21 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // TODO: 로그아웃 코드 작성
   };
 
+  /***
+   * 즐겨찾기 리스트 get 핸들러
+   */
+  const handleGetFavList = () => {
+    // TODO: 즐겨찾기 목록 가져오는 코드 작성
+  };
+
+  /***
+   * 즐겨찾기 국가 toggle 핸들러
+   */
+  const handleToggleFav = (iso: string) => {
+    // TODO: 즐겨찾기 국가등록 토글 코드 작성
+  };
+
+  // Context value값 정리
   const contextValue: AuthContextProps = {
     id,
     isLoggedIn,

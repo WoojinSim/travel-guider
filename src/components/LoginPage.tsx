@@ -25,7 +25,7 @@ const LoginPage: React.FC = (props) => {
     setInputPassword(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // 예외처리
     if (!inputID) {
@@ -39,7 +39,11 @@ const LoginPage: React.FC = (props) => {
 
     // 로그인 시도
     setWarnMessage("");
-    handleLogin(inputID, inputPassword);
+    const handleResule = await handleLogin(inputID, inputPassword);
+    if (!handleResule.success) {
+      updateWarnMessage("ID를 입력해주세요");
+      return;
+    }
   };
 
   return (

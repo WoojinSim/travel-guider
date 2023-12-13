@@ -103,19 +103,19 @@ const App: React.FC = () => {
 
   // FIXME: 되도록 컴포넌드 압축할 것. 제발...
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<></>}></Route>
-            <Route path="/MyPage" element={<MyPage />}></Route>
-            <Route path="/LoginPage" element={<LoginPage />}></Route>
-            <Route path="/RegisterPage" element={<RegisterPage />}></Route>
-            <Route path="/info/:regionISO" element={<RegionInfoModal enableEvent={enableEvent} />}></Route>
-            <Route path="*" element={<RegionInfoModal />}></Route>
-          </Routes>
+    <div className="App">
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<></>}></Route>
+              <Route path="/MyPage" element={<MyPage />}></Route>
+              <Route path="/LoginPage" element={<LoginPage />}></Route>
+              <Route path="/RegisterPage" element={<RegisterPage />}></Route>
+              <Route path="/info/:regionISO" element={<RegionInfoModal enableEvent={enableEvent} />}></Route>
+              <Route path="*" element={<RegionInfoModal />}></Route>
+            </Routes>
 
-          <div className="App">
             <MyPageBtn></MyPageBtn>
             <div className="outer-base" ref={outerDivRef}>
               <div className="inner page-1">
@@ -188,10 +188,10 @@ const App: React.FC = () => {
                 <RegionCard regionIso="RU" enableEvent={enableEvent}></RegionCard>
               </div>
             </div>
-          </div>
-        </BrowserRouter>
-      </QueryClientProvider>
-    </AuthProvider>
+          </BrowserRouter>
+        </QueryClientProvider>
+      </AuthProvider>
+    </div>
   );
 };
 

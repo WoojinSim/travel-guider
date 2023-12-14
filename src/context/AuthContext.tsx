@@ -36,15 +36,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
    * @returns success - 성공여부<boolean>, userID - 사용자ID<string>, cause - 실패사유<string>
    */
   const handleLogin = async (id: string, password: string): Promise<loginResult> => {
-    console.log(`AuthContext_login_응답: '${id}' / '${password}'`);
+    console.log(`AuthContext_login_응답: '${id}' / '${password}'`); // TODO: 개발 완료시 삭제할 것
     try {
-      // TODO: 리퀘스트 보내는 호스트 주소 바꿔두기
-      const response = await axios.post("http://52.78.43.199:8000/data/", {
-        id: id,
-        password: password,
-      });
+      const response = await axios.post(
+        "http://52.78.43.199:8000/data/userdata/login",
+        JSON.stringify({
+          id: id,
+          password: password,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         const responseData = response.data; // 사용자 데이터 가져오기
 
         // TODO: 서버에서 전송한 사용자 데이터를 기반으로 데이터 입력 및 반환하게 하기
@@ -76,11 +83,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const handleRegister = async (id: string, password: string): Promise<registerResult> => {
     console.log(`AuthContext_register_응답: '${id}' / '${password}'`); // TODO: 개발 완료시 삭제할 것
     try {
-      // TODO: 리퀘스트 보내는 호스트 주소 바꿔두기
-      const response = await axios.post("http://52.78.43.199:8000/data/", {
-        id: id,
-        password: password,
-      });
+      const response = await axios.post(
+        "http://52.78.43.199:8000/data/userdata/register",
+        JSON.stringify({
+          id: id,
+          password: password,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.status === 201) {
         return { success: true };

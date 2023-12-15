@@ -51,12 +51,31 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       );
 
+      const responseData = response.data;
+
       if (response.status === 200) {
-        const responseData = response.data; // 사용자 데이터 가져오기
         // TODO: 서버에서 전송한 사용자 데이터를 기반으로 데이터 입력 및 반환하게 하기
         setIsLoggedIn(true);
         setId(id);
         return { success: true, userID: id };
+      } else if (response.status === 202) {
+        switch (responseData.reason) {
+          case "WRONG_PASSWORD":
+            return {
+              success: false,
+              cause: "비밀번호가 올바르지 않습니다",
+            };
+          case "INVALID_ID":
+            return {
+              success: false,
+              cause: "등록되지 않은 아이디입니다",
+            };
+          default:
+            return {
+              success: false,
+              cause: "문제가 발생했습니다.",
+            };
+        }
       } else {
         return {
           success: false,
@@ -120,6 +139,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
    * 즐겨찾기 리스트 get 핸들러
    */
   const handleGetFavList = async (id: string) => {
+    console.log(id, isLoggedIn);
     if (isLoggedIn) {
       try {
         const responseFavList = await axios.post(

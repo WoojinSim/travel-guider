@@ -1,6 +1,6 @@
 // AuthContext.tsx
 
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 
 // 인터페이스
@@ -14,11 +14,12 @@ interface loginResult {
   cause?: string;
 }
 interface AuthContextProps {
-  id: string | null;
+  id: string;
   isLoggedIn: boolean;
   handleLogin: (id: string, password: string) => Promise<loginResult>;
   handleRegister: (id: string, password: string) => Promise<registerResult>;
   handleLogout: () => void;
+  handleGetFavList: (id: string) => Promise<void>;
 }
 
 // Context 선언
@@ -26,7 +27,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 // Provider 커스텀 훅
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [id, setId] = useState<string | null>(null);
+  const [id, setId] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   /**
@@ -36,7 +37,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
    * @returns success - 성공여부<boolean>, userID - 사용자ID<string>, cause - 실패사유<string>
    */
   const handleLogin = async (id: string, password: string): Promise<loginResult> => {
-    console.log(`AuthContext_login_응답: '${id}' / '${password}'`); // TODO: 개발 완료시 삭제할 것
     try {
       const response = await axios.post(
         "http://52.78.43.199:8000/data/userdata/login",
@@ -53,11 +53,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       if (response.status === 200) {
         const responseData = response.data; // 사용자 데이터 가져오기
-
         // TODO: 서버에서 전송한 사용자 데이터를 기반으로 데이터 입력 및 반환하게 하기
         setIsLoggedIn(true);
         setId(id);
-
         return { success: true, userID: id };
       } else {
         return {
@@ -66,7 +64,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         };
       }
     } catch (error) {
-      console.error(`서버 에러: ${error}`);
       return {
         success: false,
         cause: `서버 에러 (${error})`,
@@ -81,7 +78,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
    * @returns success - 성공여부<boolean>, cause - 실패사유<string>
    */
   const handleRegister = async (id: string, password: string): Promise<registerResult> => {
-    console.log(`AuthContext_register_응답: '${id}' / '${password}'`); // TODO: 개발 완료시 삭제할 것
     try {
       const response = await axios.post(
         "http://52.78.43.199:8000/data/userdata/register",
@@ -123,8 +119,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   /***
    * 즐겨찾기 리스트 get 핸들러
    */
-  const handleGetFavList = () => {
-    // TODO: 즐겨찾기 목록 가져오는 코드 작성
+  const handleGetFavList = async (id: string) => {
+    if (isLoggedIn) {
+      try {
+        const responseFavList = await axios.post(
+          "http://52.78.43.199:8000/data/favlist/search",
+          JSON.stringify({
+            id: id,
+          }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        return;
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      return;
+    }
   };
 
   /***
@@ -141,6 +156,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     handleLogin,
     handleRegister,
     handleLogout,
+    handleGetFavList,
   };
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;

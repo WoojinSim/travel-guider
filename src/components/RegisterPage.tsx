@@ -1,6 +1,6 @@
 // RegisterPage.jsx
 
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import React, { FormEvent, useState } from "react";
 
@@ -11,6 +11,7 @@ const RegisterPage: React.FC = (props) => {
   const [warnMessage, setWarnMessage] = useState<string>("");
   const [warnAnimation, setWarnAnimation] = useState<string>("");
   const { handleRegister } = useAuth();
+  const movePage = useNavigate();
 
   const idRegex = /^[a-z]+[a-z0-9]{3,19}$/;
   const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{7,19}$/;
@@ -70,7 +71,9 @@ const RegisterPage: React.FC = (props) => {
     // 회원가입 시도
     setWarnMessage("");
     const handleResule = await handleRegister(inputID, inputPassword);
-    console.log(handleResule.success);
+    if (handleResule.success) {
+      movePage("/LoginPage");
+    }
     console.log(handleResule.cause);
   };
 

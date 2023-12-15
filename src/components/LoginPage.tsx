@@ -1,6 +1,6 @@
 // LoginPage.jsx
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import React, { FormEvent, useState } from "react";
 
@@ -9,7 +9,8 @@ const LoginPage: React.FC = (props) => {
   const [inputPassword, setInputPassword] = useState<string>("");
   const [warnMessage, setWarnMessage] = useState<string>("");
   const [warnAnimation, setWarnAnimation] = useState<string>("");
-  const { handleLogin } = useAuth();
+  const { handleLogin, handleGetFavList, isLoggedIn } = useAuth();
+  const movePage = useNavigate();
 
   const updateWarnMessage = (msg: string) => {
     setWarnMessage(msg);
@@ -40,8 +41,10 @@ const LoginPage: React.FC = (props) => {
     // 로그인 시도
     setWarnMessage("");
     const handleResule = await handleLogin(inputID, inputPassword);
-    if (!handleResule.success) {
-      updateWarnMessage("ID를 입력해주세요");
+    if (handleResule.success) {
+      movePage("/");
+    } else {
+      updateWarnMessage(`${handleResule.cause}`);
       return;
     }
   };

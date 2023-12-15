@@ -10,7 +10,9 @@ const MyPageBtn: React.FC = (props) => {
     <>
       {isLoggedIn && (
         <Link className="mypage-btn-wrap" to={"/MyPage"}>
-          MyPage
+          My
+          <br />
+          Page
         </Link>
       )}
       {!isLoggedIn && (

@@ -194,8 +194,10 @@ body {
   border-radius: 25px;
   background-color: rgb(97, 171, 255);
   color: white;
+  text-align: center;
+  text-decoration: none;
   font-family: "NanumSquareNeoBold";
-  font-size: 16px;
+  font-size: 14px;
   overflow: hidden;
   z-index: 1;
   cursor: pointer;

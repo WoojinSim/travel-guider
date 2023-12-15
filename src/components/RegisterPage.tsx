@@ -74,7 +74,7 @@ const RegisterPage: React.FC = (props) => {
     if (handleResule.success) {
       movePage("/LoginPage");
     }
-    console.log(handleResule.cause);
+    updateWarnMessage(`${handleResule.cause}`);
   };
 
   return (

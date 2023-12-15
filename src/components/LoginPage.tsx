@@ -42,6 +42,7 @@ const LoginPage: React.FC = (props) => {
     setWarnMessage("");
     const handleResule = await handleLogin(inputID, inputPassword);
     if (handleResule.success) {
+      // Promis 로 반환하기에 성공여부 꼭 확인 후 진행
       movePage("/");
     } else {
       updateWarnMessage(`${handleResule.cause}`);

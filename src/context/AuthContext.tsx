@@ -111,8 +111,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       );
 
+      const responseData = response.data;
+
       if (response.status === 201) {
         return { success: true };
+      } else if (response.status === 202) {
+        switch (responseData.reason) {
+          case "ID_EXISTS":
+            return {
+              success: false,
+              cause: "이미 등록된 아이디입니다",
+            };
+          default:
+            return {
+              success: false,
+              cause: "문제가 발생했습니다.",
+            };
+        }
       } else {
         return {
           success: false,

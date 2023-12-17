@@ -2,7 +2,7 @@
 
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import React, { FormEvent, useState } from "react";
+import React, { useState } from "react";
 
 const LoginPage: React.FC = (props) => {
   const [inputID, setInputID] = useState<string>("");
@@ -12,20 +12,23 @@ const LoginPage: React.FC = (props) => {
   const { handleLogin, handleGetFavList, isLoggedIn } = useAuth();
   const movePage = useNavigate();
 
+  // 오류&경고 메세지 업데이트 핸들러
   const updateWarnMessage = (msg: string) => {
     setWarnMessage(msg);
     setWarnAnimation("active");
     setTimeout(() => setWarnAnimation(""), 600);
   };
 
+  // ID 입력 폼 업데이트 핸들러
   const handleIdInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputID(e.target.value);
   };
-
+  // 비밀번로 입력 폼 업데이트 핸들러
   const handlePasswordInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputPassword(e.target.value);
   };
 
+  // 로그인 Submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // 예외처리

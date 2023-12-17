@@ -1,6 +1,6 @@
 .inner.page-3 {
   box-sizing: border-box;
-  padding: 0 80px;
+  padding: 0 250px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -106,4 +106,16 @@
 }
 .region-card-img.RU {
   background-image: url("../img/RU.jpg");
+}
+.region-card-img.FR {
+  background-image: url("../img/FR.jpg");
+}
+.region-card-img.SG {
+  background-image: url("../img/SG.jpg");
+}
+.region-card-img.TH {
+  background-image: url("../img/TH.jpg");
+}
+.region-card-img.PH {
+  background-image: url("../img/PH.jpg");
 }

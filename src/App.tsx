@@ -186,6 +186,10 @@ const App: React.FC = () => {
                 <RegionCard regionIso="US" enableEvent={enableEvent}></RegionCard>
                 <RegionCard regionIso="UK" enableEvent={enableEvent}></RegionCard>
                 <RegionCard regionIso="RU" enableEvent={enableEvent}></RegionCard>
+                <RegionCard regionIso="FR" enableEvent={enableEvent}></RegionCard>
+                <RegionCard regionIso="SG" enableEvent={enableEvent}></RegionCard>
+                <RegionCard regionIso="TH" enableEvent={enableEvent}></RegionCard>
+                <RegionCard regionIso="PH" enableEvent={enableEvent}></RegionCard>
               </div>
             </div>
           </BrowserRouter>

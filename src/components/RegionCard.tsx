@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 interface RegionCardProps {
   regionIso: string;
-  enableEvent: (state: boolean) => void;
+  enableEvent?: (state: boolean) => void;
 }
 // TODO: 2자리 국가 ISO 코드 프롭으로 넘어오면 맞는 국가 정보 뿌리는 코드만들것!!!
 const destinationList = new Map();
@@ -39,6 +39,26 @@ destinationList.set("UK", {
   nCode: "GB186216",
   lore: "수천 년의 역사가 그대로 간직된 매력적인 나라",
 });
+destinationList.set("FR", {
+  name: "프랑스",
+  nCode: "FR187070",
+  lore: "유럽을 넘어 전세계의 문화 및 예술이 모이는 나라",
+});
+destinationList.set("SG", {
+  name: "싱가포르",
+  nCode: "SG294262",
+  lore: "다양한 문화와 민족이 어울려 살고 있는 나라",
+});
+destinationList.set("TH", {
+  name: "태국",
+  nCode: "TH293915",
+  lore: "자연 그대로를 즐길 수 있어 여행자들이 많이 찾는 나라",
+});
+destinationList.set("PH", {
+  name: "필리핀",
+  nCode: "PH294245",
+  lore: "7천 개 이상의 섬으로 이루어진 열대 기후의 나라",
+});
 
 const RegionCard: React.FC<RegionCardProps> = (props) => {
   const destinationInfo = destinationList.get(props.regionIso);
@@ -48,7 +68,7 @@ const RegionCard: React.FC<RegionCardProps> = (props) => {
       className="region-card-wrap"
       to={`/info/${props.regionIso}`}
       onClick={() => {
-        props.enableEvent(false);
+        props.enableEvent?.(false);
       }}
     >
       <div className={`region-card-img ${props.regionIso}`}>

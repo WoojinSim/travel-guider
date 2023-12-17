@@ -1,9 +1,64 @@
 .mypage-wrap {
   position: fixed;
+  box-sizing: border-box;
+  padding: 50px 200px;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   background-color: white;
+  font-family: "NanumSquareNeo";
   z-index: 99;
+}
+
+.header-wrap {
+  position: relative;
+  width: 100%;
+  margin-bottom: 30px;
+  border-bottom: 2px solid black;
+}
+
+.id-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 30px auto;
+  width: 80%;
+  height: 80px;
+  font-family: "NanumSquareNeo";
+  font-size: 40px;
+  text-align: center;
+  border-top: 2px solid rgba(0, 0, 0, 0.4);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+}
+.id-title b {
+  font-weight: none;
+  color: rgb(97, 171, 255);
+}
+
+.header-btn-wrap {
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0;
+}
+
+.header-btn {
+  margin: 0 8px;
+  cursor: pointer;
+}
+
+.stared-card-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.empty-stared-card {
+  display: block;
+  margin-top: 50px;
+  width: 100%;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.2);
+  font-size: 40px;
 }

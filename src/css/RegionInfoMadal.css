@@ -162,6 +162,33 @@
   flex-direction: column;
 }
 
+.region-back-video-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+.region-back-video-filter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.region-back-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.title-wrap {
+  z-index: 10;
+  color: #e1e1e1;
+}
+
 .title-region-name {
   display: block;
   margin-bottom: 14px;
@@ -240,4 +267,47 @@
   border-top: 2px solid #3363ff;
   width: 100%;
   height: 25%;
+}
+
+.inner-block.page-2 {
+  padding: 0;
+  display: block;
+  background-color: #f5f5f5;
+}
+.inner-block.page-3 {
+  padding: 0;
+  display: block;
+  background-color: #f5f5f5;
+}
+
+.travel-news-item {
+  display: inline-flex;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  width: 50%;
+  height: 50%;
+  padding: 10px;
+  flex-direction: column-reverse;
+  align-content: flex-start;
+}
+
+.news-title {
+  font-size: 30px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 50px;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  color: #454545;
+  cursor: pointer;
+  background-color: white;
+  transition: all 0.3s;
+}
+
+.news-title:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
 }

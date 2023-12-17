@@ -2,6 +2,7 @@
 
 import { ReactNode, createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { promises } from "dns";
 
 // 인터페이스
 interface registerResult {
@@ -13,13 +14,22 @@ interface loginResult {
   userID?: string;
   cause?: string;
 }
+interface travelNews {
+  isocode: string;
+  title: string;
+  link: string;
+}
 interface AuthContextProps {
   id: string;
   isLoggedIn: boolean;
+  userFavList: string[];
   handleLogin: (id: string, password: string) => Promise<loginResult>;
   handleRegister: (id: string, password: string) => Promise<registerResult>;
   handleLogout: () => void;
-  handleGetFavList: (id: string) => Promise<void>;
+  handleGetFavList: (id: string) => Promise<string[]>;
+  handleToggleFav: (iso: string) => void;
+  handleGetTravelNews: (iso: string) => Promise<travelNews[]>;
+  handleGetGeneralNews: (iso: string) => Promise<travelNews[]>;
 }
 
 // Context 선언
@@ -29,6 +39,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [id, setId] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [userFavList, setUserFavList] = useState<string[]>([]);
 
   /**
    * 로그인 서버 통신 핸들러
@@ -54,7 +65,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const responseData = response.data;
 
       if (response.status === 200) {
-        // TODO: 서버에서 전송한 사용자 데이터를 기반으로 데이터 입력 및 반환하게 하기
         setIsLoggedIn(true);
         setId(id);
         return { success: true, userID: id };
@@ -147,14 +157,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
    * 로그아웃 핸들러
    */
   const handleLogout = () => {
-    // TODO: 로그아웃 코드 작성
+    setIsLoggedIn(false);
+    setId("");
   };
 
-  /***
-   * 즐겨찾기 리스트 get 핸들러
+  /**
+   * 즐겨찾기 목록 get 핸들러
+   * @param id 사용자 ID
+   * @returns 즐겨찾기된 국가 ISO 코드 배열
    */
-  const handleGetFavList = async (id: string) => {
-    console.log(id, isLoggedIn);
+  const handleGetFavList = async (id: string): Promise<string[]> => {
+    let resultArray: string[] = [];
     if (isLoggedIn) {
       try {
         const responseFavList = await axios.post(
@@ -168,6 +181,60 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             },
           }
         );
+        const responseData = responseFavList.data;
+
+        for (let index in responseData) {
+          resultArray.push(responseData[index].fields.isocode);
+        }
+        setUserFavList(resultArray);
+        return resultArray;
+      } catch (error) {
+        console.log(error);
+        return resultArray;
+      }
+    } else {
+      return resultArray;
+    }
+  };
+
+  /**
+   * 즐겨찾기 Toggle 핸들러
+   * @param iso 국가 코드
+   * @returns void
+   */
+  const handleToggleFav = async (iso: string) => {
+    if (isLoggedIn) {
+      try {
+        if (userFavList.includes(iso)) {
+          // 즐겨찾기 삭제
+          const responseFavList = await axios.post(
+            "http://52.78.43.199:8000/data/favlist/delete",
+            JSON.stringify({
+              id: id,
+              isocode: iso,
+            }),
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        } else {
+          // 즐겨찾기 추가
+          const responseFavList = await axios.post(
+            "http://52.78.43.199:8000/data/favlist/insert",
+            JSON.stringify({
+              id: id,
+              isocode: iso,
+            }),
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        }
+        handleGetFavList(id);
         return;
       } catch (error) {
         console.log(error);
@@ -177,21 +244,54 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  /***
-   * 즐겨찾기 국가 toggle 핸들러
-   */
-  const handleToggleFav = (iso: string) => {
-    // TODO: 즐겨찾기 국가등록 토글 코드 작성
+  const handleGetTravelNews = async (iso: string): Promise<travelNews[]> => {
+    let resultObj = [];
+    try {
+      const responseList = await axios.get("http://52.78.43.199:8000/data/translatedgeneralnews/");
+      const travelNewsData = responseList.data;
+      for (let index in travelNewsData) {
+        if (travelNewsData[index].isocode === iso) {
+          resultObj.push(travelNewsData[index]);
+        }
+      }
+
+      return resultObj;
+    } catch (error) {
+      console.log(error);
+      return resultObj;
+    }
+  };
+
+  const handleGetGeneralNews = async (iso: string): Promise<travelNews[]> => {
+    let resultObj = [];
+    try {
+      const responseList = await axios.get("http://52.78.43.199:8000/data/translatedgeneralnews/");
+      const generalNewsData = responseList.data;
+      for (let index in generalNewsData) {
+        if (generalNewsData[index].isocode === iso) {
+          resultObj.push(generalNewsData[index]);
+        }
+      }
+
+      return resultObj;
+    } catch (error) {
+      console.log(error);
+      return resultObj;
+    }
   };
 
   // Context value값 정리
   const contextValue: AuthContextProps = {
     id,
     isLoggedIn,
+    userFavList,
     handleLogin,
     handleRegister,
     handleLogout,
     handleGetFavList,
+    handleToggleFav,
+    handleGetTravelNews,
+    handleGetGeneralNews,
   };
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;

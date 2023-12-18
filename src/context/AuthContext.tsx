@@ -185,7 +185,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       const responseData = response.data;
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         return { success: true };
       } else if (response.status === 202) {
         switch (responseData.reason) {

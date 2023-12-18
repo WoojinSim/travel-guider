@@ -6,12 +6,12 @@ interface ApiResponse {
 }
 
 function fetchNaverData(apiEndpoint: string): Promise<AxiosResponse<ApiResponse>> {
-  const apiUrl = `http://localhost:4000/API/${apiEndpoint}`;
+  const apiUrl = `http://52.78.43.199:4000/API/${apiEndpoint}`;
   return axios.get(apiUrl);
 }
 
 async function fetchExchangeData(apiEndpoint: number): Promise<AxiosResponse<ApiResponse>> {
-  const fetchResponse = await axios.get(`http://localhost:4000/EXCHANGE/1`);
+  const fetchResponse = await axios.get(`http://52.78.43.199:4000/EXCHANGE/1`);
   return fetchResponse.data[apiEndpoint];
 }
 

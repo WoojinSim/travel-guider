@@ -9,6 +9,10 @@ interface registerResult {
   success: boolean;
   cause?: string;
 }
+interface editResult {
+  success: boolean;
+  cause?: string;
+}
 interface loginResult {
   success: boolean;
   userID?: string;
@@ -26,6 +30,7 @@ interface AuthContextProps {
   userFavList: string[];
   handleLogin: (id: string, password: string) => Promise<loginResult>;
   handleRegister: (id: string, password: string) => Promise<registerResult>;
+  handleEdit: (id: string, old_password: string, new_password: string) => Promise<editResult>;
   handleLogout: () => void;
   handleGetFavList: (id: string) => Promise<string[]>;
   handleToggleFav: (iso: string) => void;
@@ -144,6 +149,66 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return {
           success: false,
           cause: `회원가입이 정상적으로 처리되지 않았습니다 (${response.status})`,
+        };
+      }
+    } catch (error) {
+      console.error(`서버 에러: ${error}`);
+      return {
+        success: false,
+        cause: `서버 에러 (${error})`,
+      };
+    }
+  };
+
+  /**
+   * 정보수정 서버 통신 핸들러
+   * @param id 사용자 입력 ID
+   * @param old_password 기존 비밀번호
+   * @param new_password 새로운 비밀번호
+   * @returns success - 성공여부<boolean>, cause - 실패사유<string>
+   */
+  const handleEdit = async (id: string, old_password: string, new_password: string): Promise<editResult> => {
+    try {
+      const response = await axios.post(
+        "http://52.78.43.199:8000/data/userdata/update",
+        JSON.stringify({
+          id: id,
+          old_password: old_password,
+          new_password: new_password,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const responseData = response.data;
+
+      if (response.status === 201) {
+        return { success: true };
+      } else if (response.status === 202) {
+        switch (responseData.reason) {
+          case "INVALID_ID":
+            return {
+              success: false,
+              cause: "등록되지 않은 아이디입니다",
+            };
+          case "WRONG_PASSWORD":
+            return {
+              success: false,
+              cause: "비밀번호가 올바르지 않습니다",
+            };
+          default:
+            return {
+              success: false,
+              cause: "문제가 발생했습니다.",
+            };
+        }
+      } else {
+        return {
+          success: false,
+          cause: `정보수정이 정상적으로 처리되지 않았습니다 (${response.status})`,
         };
       }
     } catch (error) {
@@ -309,6 +374,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     userFavList,
     handleLogin,
     handleRegister,
+    handleEdit,
     handleLogout,
     handleGetFavList,
     handleToggleFav,

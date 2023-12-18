@@ -12,6 +12,7 @@ import "./css/RegionInfoMadal.css";
 import "./css/MyPage.css";
 import "./css/LoginPage.css";
 import "./css/RegisterPage.css";
+import "./css/EditPage.css";
 
 import TypingSpan from "./components/TypingSpan";
 import WorldMap from "./components/WorldMap";
@@ -21,6 +22,7 @@ import MyPageBtn from "./components/MyPageBtn";
 import MyPage from "./components/MyPage";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
+import EditPage from "./components/EditPage";
 
 const App: React.FC = () => {
   const outerDivRef = useRef<HTMLDivElement>(null); // 최상단 컴포넌트 ref
@@ -112,6 +114,7 @@ const App: React.FC = () => {
               <Route path="/MyPage" element={<MyPage />}></Route>
               <Route path="/LoginPage" element={<LoginPage />}></Route>
               <Route path="/RegisterPage" element={<RegisterPage />}></Route>
+              <Route path="/EditPage" element={<EditPage />}></Route>
               <Route path="/info/:regionISO" element={<RegionInfoModal enableEvent={enableEvent} />}></Route>
               <Route path="*" element={<RegionInfoModal />}></Route>
             </Routes>

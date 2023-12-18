@@ -198,6 +198,7 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
     const travelNewsElements = travelNewsList.map((news, index) => (
       <section className="travel-news-item" key={`travelNewsList-${index}`}>
         <a className="news-title" href={news.link} target="_blank" rel="noreferrer">
+          <img className="news-back-icon" src={"./icons/suitcase.png"} alt={`t_new_icon_${index}`} />
           <span className="news-title-label">{news.title}</span>
           <span className="news-title-content">{news.content}</span>
         </a>
@@ -210,6 +211,7 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
     const generalNewsElements = generalNewsList.map((news, index) => (
       <section className="travel-news-item" key={`generalNewsList-${index}`}>
         <a className="news-title" href={news.link} target="_blank" rel="noreferrer">
+          <img className="news-back-icon" src={"./icons/news.png"} alt={`t_new_icon_${index}`} />
           <span className="news-title-label">{news.title}</span>
           <span className="news-title-content">{news.content}</span>
         </a>
@@ -263,23 +265,38 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
             <div className="inner-block page-3">{generalNewsElements}</div>
             <div className="inner-block page-4">
               <div className="info-item">
-                <span className="info-title">시차</span>
+                <span className="info-title">
+                  <img className="info-icon" src={"./icons/clock.png"} alt="icon-1" />
+                  시차
+                </span>
                 {dataJson?.timezoneDesc}
               </div>
               <div className="info-item">
-                <span className="info-title">사용 언어</span>
+                <span className="info-title">
+                  <img className="info-icon" src={"./icons/globe.png"} alt="icon-2" />
+                  사용 언어
+                </span>
                 {dataJson?.language.langList.join(", ")}
               </div>
-              <div className="info-item">
-                <span className="info-title">전압</span>
+              <div className="info-item small">
+                <span className="info-title">
+                  <img className="info-icon" src={"./icons/electro.png"} alt="icon-3" />
+                  전압
+                </span>
                 {dataJson?.plugInfo.description}
               </div>
               <div className="info-item">
-                <span className="info-title">비자</span>
+                <span className="info-title">
+                  <img className="info-icon" src={"./icons/passport.png"} alt="icon-4" />
+                  비자
+                </span>
                 {dataJson?.visaInfo.description}
               </div>
               <div className="info-item flight">
-                <span className="info-title">항공</span>
+                <span className="info-title">
+                  <img className="info-icon" src={"./icons/airplane.png"} alt="icon-5" />
+                  항공
+                </span>
                 <span className="flight-title">경로</span>
                 <span className="flight-label">
                   인천(ICN) → {dataJson?.flights[0].airportInfo.cityName}({dataJson?.flights[0].airportInfo.iataCode})
@@ -297,7 +314,10 @@ const RegionInfoModal: React.FC<RegionInfoModalProps> = (props) => {
                 </span>
               </div>
               <div className="info-item">
-                <span className="info-title">물가 | 팁문화</span>
+                <span className="info-title">
+                  <img className="info-icon" src={"./icons/coin.png"} alt="icon-6" />
+                  물가 | 팁문화
+                </span>
                 <span className="flight-title">물가</span>
                 <span className="flight-label">
                   <p>{dataJson?.priceInfo.shortDescription}</p>,{dataJson?.priceInfo.fullDescription}

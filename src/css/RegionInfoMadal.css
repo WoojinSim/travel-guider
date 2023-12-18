@@ -332,8 +332,19 @@
   align-content: flex-start;
 }
 
+.news-back-icon {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+  opacity: 0.08;
+  transform: translate(-50%, -50%) rotate(10deg);
+}
+
 .news-title {
   font-size: 30px;
+  position: relative;
   box-sizing: border-box;
   display: inline-flex;
   width: 100%;
@@ -369,7 +380,7 @@
 .news-title-content {
   display: block;
   width: 100%;
-  font-size: 16px;
+  font-size: 20px;
   font-family: "NanumSquareNeoLight";
 }
 
@@ -407,7 +418,8 @@
   background-color: white;
   border-radius: 14px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  font-size: 28px;
+  font-size: 26px;
+  font-family: "NanumSquareNeoLight";
   transition: all 0.3s;
   cursor: pointer;
   padding: 40px;
@@ -420,13 +432,20 @@
 .info-item.flight {
   padding: 30px;
 }
+.info-item.small {
+  font-size: 20px;
+}
 
 .info-title {
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
   transform: translateX(-50%);
   top: 50px;
   left: 50%;
-  font-size: 46px;
+  font-size: 30px;
   font-family: "NanumSquareNeoHeavy";
 }
 
@@ -444,14 +463,22 @@
   display: block;
   box-sizing: border-box;
   width: 100%;
-  font-size: 22px;
+  font-size: 18px;
   font-family: "NanumSquareNeoLight";
   padding: 8px 10px;
 }
 
 .flight-label p {
-  font-size: 26px;
+  font-size: 22px;
   font-family: "NanumSquareNeoBold";
   display: inline-block;
   margin: 0;
+}
+
+.info-icon {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  filter: invert(24%) sepia(0%) saturate(93%) hue-rotate(186deg) brightness(87%) contrast(78%);
+  margin-right: 5px;
 }

@@ -495,8 +495,7 @@ const MyPage: React.FC = (props) => {
           <span
             className="header-btn useredit-btn"
             onClick={() => {
-              handleLogout();
-              movePage("/");
+              movePage("/EditPage");
             }}
           >
             회원정보수정

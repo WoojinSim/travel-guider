@@ -13,7 +13,6 @@ const RegisterPage: React.FC = (props) => {
   const { isLoggedIn, id, handleEdit } = useAuth();
   const movePage = useNavigate();
 
-  const idRegex = /^[a-z]+[a-z0-9]{3,19}$/;
   const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{7,19}$/;
 
   // 예외처리 에러 메세지 애니메이션 + 업데이트

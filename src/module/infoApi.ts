@@ -10,17 +10,17 @@ function fetchNaverData(apiEndpoint: string): Promise<AxiosResponse<ApiResponse>
   return axios.get(apiUrl);
 }
 
-function fetchExchangeData(): Promise<AxiosResponse<ApiResponse>> {
-  const apiUrl = `http://localhost:4000/EXCHANGE/1`;
-  return axios.get(apiUrl);
+async function fetchExchangeData(apiEndpoint: number): Promise<AxiosResponse<ApiResponse>> {
+  const fetchResponse = await axios.get(`http://localhost:4000/EXCHANGE/1`);
+  return fetchResponse.data[apiEndpoint];
 }
 
 function useNaverDataQuery(apiEndpoint: string): UseQueryResult<ApiResponse> {
   return useQuery(["naverData", apiEndpoint], () => fetchNaverData(apiEndpoint));
 }
 
-function useExchangeDataQuery(): UseQueryResult<ApiResponse> {
-  return useQuery("exchangeData", fetchExchangeData);
+function useExchangeDataQuery(apiEndpoint: number): UseQueryResult<ApiResponse> {
+  return useQuery(["exchangeData", apiEndpoint], () => fetchExchangeData(apiEndpoint));
 }
 
 export { useNaverDataQuery, useExchangeDataQuery };

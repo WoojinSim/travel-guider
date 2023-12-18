@@ -14,9 +14,10 @@ interface loginResult {
   userID?: string;
   cause?: string;
 }
-interface travelNews {
-  isocode: string;
+interface newsData {
   title: string;
+  content: string;
+  date: string;
   link: string;
 }
 interface AuthContextProps {
@@ -28,8 +29,9 @@ interface AuthContextProps {
   handleLogout: () => void;
   handleGetFavList: (id: string) => Promise<string[]>;
   handleToggleFav: (iso: string) => void;
-  handleGetTravelNews: (iso: string) => Promise<travelNews[]>;
-  handleGetGeneralNews: (iso: string) => Promise<travelNews[]>;
+  handleGetTravelNews: (iso: string) => Promise<newsData[]>;
+  handleGetGeneralNews: (iso: string) => Promise<newsData[]>;
+  handleGetCrimeRata: (iso: string) => Promise<string>;
 }
 
 // Context 선언
@@ -244,39 +246,59 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const handleGetTravelNews = async (iso: string): Promise<travelNews[]> => {
-    let resultObj = [];
+  const handleGetTravelNews = async (iso: string): Promise<newsData[]> => {
     try {
-      const responseList = await axios.get("http://52.78.43.199:8000/data/translatedgeneralnews/");
-      const travelNewsData = responseList.data;
-      for (let index in travelNewsData) {
-        if (travelNewsData[index].isocode === iso) {
-          resultObj.push(travelNewsData[index]);
+      const responseList = await axios.post(
+        "http://52.78.43.199:8000/data/travelnews/search",
+        JSON.stringify({
+          isocode: iso,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      }
-
-      return resultObj;
+      );
+      return responseList.data?.results;
     } catch (error) {
       console.log(error);
-      return resultObj;
+      return [];
     }
   };
 
-  const handleGetGeneralNews = async (iso: string): Promise<travelNews[]> => {
-    let resultObj = [];
+  const handleGetGeneralNews = async (iso: string): Promise<newsData[]> => {
     try {
-      const responseList = await axios.get("http://52.78.43.199:8000/data/translatedgeneralnews/");
-      const generalNewsData = responseList.data;
-      for (let index in generalNewsData) {
-        if (generalNewsData[index].isocode === iso) {
-          resultObj.push(generalNewsData[index]);
+      const responseList = await axios.post(
+        "http://52.78.43.199:8000/data/generalnews/search",
+        JSON.stringify({
+          isocode: iso,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      }
-
-      return resultObj;
+      );
+      return responseList.data?.results;
     } catch (error) {
       console.log(error);
-      return resultObj;
+      return [];
+    }
+  };
+
+  const handleGetCrimeRata = async (iso: string): Promise<string> => {
+    try {
+      const regionListRaw = await axios.get("http://52.78.43.199:8000/data/nationdata/");
+      const regionList = regionListRaw.data;
+      for (let index in regionList) {
+        if (regionList[index].isocode === iso) {
+          return `${regionList[index].crimerate2023}%`;
+        }
+      }
+      return "오류";
+    } catch (error) {
+      console.log(error);
+      return "오류";
     }
   };
 
@@ -292,6 +314,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     handleToggleFav,
     handleGetTravelNews,
     handleGetGeneralNews,
+    handleGetCrimeRata,
   };
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;

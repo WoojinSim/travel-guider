@@ -10,7 +10,7 @@ const RegisterPage: React.FC = (props) => {
   const [inputPasswordRepeat, setInputPasswordRepeat] = useState<string>("");
   const [warnMessage, setWarnMessage] = useState<string>("");
   const [warnAnimation, setWarnAnimation] = useState<string>("");
-  const { isLoggedIn, id, handleEdit, handleResign } = useAuth();
+  const { isLoggedIn, id, handleEdit, handleResign, handleLogout } = useAuth();
   const movePage = useNavigate();
 
   const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{7,19}$/;
@@ -50,6 +50,7 @@ const RegisterPage: React.FC = (props) => {
     const handleResule = await handleResign(id, inputPastPassword);
     if (handleResule.success) {
       alert("성공적으로 회원 탈퇴 되었습니다.");
+      handleLogout();
       movePage("/");
     }
     updateWarnMessage(`${handleResule.cause}`);

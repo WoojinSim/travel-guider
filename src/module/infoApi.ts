@@ -12,6 +12,7 @@ function fetchNaverData(apiEndpoint: string): Promise<AxiosResponse<ApiResponse>
 
 async function fetchExchangeData(apiEndpoint: number): Promise<AxiosResponse<ApiResponse>> {
   const fetchResponse = await axios.get(`http://52.78.43.199:4000/EXCHANGE/1`);
+  console.log(fetchResponse);
   return fetchResponse.data[apiEndpoint];
 }
 

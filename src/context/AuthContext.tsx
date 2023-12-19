@@ -31,6 +31,7 @@ interface AuthContextProps {
   handleLogin: (id: string, password: string) => Promise<loginResult>;
   handleRegister: (id: string, password: string) => Promise<registerResult>;
   handleEdit: (id: string, old_password: string, new_password: string) => Promise<editResult>;
+  handleResign: (id: string, password: string) => Promise<editResult>;
   handleLogout: () => void;
   handleGetFavList: (id: string) => Promise<string[]>;
   handleToggleFav: (iso: string) => void;
@@ -220,6 +221,64 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  /**
+   * 회원탈퇴 서버 통신 핸들러
+   * @param id 사용자 입력 ID
+   * @param password 기존 비밀번호
+   * @returns success - 성공여부<boolean>, cause - 실패사유<string>
+   */
+  const handleResign = async (id: string, password: string): Promise<editResult> => {
+    try {
+      const response = await axios.post(
+        "http://52.78.43.199:8000/data/userdata/delete",
+        JSON.stringify({
+          id: id,
+          password: password,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const responseData = response.data;
+
+      if (response.status === 200) {
+        return { success: true };
+      } else if (response.status === 202) {
+        switch (responseData.reason) {
+          case "INVALID_ID":
+            return {
+              success: false,
+              cause: "등록되지 않은 아이디입니다",
+            };
+          case "WRONG_PASSWORD":
+            return {
+              success: false,
+              cause: "비밀번호가 올바르지 않습니다",
+            };
+          default:
+            return {
+              success: false,
+              cause: "문제가 발생했습니다.",
+            };
+        }
+      } else {
+        return {
+          success: false,
+          cause: `회원탈퇴가 처리되지 않았습니다 (${response.status})`,
+        };
+      }
+    } catch (error) {
+      console.error(`서버 에러: ${error}`);
+      return {
+        success: false,
+        cause: `서버 에러 (${error})`,
+      };
+    }
+  };
+
   /***
    * 로그아웃 핸들러
    */
@@ -375,6 +434,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     handleLogin,
     handleRegister,
     handleEdit,
+    handleResign,
     handleLogout,
     handleGetFavList,
     handleToggleFav,

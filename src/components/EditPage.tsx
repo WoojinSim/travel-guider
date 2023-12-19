@@ -10,7 +10,7 @@ const RegisterPage: React.FC = (props) => {
   const [inputPasswordRepeat, setInputPasswordRepeat] = useState<string>("");
   const [warnMessage, setWarnMessage] = useState<string>("");
   const [warnAnimation, setWarnAnimation] = useState<string>("");
-  const { isLoggedIn, id, handleEdit } = useAuth();
+  const { isLoggedIn, id, handleEdit, handleResign } = useAuth();
   const movePage = useNavigate();
 
   const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{7,19}$/;
@@ -29,6 +29,30 @@ const RegisterPage: React.FC = (props) => {
   };
   const handlePasswordRepeatInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputPasswordRepeat(e.target.value);
+  };
+
+  const handleResignBtn = async () => {
+    if (!isLoggedIn) {
+      updateWarnMessage("로그인 후 사용해주세요");
+      return;
+    }
+    if (!inputPastPassword) {
+      updateWarnMessage("현재 비밀번호를 입력해주세요");
+      return;
+    }
+    let resignConfirm = window.confirm("정말 탈퇴 하시겠습니까?");
+    if (!resignConfirm) {
+      return;
+    }
+
+    // 회원탈퇴 시도
+    setWarnMessage("");
+    const handleResule = await handleResign(id, inputPastPassword);
+    if (handleResule.success) {
+      alert("성공적으로 회원 탈퇴 되었습니다.");
+      movePage("/");
+    }
+    updateWarnMessage(`${handleResule.cause}`);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -108,6 +132,9 @@ const RegisterPage: React.FC = (props) => {
           ></input>
           <input className="register-submit-btn" type="submit" value="확인"></input>
         </form>
+        <span className="resign-label" onClick={handleResignBtn}>
+          회원탈퇴
+        </span>
       </div>
     </div>
   );
